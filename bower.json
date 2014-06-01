@@ -1,0 +1,23 @@
+{
+  "name": "episodehelper",
+  "version": "0.0.0",
+  "authors": [
+    "Volker Wieban"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.10.0",
+    "underscore": "~1.6.0"
+  }
+}
