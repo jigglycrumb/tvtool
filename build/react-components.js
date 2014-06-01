@@ -13,6 +13,28 @@ var App = React.createClass({displayName: 'App',
   }
 });
 /** @jsx React.DOM */
+var EpisodeList = React.createClass({displayName: 'EpisodeList',
+  render: function() {
+    return (
+      React.DOM.ul(null, 
+        React.DOM.li(null, "Season ", this.props.season.season_number),
+        React.DOM.li(null, React.DOM.input( {type:"text"})),
+        this.props.season.episodes.map(function(episode) {
+          return (
+            React.DOM.li( {key:episode.episode_number}, 
+              this.props.season.season_number,
+              "x",
+              episode.episode_number,
+              " - ",
+              episode.name
+            )
+          )
+        }, this)
+      )
+    );
+  },
+});
+/** @jsx React.DOM */
 var Footer = React.createClass({displayName: 'Footer',
   render: function() {
     return (
@@ -68,10 +90,13 @@ var Search = React.createClass({displayName: 'Search',
 /** @jsx React.DOM */
 var TvShow = React.createClass({displayName: 'TvShow',
   render: function() {
-    console.log(this.props);
+    var backdrop = theMovieDb.common.images_uri + 'w1000' + this.props.show.backdrop_path,
+        poster = theMovieDb.common.images_uri + 'w500' + this.props.show.poster_path;
+
     return (
       React.DOM.div(null, 
-        React.DOM.img( {alt:"logo/backdrop"} ),
+        React.DOM.img( {alt:"logo/backdrop", src:backdrop} ),
+        React.DOM.img( {alt:"logo/poster", src:poster} ),
         React.DOM.h2(null, this.props.show.name),
         React.DOM.ul(null, 
           React.DOM.li(null, "Seasons: ", this.props.show.number_of_seasons),
@@ -80,12 +105,38 @@ var TvShow = React.createClass({displayName: 'TvShow',
         ),
         React.DOM.div(null, 
           this.props.show.seasons.map(function(season) {
-            return (
-              React.DOM.div(null, "Season ", season.season_number)
-            );
-          })
+            if(season.season_number > 0) {
+              return (
+                TvShowSeason( {key:season.season_number, show:this.props.show.id, season:season} )
+              );
+            }
+          }, this)
         )
       )
     );
+  },
+});
+/** @jsx React.DOM */
+var TvShowSeason = React.createClass({displayName: 'TvShowSeason',
+  render: function() {
+    return (
+      React.DOM.ul( {onClick:this.loadSeason}, 
+        React.DOM.li(null, "Season ", this.props.season.season_number)
+      )
+    )
+  },
+  loadSeason: function() {
+    theMovieDb.tvSeasons.getById({
+      "id":this.props.show,
+      "season_number": this.props.season.season_number
+    }, this.showSeason, this.showError);
+  },
+  showSeason: function(json) {
+    var json = JSON.parse(json);
+    React.renderComponent(EpisodeList( {season:json} ), document.getElementById('EpisodeListContainer'));
+  },
+  showError: function(json) {
+    var json = JSON.parse(json);
+    console.log(json);
   },
 });
