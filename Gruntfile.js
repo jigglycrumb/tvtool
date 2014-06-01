@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
 
+
     less: {
       development: {
         files: {
@@ -21,6 +22,7 @@ module.exports = function(grunt) {
         }
       }
     },
+
 
     react: {
       components: {
@@ -91,7 +93,6 @@ module.exports = function(grunt) {
     },
 
   });
-
 
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-less');
