@@ -18,6 +18,7 @@
   ],
   "dependencies": {
     "react": "~0.10.0",
-    "underscore": "~1.6.0"
+    "bootstrap": "*",
+    "js-signals": "~1.0.0"
   }
 }

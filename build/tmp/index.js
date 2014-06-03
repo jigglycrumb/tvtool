@@ -21,5 +21,5 @@ var update = new signals.Signal();
 
 window.onload = function() {
   AppState.load();
-  React.renderComponent(<App app={AppState.app} />, document.body);
+  React.renderComponent(App( {app:AppState.app} ), document.body);
 };

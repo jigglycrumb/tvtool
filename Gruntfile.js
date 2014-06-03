@@ -8,7 +8,9 @@ module.exports = function(grunt) {
       development: {
         files: {
           // target.css file: source.less file
-          "dist/<%= pkg.name %>.css": "less/app.less"
+          "build/<%= pkg.name %>.css": [
+            "less/app.less"
+          ]
         }
       },
       production: {
@@ -18,7 +20,9 @@ module.exports = function(grunt) {
         },
         files: {
           // target.css file: source.less file
-          "dist/<%= pkg.name %>-min.css": "less/app.less"
+          "dist/<%= pkg.name %>.css": [
+            "less/app.less"
+          ]
         }
       }
     },
@@ -27,13 +31,13 @@ module.exports = function(grunt) {
     react: {
       components: {
         files: {
-          'build/react-components.js': [
+          'build/tmp/react-components.js': [
             'jsx/components/*.jsx',
           ]
         }
       },
       index: {
-        files: { 'build/index.js': 'jsx/index.jsx' }
+        files: { 'build/tmp/index.js': 'jsx/index.jsx' }
       },
     },
 
@@ -47,14 +51,14 @@ module.exports = function(grunt) {
         // the files to concatenate
         src: [
           'bower_components/react/react-with-addons.js',
-          'bower_components/underscore/underscore.js',
-          'build/themoviedb.js',
+          'bower_components/js-signals/dist/signals.js',
+          'lib/themoviedb.js',
           //'build/react-mixins.js',
-          'build/react-components.js',
-          'build/index.js',
+          'build/tmp/react-components.js',
+          'build/tmp/index.js',
         ],
         // the location of the resulting JS file
-        dest: 'dist/<%= pkg.name %>.js'
+        dest: 'build/<%= pkg.name %>.js'
       }
     },
 
@@ -63,8 +67,8 @@ module.exports = function(grunt) {
         banner: ""
       },
       build: {
-        src: 'dist/<%= pkg.name %>.js',
-        dest: 'dist/<%= pkg.name %>-min.js'
+        src: 'build/<%= pkg.name %>.js',
+        dest: 'dist/<%= pkg.name %>.js'
       }
     },
 
