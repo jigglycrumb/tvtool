@@ -1,24 +1,19 @@
 /** @jsx React.DOM */
 var TvShowSeason = React.createClass({
   render: function() {
+    var cx = React.addons.classSet;
+    var classes = cx({
+      'btn': true,
+      'btn-default': true,
+      'active': this.props.active
+    });
     return (
-      <ul onClick={this.loadSeason}>
-        <li>Season {this.props.season.season_number}</li>
-      </ul>
+      <button type="button" className={classes} onClick={this.changeSeason}>{this.props.season.season_number}</button>
     )
   },
-  loadSeason: function() {
-    theMovieDb.tvSeasons.getById({
-      "id":this.props.show,
-      "season_number": this.props.season.season_number
-    }, this.showSeason, this.showError);
-  },
-  showSeason: function(json) {
-    var json = JSON.parse(json);
-    React.renderComponent(<EpisodeList season={json} />, document.getElementById('EpisodeListContainer'));
-  },
-  showError: function(json) {
-    var json = JSON.parse(json);
-    console.log(json);
+  changeSeason: function() {
+    var season = this.props.season.season_number;
+    AppState.app.season = season;
+    AppState.update();
   },
 });

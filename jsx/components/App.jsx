@@ -2,13 +2,17 @@
 var App = React.createClass({
   render: function() {
     return (
-      <div id="App">
+      <div className="app container">
         <Header />
-        <Search />
-        <div id="TvShowContainer"></div>
-        <div id="EpisodeListContainer"></div>
+        <Search app={this.props.app} />
         <Footer />
       </div>
     );
-  }
+  },
+  componentDidMount: function() {
+    update.add(this.updateProps);
+  },
+  updateProps: function() {
+    this.setProps({app: AppState.app});
+  },
 });
