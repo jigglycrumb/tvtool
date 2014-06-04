@@ -2,11 +2,36 @@
 var Search = React.createClass({
   getInitialState: function() {
     return {
-      show: {},
-      translations: []
+      results: [], // search results for display list
     }
   },
   render: function() {
+
+    var results = '',
+        tvshow = '';
+
+    if(this.props.app.show === null && this.state.results.length > 0) {
+      results = <ul className="list-inline">
+                  {this.state.results.map(function(result) {
+                    var img = '';
+                    if(result.poster_path === null) img = <div className="img-thumbnail text-center no-poster-search-result" title={result.original_name}><p>{result.original_name}</p></div>
+                    else img = <img alt={result.original_name} className="img-thumbnail" src={theMovieDb.common.images_uri + 'w90' + result.poster_path} title={result.original_name} />
+                    return (
+                      <li key={result.id}
+                        className="search-result"
+                        onMouseOver={this.setBackdrop.bind(this, result.backdrop_path)}
+                        onClick={this.selectShow.bind(this, result.id)}>
+                          {img}
+                      </li>
+                    )
+                  }, this)}
+                </ul>
+    }
+
+    if(this.props.app.show !== null) {
+      tvshow = <TvShow app={this.props.app} />
+    }
+
     return (
       <div>
         <div className="row">
@@ -15,53 +40,59 @@ var Search = React.createClass({
               <span className="input-group-addon">
                 <span className="glyphicon glyphicon-search"></span>
               </span>
-              <input type="text" className="form-control" placeholder="TV show" defaultValue={this.props.app.query} onChange={this.updateQuery} />
+              <input
+                ref="searchInput"
+                type="text"
+                className="form-control"
+                placeholder="TV show"
+                defaultValue="" 
+                onChange={this.getResults}
+                onKeyDown={this.checkReturn} />
             </div>
+            {results}
           </div>
         </div>
-        <TvShow show={this.state.show} translations={this.state.translations} app={this.props.app} />
+        {tvshow}
       </div>
     );
   },
-  componentDidMount: function() {
-    var query = this.props.app.query;
-    if(query.length > 1) this.searchByQuery(query);
-  },
-  componentWillReceiveProps: function(nextProps) {
-    this.setState(this.getInitialState());
-    var query = nextProps.app.query;
-    if(query.length > 1) this.searchByQuery(query);
-  },
-  updateQuery: function(e) {
-    AppState.app.query = e.target.value;
-    AppState.app.season = 1;
-    AppState.app.language = 'en';
+  getResults: function(e) {
+    var query = e.target.value;
+    AppState.app.show = null;
     AppState.update();
-  },
-  searchByQuery: function(query) {
     document.querySelector('.backdrop').style.backgroundImage = 'none';
     if(query.length > 1) {
       query = encodeURIComponent(query);
-      theMovieDb.search.getTv({"query":query}, this.showResults, this.showError)
+      theMovieDb.search.getTv({"query":query}, this.showResults, this.showError);
     }
+    else this.setState(this.getInitialState());
   },
   showResults: function(json) {
     json = JSON.parse(json);
-    if(json.total_results === 1) {
-      theMovieDb.tv.getTranslations({"id":json.results[0].id}, this.loadTranslations, this.showError);
-    }
-  },
-  loadTranslations: function(json) {
-    json = JSON.parse(json);
-    this.setState({translations: json.translations});
-    theMovieDb.tv.getById({"id": json.id}, this.loadShow, this.showError);
-  },
-  loadShow: function(json) {
-    json = JSON.parse(json);
-    this.setState({show: json});
+    this.setState({results: json.results});
   },
   showError: function(json) {
     json = JSON.parse(json);
     console.log('Search.showError', json);
+  },
+  checkReturn: function(e) {
+    var query = e.target.value;
+    if(e.nativeEvent.keyCode == 13) {
+      if(this.state.results.length == 1) this.selectShow(this.state.results[0].id);
+    }
+  },
+  selectShow: function(id) {
+    AppState.app.show = id;
+    AppState.app.season = 1;
+    AppState.app.language = 'en';
+    AppState.update();
+    this.refs.searchInput.getDOMNode().value = '';
+  },
+  setBackdrop: function(backdrop) {
+    if(backdrop === null) document.querySelector('.backdrop').style.backgroundImage = 'none';
+    else {
+      var url = theMovieDb.common.images_uri + 'w1000' + backdrop;
+      document.querySelector('.backdrop').style.backgroundImage = 'url('+url+')';
+    }
   },
 });

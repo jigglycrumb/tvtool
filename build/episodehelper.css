@@ -14,7 +14,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-position: center center;
+  background-position: top center;
   background-size: 100% auto;
   background-repeat: no-repeat;
   padding-top: 19em;
@@ -70,4 +70,25 @@ ul.flat {
 }
 .no-poster {
   padding: 5em 1em;
+}
+.search-result {
+  cursor: pointer;
+  float: left;
+  padding: 0 !important;
+  margin: .5em;
+}
+.search-result:hover {
+  background: #C2FFC4;
+  -webkit-box-shadow: 0 0 5px 2px #C2FFC4;
+  box-shadow: 0 0 5px 2px #C2FFC4;
+}
+.no-poster-search-result {
+  width: 100px;
+  height: 142px;
+}
+.no-poster-search-result p {
+  margin: 1em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
