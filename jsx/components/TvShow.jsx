@@ -12,11 +12,14 @@ var TvShow = React.createClass({
 
       if(backdrop) document.querySelector('.backdrop').style.backgroundImage = 'url('+backdrop+')';
 
+      var posterStr = <div className="img-thumbnail text-center"><p className="no-poster">No poster available</p></div>
+      if(poster) posterStr = <img alt="Show poster" className="img-thumbnail" src={poster} />
+
       return (
         <div>
           <div className="row">
             <div className="col-xs-3 text-right">
-              <img alt="Show poster" className="img-thumbnail" src={poster} />
+              {posterStr}
             </div>
             <div className="col-xs-9">
               <h2>{this.props.show.name}</h2>

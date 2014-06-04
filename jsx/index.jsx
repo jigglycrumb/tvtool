@@ -13,7 +13,7 @@ var AppState = {
   },
   load: function() {
     var app = localStorage.getItem('app');
-    if(null !== app) this.app = JSON.parse(app);
+    if(null !== app && "undefined" !== app) this.app = JSON.parse(app);
   }
 };
 

@@ -73,13 +73,11 @@ module.exports = function(grunt) {
     },
 
     watch: {
-      /*
       styles: {
         // Which files to watch (all .less files recursively in the less directory)
-        files: ['less/** /*.less'],
-        tasks: ['less:development'],
+        files: ['less/**/*.less'],
+        tasks: ['less'],
       },
-      */
       react: {
         files: ['jsx/**/*.jsx'],
         tasks: ['react']
