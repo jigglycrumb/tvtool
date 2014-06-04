@@ -10,12 +10,26 @@ var Episodes = React.createClass({
       <div className="row">
         <table className="table table-striped table-hover">
           <thead>
-            <th className="col-xs-3 text-right">
-              <h4>Episode format</h4>
-            </th>
-            <th className="col-xs-9">
-              <input ref="format" type="text" className="form-control" defaultValue={this.props.app.format} onChange={this.updateFormat} onBlur={AppState.update} />
-            </th>
+            <tr>
+              <th className="col-xs-3 text-right">
+                <h4>Episode format</h4>
+              </th>
+              <th className="col-xs-8">
+                <input
+                  id="episode-format"
+                  ref="format"
+                  type="text"
+                  className="form-control"
+                  defaultValue={this.props.app.format}
+                  onKeyDown={this.checkReturn}
+                  onChange={this.updateFormat}
+                  onBlur={AppState.update} />
+              </th>
+              <th className="col-xs-8">
+                <span className="glyphicon glyphicon-info-sign h4" onClick={this.toggleFormatHelp}></span>
+              </th>
+            </tr>
+            <FormatHelp ref="formatHelp" style={{display: 'none'}}/>
           </thead>
           <tbody>
           {this.state.episodes.map(function(episode, index) {
@@ -90,8 +104,20 @@ var Episodes = React.createClass({
     console.log('Episodes.showError', json);
   },
 
+  checkReturn: function(e) {
+    var format = e.target.value;
+    AppState.app.format = format;
+    if(e.nativeEvent.keyCode == 13) AppState.update();
+  },
+
   updateFormat: function(e) {
     var format = e.target.value;
     AppState.app.format = format;
+  },
+
+  toggleFormatHelp: function() {
+    var visible = this.refs.formatHelp.getDOMNode().style.display == 'none' ? false : true;
+    if(visible) this.refs.formatHelp.getDOMNode().style.display = 'none';
+    else this.refs.formatHelp.getDOMNode().style.display = 'table-row';
   },
 });

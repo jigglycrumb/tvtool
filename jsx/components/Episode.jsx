@@ -12,8 +12,10 @@ var Episode = React.createClass({
         <td className="col-xs-3 text-right">
           <small ref="notice" className="copy-notice"><em className="text-muted">{notice}</em></small>
         </td>
-        <td className="col-xs-9">
+        <td className="col-xs-8">
           <input ref="name" className="episode form-control" type="text" value={this.props.name} readOnly />
+        </td>
+        <td className="col-xs-1">
         </td>
       </tr>
     );

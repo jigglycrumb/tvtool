@@ -30,8 +30,10 @@ var Episode = React.createClass({displayName: 'Episode',
         React.DOM.td( {className:"col-xs-3 text-right"}, 
           React.DOM.small( {ref:"notice", className:"copy-notice"}, React.DOM.em( {className:"text-muted"}, notice))
         ),
-        React.DOM.td( {className:"col-xs-9"}, 
+        React.DOM.td( {className:"col-xs-8"}, 
           React.DOM.input( {ref:"name", className:"episode form-control", type:"text", value:this.props.name, readOnly:true} )
+        ),
+        React.DOM.td( {className:"col-xs-1"}
         )
       )
     );
@@ -57,12 +59,26 @@ var Episodes = React.createClass({displayName: 'Episodes',
       React.DOM.div( {className:"row"}, 
         React.DOM.table( {className:"table table-striped table-hover"}, 
           React.DOM.thead(null, 
-            React.DOM.th( {className:"col-xs-3 text-right"}, 
-              React.DOM.h4(null, "Episode format")
+            React.DOM.tr(null, 
+              React.DOM.th( {className:"col-xs-3 text-right"}, 
+                React.DOM.h4(null, "Episode format")
+              ),
+              React.DOM.th( {className:"col-xs-8"}, 
+                React.DOM.input(
+                  {id:"episode-format",
+                  ref:"format",
+                  type:"text",
+                  className:"form-control",
+                  defaultValue:this.props.app.format,
+                  onKeyDown:this.checkReturn,
+                  onChange:this.updateFormat,
+                  onBlur:AppState.update} )
+              ),
+              React.DOM.th( {className:"col-xs-8"}, 
+                React.DOM.span( {className:"glyphicon glyphicon-info-sign h4", onClick:this.toggleFormatHelp})
+              )
             ),
-            React.DOM.th( {className:"col-xs-9"}, 
-              React.DOM.input( {ref:"format", type:"text", className:"form-control", defaultValue:this.props.app.format, onChange:this.updateFormat, onBlur:AppState.update} )
-            )
+            FormatHelp( {ref:"formatHelp", style:{display: 'none'}})
           ),
           React.DOM.tbody(null, 
           this.state.episodes.map(function(episode, index) {
@@ -137,9 +153,21 @@ var Episodes = React.createClass({displayName: 'Episodes',
     console.log('Episodes.showError', json);
   },
 
+  checkReturn: function(e) {
+    var format = e.target.value;
+    AppState.app.format = format;
+    if(e.nativeEvent.keyCode == 13) AppState.update();
+  },
+
   updateFormat: function(e) {
     var format = e.target.value;
     AppState.app.format = format;
+  },
+
+  toggleFormatHelp: function() {
+    var visible = this.refs.formatHelp.getDOMNode().style.display == 'none' ? false : true;
+    if(visible) this.refs.formatHelp.getDOMNode().style.display = 'none';
+    else this.refs.formatHelp.getDOMNode().style.display = 'table-row';
   },
 });
 /** @jsx React.DOM */
@@ -150,10 +178,40 @@ var Footer = React.createClass({displayName: 'Footer',
         React.DOM.div( {className:"col-xs-12"}, 
           Social(null )
         ),
-        React.DOM.p( {className:"col-xs-12"}, "This product uses the TMDb API but is not endorsed or certified by TMDb.")
+        React.DOM.p( {className:"col-xs-12"}, "This product uses the ", React.DOM.a( {href:"http://www.themoviedb.org/", target:"_blank"}, "TMDb"), " API but is not endorsed or certified by ", React.DOM.a( {href:"http://www.themoviedb.org/", target:"_blank"}, "TMDb"),"."),
+        React.DOM.p( {className:"col-xs-12"}, "© ", React.DOM.a( {href:"http://hpcodecraft.me"}, "hpcodecraft"), " 2014")
       )
     );
   },
+});
+/** @jsx React.DOM */
+var FormatHelp = React.createClass({displayName: 'FormatHelp',
+  render: function() {
+    return (
+      React.DOM.tr( {style:this.props.style}, 
+        React.DOM.th(null, " "),
+        React.DOM.th(null, 
+          React.DOM.div( {className:"well"}, 
+            React.DOM.ul( {className:"flat help-text"}, 
+              React.DOM.li(null, React.DOM.p(null, "The field above controls how the episode names are formatted. You can use these variables to insert episode data:")),
+              React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(show)"), " The name of the show"),
+              React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(season)"), " The season number"),
+              React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(episode)"), " The episode number"),
+              React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(title)"), " The episode name")
+            )
+          )
+        ),
+        React.DOM.th(null, " ")
+      )
+    )
+  },
+  insertVariable: function(e) {
+    var text = e.target.innerHTML,
+        formatString = document.getElementById('episode-format').value;
+
+    AppState.app.format = formatString + text;
+    AppState.update();
+  }
 });
 /** @jsx React.DOM */
 var Header = React.createClass({displayName: 'Header',
@@ -202,18 +260,19 @@ var Search = React.createClass({displayName: 'Search',
     if(query.length > 1) this.searchByQuery(query);
   },
   componentWillReceiveProps: function(nextProps) {
+    this.setState(this.getInitialState());
     var query = nextProps.app.query;
     if(query.length > 1) this.searchByQuery(query);
   },
   updateQuery: function(e) {
     AppState.app.query = e.target.value;
+    AppState.app.season = 1;
+    AppState.app.language = 'en';
     AppState.update();
   },
   searchByQuery: function(query) {
-    this.setState(this.getInitialState());
     document.querySelector('.backdrop').style.backgroundImage = 'none';
     if(query.length > 1) {
-
       query = encodeURIComponent(query);
       theMovieDb.search.getTv({"query":query}, this.showResults, this.showError)
     }
@@ -269,11 +328,14 @@ var TvShow = React.createClass({displayName: 'TvShow',
 
       if(backdrop) document.querySelector('.backdrop').style.backgroundImage = 'url('+backdrop+')';
 
+      var posterStr = React.DOM.div( {className:"img-thumbnail text-center"}, React.DOM.p( {className:"no-poster"}, "No poster available"))
+      if(poster) posterStr = React.DOM.img( {alt:"Show poster", className:"img-thumbnail", src:poster} )
+
       return (
         React.DOM.div(null, 
           React.DOM.div( {className:"row"}, 
             React.DOM.div( {className:"col-xs-3 text-right"}, 
-              React.DOM.img( {alt:"Show poster", className:"img-thumbnail", src:poster} )
+              posterStr
             ),
             React.DOM.div( {className:"col-xs-9"}, 
               React.DOM.h2(null, this.props.show.name),

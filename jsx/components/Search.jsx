@@ -28,18 +28,19 @@ var Search = React.createClass({
     if(query.length > 1) this.searchByQuery(query);
   },
   componentWillReceiveProps: function(nextProps) {
+    this.setState(this.getInitialState());
     var query = nextProps.app.query;
     if(query.length > 1) this.searchByQuery(query);
   },
   updateQuery: function(e) {
     AppState.app.query = e.target.value;
+    AppState.app.season = 1;
+    AppState.app.language = 'en';
     AppState.update();
   },
   searchByQuery: function(query) {
-    this.setState(this.getInitialState());
     document.querySelector('.backdrop').style.backgroundImage = 'none';
     if(query.length > 1) {
-
       query = encodeURIComponent(query);
       theMovieDb.search.getTv({"query":query}, this.showResults, this.showError)
     }
