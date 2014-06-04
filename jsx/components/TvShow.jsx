@@ -1,14 +1,21 @@
 /** @jsx React.DOM */
 var TvShow = React.createClass({
+  getInitialState: function() {
+    return {
+      show: null, // show data from API
+      translations: [], // translation data from API
+    }
+  },
   render: function() {
-    if("undefined" !== typeof this.props.show.id) {
+
+    if(this.state.show !== null) {
       var backdrop = false,
           poster = false;
 
-      if(this.props.show.backdrop_path != null)
-        backdrop = theMovieDb.common.images_uri + 'w1000' + this.props.show.backdrop_path;
-      if(this.props.show.poster_path != null)
-          poster = theMovieDb.common.images_uri + 'w150' + this.props.show.poster_path;
+      if(this.state.show.backdrop_path != null)
+        backdrop = theMovieDb.common.images_uri + 'w1000' + this.state.show.backdrop_path;
+      if(this.state.show.poster_path != null)
+          poster = theMovieDb.common.images_uri + 'w150' + this.state.show.poster_path;
 
       if(backdrop) document.querySelector('.backdrop').style.backgroundImage = 'url('+backdrop+')';
 
@@ -22,12 +29,12 @@ var TvShow = React.createClass({
               {posterStr}
             </div>
             <div className="col-xs-9">
-              <h2>{this.props.show.name}</h2>
+              <h2>{this.state.show.name}</h2>
               <ul className="flat">
                 <li>
-                  <strong>{this.props.show.number_of_seasons} seasons, {this.props.show.number_of_episodes} episodes</strong>
+                  <strong>{this.state.show.number_of_seasons} seasons, {this.state.show.number_of_episodes} episodes</strong>
                 </li>
-                <li>{this.props.show.overview}</li>
+                <li>{this.state.show.overview}</li>
               </ul>
             </div>
           </div>
@@ -38,7 +45,7 @@ var TvShow = React.createClass({
             </div>
             <div className="col-xs-9">
               <div className="btn-group btn-group-md">
-                {this.props.translations.map(function(translation) {
+                {this.state.translations.map(function(translation) {
                   var active = (this.props.app.language == translation.iso_639_1) ? true : false;
                   return (
                     <TvShowLanguage key={translation.iso_639_1} translation={translation} active={active} />
@@ -53,11 +60,11 @@ var TvShow = React.createClass({
             </div>
             <div className="col-xs-9">
               <div className="btn-group btn-group-md">
-                {this.props.show.seasons.map(function(season) {
+                {this.state.show.seasons.map(function(season) {
                   if(season.season_number > 0) {
                     var active = (this.props.app.season == season.season_number) ? true : false;
                     return (
-                      <TvShowSeason key={season.season_number} show={this.props.show} season={season} language={this.props.app.language} active={active} />
+                      <TvShowSeason key={season.season_number} show={this.state.show} season={season} language={this.props.app.language} active={active} />
                     )
                   }
                 }, this)}
@@ -75,20 +82,38 @@ var TvShow = React.createClass({
               &nbsp;
             </div>
           </div>
-          <Episodes show={this.props.show} app={this.props.app} />
+          <Episodes show={this.state.show} app={this.props.app} />
         </div>
       );
     }
-    else if(this.props.app.query.length > 0 ) {
-      return (
-        <div className="row">
-          <div className="col-xs-10 col-xs-offset-1 alert alert-info">
-            Found no shows. Please type in the full name of the show you are looking for.
-          </div>
-        </div>
-      )
-    }
     else return (<span />);
+  },
+  componentDidMount: function() {
+    this.loadShow(this.props.app.show);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    if(this.isMounted()) {
+      this.loadShow(nextProps.app.show);
+    }
+  },
+  loadShow: function(id) {
+    if(id !== null) {
+      theMovieDb.tv.getById({"id": id}, this.showShow, this.showError);
+      theMovieDb.tv.getTranslations({"id": id}, this.showTranslations, this.showError);
+    }
+    else this.setState(this.getInitialState());
+  },
+  showTranslations: function(json) {
+    json = JSON.parse(json);
+    this.setState({translations: json.translations});
+  },
+  showShow: function(json) {
+    json = JSON.parse(json);
+    this.setState({show: json});
+  },
+  showError: function(json) {
+    json = JSON.parse(json);
+    console.log('TvShow.showError', json);
   },
   setZerofill: function(e) {
     var zerofill = e.target.value;

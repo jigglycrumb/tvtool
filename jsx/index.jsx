@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 var AppState = {
   app: {
-    query: '',
     language: 'en',
+    show: null,
     season: 1,
     format: '(show) - (season)x(episode) - (title)',
     zerofill: 0,
