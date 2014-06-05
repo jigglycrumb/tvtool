@@ -21072,16 +21072,16 @@ var Episodes = React.createClass({displayName: 'Episodes',
           'season': this.props.app.season,
         };
 
-    function zerofill(number) {
-      if(self.props.app.zerofill > 0) {
+    function zerofill(index, number) {
+      if(self.props.app.zerofill[index] > 0) {
         var pad = "", len = (""+number).length;
-        for(var i=0; i<(self.props.app.zerofill-len+1); i++) pad += "0";
+        for(var i=0; i<(self.props.app.zerofill[index]-len+1); i++) pad += "0";
         number = pad+number;
       }
       return number;
     };
 
-    dict.season = zerofill(dict.season);
+    dict.season = zerofill(0, dict.season);
 
     function replace( text ) {
       text = text.replace(new RegExp("[(]([a-z ]*)[)]", "gim"), function(a, b) {
@@ -21091,7 +21091,7 @@ var Episodes = React.createClass({displayName: 'Episodes',
     }
 
     function buildEpisodeName(episode) {
-      dict.episode = zerofill(episode.episode_number);
+      dict.episode = zerofill(1, episode.episode_number);
       dict.title = episode.name;
       episodes.push(replace(self.props.app.format));
     }
@@ -21294,7 +21294,6 @@ var TvShow = React.createClass({displayName: 'TvShow',
     }
   },
   render: function() {
-
     if(this.state.show !== null) {
       var backdrop = false,
           poster = false;
@@ -21362,15 +21361,25 @@ var TvShow = React.createClass({displayName: 'TvShow',
             React.DOM.div( {className:"col-xs-3 text-right"}, 
               React.DOM.h4(null, "Zerofill")
             ),
-            React.DOM.div( {className:"col-xs-2"}, 
-              React.DOM.input( {type:"number", min:"0", max:"5", className:"form-control", defaultValue:this.props.app.zerofill, onChange:this.setZerofill,  onBlur:AppState.update} )
+            React.DOM.div( {className:"col-xs-1"}, 
+              React.DOM.span( {className:"h5 zerofill-label"}, "Season")
             ),
-            React.DOM.div( {className:"col-xs-7"}, 
+            React.DOM.div( {className:"col-xs-2"}, 
+              React.DOM.input( {type:"number", min:"0", max:"3", className:"form-control", defaultValue:this.props.app.zerofill[0], onChange:this.setZerofill.bind(this, 0)} )
+            ),
+            React.DOM.div( {className:"col-xs-1"}, 
+              React.DOM.span( {className:"h5 zerofill-label"}, "Episode")
+            ),
+            React.DOM.div( {className:"col-xs-2"}, 
+              React.DOM.input( {type:"number", min:"0", max:"3", className:"form-control", defaultValue:this.props.app.zerofill[1], onChange:this.setZerofill.bind(this, 1)} )
+            ),
+
+            React.DOM.div( {className:"col-xs-3"}, 
               React.DOM.span( {className:"glyphicon glyphicon-info-sign h4 blue", onClick:this.toggleZerofillHelp, style:{position: 'relative', top: '-.1em', left: '-1em'}})
             ),
             React.DOM.div( {ref:"zerofillHelp", className:"col-xs-8 col-xs-offset-3", style:{display: 'none'}}, 
               React.DOM.div( {className:"alert alert-info help-text"}, 
-                "Zerofill prepends zeroes to episode and season numbers."
+                "Zerofill adds leading zeroes to episode and season numbers."
               )
             )
           ),
@@ -21407,9 +21416,12 @@ var TvShow = React.createClass({displayName: 'TvShow',
     json = JSON.parse(json);
     console.log('TvShow.showError', json);
   },
-  setZerofill: function(e) {
-    var zerofill = e.target.value;
-    AppState.app.zerofill = zerofill;
+  setZerofill: function(index, e) {
+    var zf = AppState.app.zerofill,
+        value = parseInt(e.target.value);
+    if(index == 0) AppState.app.zerofill = [value, zf[1]];
+    else if(index == 1) AppState.app.zerofill = [zf[0], value];
+    AppState.update();
   },
   toggleZerofillHelp: function() {
     var visible = this.refs.zerofillHelp.getDOMNode().style.display == 'none' ? false : true;
@@ -21462,7 +21474,7 @@ var AppState = {
     show: null,
     season: 1,
     format: '(show) - (season)x(episode) - (title)',
-    zerofill: 0,
+    zerofill: [0, 0],
   },
   update: function() {
     localStorage.setItem('episodehelper', JSON.stringify(this.app));
