@@ -5,7 +5,7 @@ var AppState = {
     show: null,
     season: 1,
     format: '(show) - (season)x(episode) - (title)',
-    zerofill: 0,
+    zerofill: [0, 0],
   },
   update: function() {
     localStorage.setItem('episodehelper', JSON.stringify(this.app));

@@ -82,8 +82,8 @@ ul.flat {
 }
 .search-result:hover {
   background: #C2FFC4;
-  -webkit-box-shadow: 0 0 5px 2px #C2FFC4;
-  box-shadow: 0 0 5px 2px #C2FFC4;
+  -webkit-box-shadow: 0 0 5px 2px #428bca;
+  box-shadow: 0 0 5px 2px #428bca;
 }
 .no-poster-search-result {
   width: 100px;
@@ -100,4 +100,7 @@ ul.flat {
 }
 .btn-group {
   margin-bottom: 1em;
+}
+.zerofill-label {
+  float: left;
 }

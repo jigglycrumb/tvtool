@@ -83,16 +83,16 @@ var Episodes = React.createClass({
           'season': this.props.app.season,
         };
 
-    function zerofill(number) {
-      if(self.props.app.zerofill > 0) {
+    function zerofill(index, number) {
+      if(self.props.app.zerofill[index] > 0) {
         var pad = "", len = (""+number).length;
-        for(var i=0; i<(self.props.app.zerofill-len+1); i++) pad += "0";
+        for(var i=0; i<(self.props.app.zerofill[index]-len+1); i++) pad += "0";
         number = pad+number;
       }
       return number;
     };
 
-    dict.season = zerofill(dict.season);
+    dict.season = zerofill(0, dict.season);
 
     function replace( text ) {
       text = text.replace(new RegExp("[(]([a-z ]*)[)]", "gim"), function(a, b) {
@@ -102,7 +102,7 @@ var Episodes = React.createClass({
     }
 
     function buildEpisodeName(episode) {
-      dict.episode = zerofill(episode.episode_number);
+      dict.episode = zerofill(1, episode.episode_number);
       dict.title = episode.name;
       episodes.push(replace(self.props.app.format));
     }

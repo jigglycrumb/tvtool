@@ -7,7 +7,6 @@ var TvShow = React.createClass({
     }
   },
   render: function() {
-
     if(this.state.show !== null) {
       var backdrop = false,
           poster = false;
@@ -75,15 +74,25 @@ var TvShow = React.createClass({
             <div className="col-xs-3 text-right">
               <h4>Zerofill</h4>
             </div>
-            <div className="col-xs-2">
-              <input type="number" min="0" max="5" className="form-control" defaultValue={this.props.app.zerofill} onChange={this.setZerofill}  onBlur={AppState.update} />
+            <div className="col-xs-1">
+              <span className="h5 zerofill-label">Season</span>
             </div>
-            <div className="col-xs-7">
+            <div className="col-xs-2">
+              <input type="number" min="0" max="3" className="form-control" defaultValue={this.props.app.zerofill[0]} onChange={this.setZerofill.bind(this, 0)} />
+            </div>
+            <div className="col-xs-1">
+              <span className="h5 zerofill-label">Episode</span>
+            </div>
+            <div className="col-xs-2">
+              <input type="number" min="0" max="3" className="form-control" defaultValue={this.props.app.zerofill[1]} onChange={this.setZerofill.bind(this, 1)} />
+            </div>
+
+            <div className="col-xs-3">
               <span className="glyphicon glyphicon-info-sign h4 blue" onClick={this.toggleZerofillHelp} style={{position: 'relative', top: '-.1em', left: '-1em'}}></span>
             </div>
             <div ref="zerofillHelp" className="col-xs-8 col-xs-offset-3" style={{display: 'none'}}>
               <div className="alert alert-info help-text">
-                Zerofill prepends zeroes to episode and season numbers.
+                Zerofill adds leading zeroes to episode and season numbers.
               </div>
             </div>
           </div>
@@ -120,9 +129,12 @@ var TvShow = React.createClass({
     json = JSON.parse(json);
     console.log('TvShow.showError', json);
   },
-  setZerofill: function(e) {
-    var zerofill = e.target.value;
-    AppState.app.zerofill = zerofill;
+  setZerofill: function(index, e) {
+    var zf = AppState.app.zerofill,
+        value = parseInt(e.target.value);
+    if(index == 0) AppState.app.zerofill = [value, zf[1]];
+    else if(index == 1) AppState.app.zerofill = [zf[0], value];
+    AppState.update();
   },
   toggleZerofillHelp: function() {
     var visible = this.refs.zerofillHelp.getDOMNode().style.display == 'none' ? false : true;
