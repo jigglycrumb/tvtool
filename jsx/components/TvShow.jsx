@@ -20,7 +20,7 @@ var TvShow = React.createClass({
       if(backdrop) document.querySelector('.backdrop').style.backgroundImage = 'url('+backdrop+')';
 
       var posterStr = <div className="img-thumbnail text-center"><p className="no-poster">No poster available</p></div>
-      if(poster) posterStr = <img alt="Show poster" className="img-thumbnail" src={poster} />
+      if(poster) posterStr = <img alt="Show poster" className="img-thumbnail show-poster" src={poster} />
 
       return (
         <div>
@@ -79,7 +79,12 @@ var TvShow = React.createClass({
               <input type="number" min="0" max="5" className="form-control" defaultValue={this.props.app.zerofill} onChange={this.setZerofill}  onBlur={AppState.update} />
             </div>
             <div className="col-xs-7">
-              &nbsp;
+              <span className="glyphicon glyphicon-info-sign h4 blue" onClick={this.toggleZerofillHelp} style={{position: 'relative', top: '-.1em', left: '-1em'}}></span>
+            </div>
+            <div ref="zerofillHelp" className="col-xs-8 col-xs-offset-3" style={{display: 'none'}}>
+              <div className="alert alert-info help-text">
+                Zerofill prepends zeroes to episode and season numbers.
+              </div>
             </div>
           </div>
           <Episodes show={this.state.show} app={this.props.app} />
@@ -118,5 +123,10 @@ var TvShow = React.createClass({
   setZerofill: function(e) {
     var zerofill = e.target.value;
     AppState.app.zerofill = zerofill;
+  },
+  toggleZerofillHelp: function() {
+    var visible = this.refs.zerofillHelp.getDOMNode().style.display == 'none' ? false : true;
+    if(visible) this.refs.zerofillHelp.getDOMNode().style.display = 'none';
+    else this.refs.zerofillHelp.getDOMNode().style.display = 'table-row';
   },
 });

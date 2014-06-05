@@ -25,11 +25,26 @@ var Episodes = React.createClass({
                   onChange={this.updateFormat}
                   onBlur={AppState.update} />
               </th>
-              <th className="col-xs-8">
-                <span className="glyphicon glyphicon-info-sign h4" onClick={this.toggleFormatHelp}></span>
+              <th className="col-xs-1">
+                <span className="glyphicon glyphicon-info-sign h4 blue" onClick={this.toggleFormatHelp}></span>
               </th>
             </tr>
-            <FormatHelp ref="formatHelp" style={{display: 'none'}}/>
+            <tr ref="formatHelp" style={{display: 'none'}}>
+              <th className="col-xs-3">&nbsp;</th>
+              <th className="col-xs-8">
+                <div className="alert alert-info">
+                  <ul className="flat help-text">
+                    <li><p>The field above controls how the episode names are formatted. You can use these variables to insert episode data:</p></li>
+                    <li><a className="pointer" onClick={this.insertVariable}>(show)</a> The name of the show</li>
+                    <li><a className="pointer" onClick={this.insertVariable}>(season)</a> The season number</li>
+                    <li><a className="pointer" onClick={this.insertVariable}>(episode)</a> The episode number</li>
+                    <li><a className="pointer" onClick={this.insertVariable}>(title)</a> The episode name</li>
+                    <li><p><br/>Hit return to refresh the episode list when finished!</p></li>
+                  </ul>
+                </div>
+              </th>
+              <th className="col-xs-1">&nbsp;</th>
+            </tr>
           </thead>
           <tbody>
           {this.state.episodes.map(function(episode, index) {
@@ -119,5 +134,14 @@ var Episodes = React.createClass({
     var visible = this.refs.formatHelp.getDOMNode().style.display == 'none' ? false : true;
     if(visible) this.refs.formatHelp.getDOMNode().style.display = 'none';
     else this.refs.formatHelp.getDOMNode().style.display = 'table-row';
+  },
+
+  insertVariable: function(e) {
+    var text = e.target.innerHTML,
+        formatString = document.getElementById('episode-format').value;
+
+    AppState.app.format = formatString + text;
+    document.getElementById('episode-format').value = AppState.app.format;
+    AppState.update();
   },
 });

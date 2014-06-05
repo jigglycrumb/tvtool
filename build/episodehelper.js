@@ -21014,11 +21014,26 @@ var Episodes = React.createClass({displayName: 'Episodes',
                   onChange:this.updateFormat,
                   onBlur:AppState.update} )
               ),
-              React.DOM.th( {className:"col-xs-8"}, 
-                React.DOM.span( {className:"glyphicon glyphicon-info-sign h4", onClick:this.toggleFormatHelp})
+              React.DOM.th( {className:"col-xs-1"}, 
+                React.DOM.span( {className:"glyphicon glyphicon-info-sign h4 blue", onClick:this.toggleFormatHelp})
               )
             ),
-            FormatHelp( {ref:"formatHelp", style:{display: 'none'}})
+            React.DOM.tr( {ref:"formatHelp", style:{display: 'none'}}, 
+              React.DOM.th( {className:"col-xs-3"}, " "),
+              React.DOM.th( {className:"col-xs-8"}, 
+                React.DOM.div( {className:"alert alert-info"}, 
+                  React.DOM.ul( {className:"flat help-text"}, 
+                    React.DOM.li(null, React.DOM.p(null, "The field above controls how the episode names are formatted. You can use these variables to insert episode data:")),
+                    React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(show)"), " The name of the show"),
+                    React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(season)"), " The season number"),
+                    React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(episode)"), " The episode number"),
+                    React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(title)"), " The episode name"),
+                    React.DOM.li(null, React.DOM.p(null, React.DOM.br(null),"Hit return to refresh the episode list when finished!"))
+                  )
+                )
+              ),
+              React.DOM.th( {className:"col-xs-1"}, " ")
+            )
           ),
           React.DOM.tbody(null, 
           this.state.episodes.map(function(episode, index) {
@@ -21109,6 +21124,15 @@ var Episodes = React.createClass({displayName: 'Episodes',
     if(visible) this.refs.formatHelp.getDOMNode().style.display = 'none';
     else this.refs.formatHelp.getDOMNode().style.display = 'table-row';
   },
+
+  insertVariable: function(e) {
+    var text = e.target.innerHTML,
+        formatString = document.getElementById('episode-format').value;
+
+    AppState.app.format = formatString + text;
+    document.getElementById('episode-format').value = AppState.app.format;
+    AppState.update();
+  },
 });
 /** @jsx React.DOM */
 var Footer = React.createClass({displayName: 'Footer',
@@ -21123,35 +21147,6 @@ var Footer = React.createClass({displayName: 'Footer',
       )
     );
   },
-});
-/** @jsx React.DOM */
-var FormatHelp = React.createClass({displayName: 'FormatHelp',
-  render: function() {
-    return (
-      React.DOM.tr( {style:this.props.style}, 
-        React.DOM.th(null, " "),
-        React.DOM.th(null, 
-          React.DOM.div( {className:"well"}, 
-            React.DOM.ul( {className:"flat help-text"}, 
-              React.DOM.li(null, React.DOM.p(null, "The field above controls how the episode names are formatted. You can use these variables to insert episode data:")),
-              React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(show)"), " The name of the show"),
-              React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(season)"), " The season number"),
-              React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(episode)"), " The episode number"),
-              React.DOM.li(null, React.DOM.a( {className:"pointer", onClick:this.insertVariable}, "(title)"), " The episode name")
-            )
-          )
-        ),
-        React.DOM.th(null, " ")
-      )
-    )
-  },
-  insertVariable: function(e) {
-    var text = e.target.innerHTML,
-        formatString = document.getElementById('episode-format').value;
-
-    AppState.app.format = formatString + text;
-    AppState.update();
-  }
 });
 /** @jsx React.DOM */
 var Header = React.createClass({displayName: 'Header',
@@ -21174,6 +21169,7 @@ var Header = React.createClass({displayName: 'Header',
 var Search = React.createClass({displayName: 'Search',
   getInitialState: function() {
     return {
+      query: '',
       results: [], // search results for display list
     }
   },
@@ -21198,6 +21194,9 @@ var Search = React.createClass({displayName: 'Search',
                     )
                   }, this)
                 )
+    }
+    else if(this.props.app.show === null && this.state.results.length === 0 && this.state.query.length > 0) {
+      results = React.DOM.p( {className:"alert alert-info"}, "No shows found. Please enter the full name of the show you are looking for.")
     }
 
     if(this.props.app.show !== null) {
@@ -21230,6 +21229,7 @@ var Search = React.createClass({displayName: 'Search',
   },
   getResults: function(e) {
     var query = e.target.value;
+    this.setState({query: query});
     AppState.app.show = null;
     AppState.update();
     document.querySelector('.backdrop').style.backgroundImage = 'none';
@@ -21307,7 +21307,7 @@ var TvShow = React.createClass({displayName: 'TvShow',
       if(backdrop) document.querySelector('.backdrop').style.backgroundImage = 'url('+backdrop+')';
 
       var posterStr = React.DOM.div( {className:"img-thumbnail text-center"}, React.DOM.p( {className:"no-poster"}, "No poster available"))
-      if(poster) posterStr = React.DOM.img( {alt:"Show poster", className:"img-thumbnail", src:poster} )
+      if(poster) posterStr = React.DOM.img( {alt:"Show poster", className:"img-thumbnail show-poster", src:poster} )
 
       return (
         React.DOM.div(null, 
@@ -21366,7 +21366,12 @@ var TvShow = React.createClass({displayName: 'TvShow',
               React.DOM.input( {type:"number", min:"0", max:"5", className:"form-control", defaultValue:this.props.app.zerofill, onChange:this.setZerofill,  onBlur:AppState.update} )
             ),
             React.DOM.div( {className:"col-xs-7"}, 
-              " "
+              React.DOM.span( {className:"glyphicon glyphicon-info-sign h4 blue", onClick:this.toggleZerofillHelp, style:{position: 'relative', top: '-.1em', left: '-1em'}})
+            ),
+            React.DOM.div( {ref:"zerofillHelp", className:"col-xs-8 col-xs-offset-3", style:{display: 'none'}}, 
+              React.DOM.div( {className:"alert alert-info help-text"}, 
+                "Zerofill prepends zeroes to episode and season numbers."
+              )
             )
           ),
           Episodes( {show:this.state.show, app:this.props.app} )
@@ -21405,6 +21410,11 @@ var TvShow = React.createClass({displayName: 'TvShow',
   setZerofill: function(e) {
     var zerofill = e.target.value;
     AppState.app.zerofill = zerofill;
+  },
+  toggleZerofillHelp: function() {
+    var visible = this.refs.zerofillHelp.getDOMNode().style.display == 'none' ? false : true;
+    if(visible) this.refs.zerofillHelp.getDOMNode().style.display = 'none';
+    else this.refs.zerofillHelp.getDOMNode().style.display = 'table-row';
   },
 });
 /** @jsx React.DOM */
@@ -21455,11 +21465,11 @@ var AppState = {
     zerofill: 0,
   },
   update: function() {
-    localStorage.setItem('app', JSON.stringify(this.app));
+    localStorage.setItem('episodehelper', JSON.stringify(this.app));
     update.dispatch();
   },
   load: function() {
-    var app = localStorage.getItem('app');
+    var app = localStorage.getItem('episodehelper');
     if(null !== app && "undefined" !== app) this.app = JSON.parse(app);
   }
 };
