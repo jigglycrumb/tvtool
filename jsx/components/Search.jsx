@@ -2,6 +2,7 @@
 var Search = React.createClass({
   getInitialState: function() {
     return {
+      query: '',
       results: [], // search results for display list
     }
   },
@@ -26,6 +27,9 @@ var Search = React.createClass({
                     )
                   }, this)}
                 </ul>
+    }
+    else if(this.props.app.show === null && this.state.results.length === 0 && this.state.query.length > 0) {
+      results = <p className="alert alert-info">No shows found. Please enter the full name of the show you are looking for.</p>
     }
 
     if(this.props.app.show !== null) {
@@ -58,6 +62,7 @@ var Search = React.createClass({
   },
   getResults: function(e) {
     var query = e.target.value;
+    this.setState({query: query});
     AppState.app.show = null;
     AppState.update();
     document.querySelector('.backdrop').style.backgroundImage = 'none';

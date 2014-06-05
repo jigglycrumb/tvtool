@@ -8,11 +8,11 @@ var AppState = {
     zerofill: 0,
   },
   update: function() {
-    localStorage.setItem('app', JSON.stringify(this.app));
+    localStorage.setItem('episodehelper', JSON.stringify(this.app));
     update.dispatch();
   },
   load: function() {
-    var app = localStorage.getItem('app');
+    var app = localStorage.getItem('episodehelper');
     if(null !== app && "undefined" !== app) this.app = JSON.parse(app);
   }
 };
