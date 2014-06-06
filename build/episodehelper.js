@@ -23262,6 +23262,8 @@ var Episode = React.createClass({displayName: 'Episode',
 
       client.on('ready', function(event) {
 
+        client.clip(self.getDOMNode());
+
         client.on('copy', function(event) {
           event.clipboardData.setData('text/plain', self.refs.name.getDOMNode().value);
         });
@@ -23273,6 +23275,11 @@ var Episode = React.createClass({displayName: 'Episode',
 
       this.setState({clipboard: client});
     }
+
+    update.add(this.unmark);
+  },
+  componentWillUnmount: function() {
+    update.remove(this.unmark);
   },
   mouseover: function() {
     [].forEach.call(document.querySelectorAll('.copy-notice'), function(el) { el.style.display = 'none'; });
@@ -23294,9 +23301,13 @@ var Episode = React.createClass({displayName: 'Episode',
     this.refs.iconOk.getDOMNode().style.display = 'inline';
     this.getDOMNode().classList.add('success', 'has-success');
   },
+  unmark: function() {
+    this.refs.iconOk.getDOMNode().style.display = 'none';
+    this.getDOMNode().classList.remove('success', 'has-success');
+  },
   isFlash: function() {
     return this.state.clipboard instanceof ZeroClipboard;
-  }
+  },
 });
 /** @jsx React.DOM */
 var Episodes = React.createClass({displayName: 'Episodes',
