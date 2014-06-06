@@ -52,6 +52,7 @@ module.exports = function(grunt) {
         src: [
           'bower_components/react/react-with-addons.js',
           'bower_components/js-signals/dist/signals.js',
+          'bower_components/zeroclipboard/dist/ZeroClipboard.js',
           'lib/themoviedb.js',
           //'build/react-mixins.js',
           'build/tmp/react-components.js',

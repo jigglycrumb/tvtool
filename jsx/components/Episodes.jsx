@@ -115,12 +115,6 @@ var Episodes = React.createClass({
       return text;
     }
 
-    /*
-    function capitaliseFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    };
-    */
-
     function buildEpisodeName(episode) {
       dict.episode = zerofill(1, episode.episode_number);
       dict.title = episode.name;
