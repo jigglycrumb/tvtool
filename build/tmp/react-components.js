@@ -18,33 +18,74 @@ var App = React.createClass({displayName: 'App',
 });
 /** @jsx React.DOM */
 var Episode = React.createClass({displayName: 'Episode',
+  getInitialState: function() {
+    return {
+      clipboard: null,
+    }
+  },
   render: function() {
 
     var notice = 'Press Ctrl+C to copy',
         isMac = navigator.platform.toUpperCase().indexOf('MAC') !== -1;
 
     if(isMac) notice = 'Press Cmd+C to copy';
+    if(this.isFlash()) notice = 'Click to copy';
 
     return (
-      React.DOM.tr( {onMouseOver:this.mouseover, onMouseOut:this.mouseout}, 
+      React.DOM.tr( {onMouseOver:this.mouseover, onMouseOut:this.mouseout, onKeyDown:this.keydown}, 
         React.DOM.td( {className:"col-xs-3 text-right"}, 
           React.DOM.small( {ref:"notice", className:"copy-notice"}, React.DOM.em( {className:"text-muted"}, notice))
         ),
         React.DOM.td( {className:"col-xs-8"}, 
           React.DOM.input( {ref:"name", className:"episode form-control", type:"text", value:this.props.name, readOnly:true} )
         ),
-        React.DOM.td( {className:"col-xs-1"}
+        React.DOM.td( {className:"col-xs-1"}, 
+          React.DOM.span( {ref:"iconOk", className:"glyphicon glyphicon-ok copy-ok"} )
         )
       )
     );
   },
-  mouseover: function() {
-    this.refs.notice.getDOMNode().style.display = 'inline';
-    this.refs.name.getDOMNode().focus();
-    this.refs.name.getDOMNode().select();
+  componentDidMount: function() {
+    if(ZeroClipboard.isFlashUnusable() === false) {
+      var self = this,
+          client = new ZeroClipboard(this.getDOMNode());
+
+      client.on('ready', function(event) {
+
+        client.on('copy', function(event) {
+          event.clipboardData.setData('text/plain', self.refs.name.getDOMNode().value);
+        });
+
+        client.on('aftercopy', function(event) {
+          self.markOk();
+        });
+      });
+
+      this.setState({clipboard: client});
+    }
   },
-  mouseout: function() {
-    this.refs.notice.getDOMNode().style.display = 'none';
+  mouseover: function() {
+    [].forEach.call(document.querySelectorAll('.copy-notice'), function(el) { el.style.display = 'none'; });
+    this.refs.notice.getDOMNode().style.display = 'inline';
+    if(!this.isFlash()) {
+      this.refs.name.getDOMNode().focus();
+      this.refs.name.getDOMNode().select();
+    }
+  },
+  keydown: function(e) {
+    if(this.isFlash()) return false;
+    var c = 67;
+    if(e.keyCode == 67 && (e.metaKey == true || e.ctrlKey == true)) {
+      // user pressed ctrl+c, cmd+c
+      this.markOk();
+    }
+  },
+  markOk: function() {
+    this.refs.iconOk.getDOMNode().style.display = 'inline';
+    this.getDOMNode().classList.add('success', 'has-success');
+  },
+  isFlash: function() {
+    return this.state.clipboard instanceof ZeroClipboard;
   }
 });
 /** @jsx React.DOM */
@@ -163,12 +204,6 @@ var Episodes = React.createClass({displayName: 'Episodes',
       });
       return text;
     }
-
-    /*
-    function capitaliseFirstLetter(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    };
-    */
 
     function buildEpisodeName(episode) {
       dict.episode = zerofill(1, episode.episode_number);

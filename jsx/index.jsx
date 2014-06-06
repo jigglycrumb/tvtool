@@ -19,6 +19,7 @@ var AppState = {
 };
 
 var update = new signals.Signal();
+ZeroClipboard.config( { swfPath: 'bower_components/zeroclipboard/dist/ZeroClipboard.swf' } );
 
 window.onload = function() {
   AppState.load();

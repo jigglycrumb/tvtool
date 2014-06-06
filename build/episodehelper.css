@@ -82,8 +82,8 @@ ul.flat {
 }
 .search-result:hover {
   background: #C2FFC4;
-  -webkit-box-shadow: 0 0 5px 2px #428bca;
-  box-shadow: 0 0 5px 2px #428bca;
+  -webkit-box-shadow: 0 0 5px 2px #bce8f1;
+  box-shadow: 0 0 5px 2px #bce8f1;
 }
 .no-poster-search-result {
   width: 100px;
@@ -103,4 +103,10 @@ ul.flat {
 }
 .zerofill-label {
   float: left;
+}
+.copy-ok {
+  float: left;
+  margin-top: .5em;
+  display: none;
+  color: #3c763d;
 }
