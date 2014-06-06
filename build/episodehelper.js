@@ -21083,17 +21083,40 @@ var Episodes = React.createClass({displayName: 'Episodes',
 
     dict.season = zerofill(0, dict.season);
 
-    function replace( text ) {
+    function replace(text) {
       text = text.replace(new RegExp("[(]([a-z ]*)[)]", "gim"), function(a, b) {
         return dict[b.toLowerCase()] || a;
       });
       return text;
     }
 
+    function replaceSpaces(text) {
+      text = text.replace(new RegExp("( )", "gim"), function(a, b) {
+        return self.props.app.space;
+      });
+      return text;
+    }
+
+    function cutSpacesAndCapitalize(text) {
+      text = text.replace(new RegExp("( [a-z*])", "gim"), function(a, b) {
+        return a.charAt(1).toUpperCase();
+      });
+      return text;
+    }
+
+    /*
+    function capitaliseFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+    */
+
     function buildEpisodeName(episode) {
       dict.episode = zerofill(1, episode.episode_number);
       dict.title = episode.name;
-      episodes.push(replace(self.props.app.format));
+      var ep = replace(self.props.app.format);
+      if(self.props.app.space === '') ep = cutSpacesAndCapitalize(ep);
+      ep = replaceSpaces(ep);
+      episodes.push(ep);
     }
 
     json.episodes.forEach(function(episode) {
@@ -21359,7 +21382,7 @@ var TvShow = React.createClass({displayName: 'TvShow',
           ),
           React.DOM.div( {className:"row"}, 
             React.DOM.div( {className:"col-xs-3 text-right"}, 
-              React.DOM.h4(null, "Zerofill")
+              React.DOM.h5(null, "Zerofill")
             ),
             React.DOM.div( {className:"col-xs-1"}, 
               React.DOM.span( {className:"h5 zerofill-label"}, "Season")
@@ -21373,7 +21396,6 @@ var TvShow = React.createClass({displayName: 'TvShow',
             React.DOM.div( {className:"col-xs-2"}, 
               React.DOM.input( {type:"number", min:"0", max:"3", className:"form-control", defaultValue:this.props.app.zerofill[1], onChange:this.setZerofill.bind(this, 1)} )
             ),
-
             React.DOM.div( {className:"col-xs-3"}, 
               React.DOM.span( {className:"glyphicon glyphicon-info-sign h4 blue", onClick:this.toggleZerofillHelp, style:{position: 'relative', top: '-.1em', left: '-1em'}})
             ),
@@ -21383,6 +21405,19 @@ var TvShow = React.createClass({displayName: 'TvShow',
               )
             )
           ),
+
+          React.DOM.div( {className:"row"}, 
+            React.DOM.div( {className:"col-xs-3 text-right"}, 
+              React.DOM.h5(null, "Replace spaces with")
+            ),
+            React.DOM.div( {className:"col-xs-2"}, 
+              React.DOM.input( {type:"text", className:"form-control", maxLength:"1", defaultValue:this.props.app.space, onChange:this.setSpaceReplacement} )
+            ),
+            React.DOM.div( {className:"col-xs-9"}
+
+            )
+          ),
+
           Episodes( {show:this.state.show, app:this.props.app} )
         )
       );
@@ -21422,6 +21457,12 @@ var TvShow = React.createClass({displayName: 'TvShow',
     if(index == 0) AppState.app.zerofill = [value, zf[1]];
     else if(index == 1) AppState.app.zerofill = [zf[0], value];
     AppState.update();
+  },
+  setSpaceReplacement: function(e) {
+    var space = e.target.value;
+    AppState.app.space = space;
+    AppState.update();
+    //console.log(space);
   },
   toggleZerofillHelp: function() {
     var visible = this.refs.zerofillHelp.getDOMNode().style.display == 'none' ? false : true;
@@ -21475,6 +21516,7 @@ var AppState = {
     season: 1,
     format: '(show) - (season)x(episode) - (title)',
     zerofill: [0, 0],
+    space: ' ',
   },
   update: function() {
     localStorage.setItem('episodehelper', JSON.stringify(this.app));

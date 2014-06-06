@@ -94,17 +94,40 @@ var Episodes = React.createClass({
 
     dict.season = zerofill(0, dict.season);
 
-    function replace( text ) {
+    function replace(text) {
       text = text.replace(new RegExp("[(]([a-z ]*)[)]", "gim"), function(a, b) {
         return dict[b.toLowerCase()] || a;
       });
       return text;
     }
 
+    function replaceSpaces(text) {
+      text = text.replace(new RegExp("( )", "gim"), function(a, b) {
+        return self.props.app.space;
+      });
+      return text;
+    }
+
+    function cutSpacesAndCapitalize(text) {
+      text = text.replace(new RegExp("( [a-z*])", "gim"), function(a, b) {
+        return a.charAt(1).toUpperCase();
+      });
+      return text;
+    }
+
+    /*
+    function capitaliseFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    };
+    */
+
     function buildEpisodeName(episode) {
       dict.episode = zerofill(1, episode.episode_number);
       dict.title = episode.name;
-      episodes.push(replace(self.props.app.format));
+      var ep = replace(self.props.app.format);
+      if(self.props.app.space === '') ep = cutSpacesAndCapitalize(ep);
+      ep = replaceSpaces(ep);
+      episodes.push(ep);
     }
 
     json.episodes.forEach(function(episode) {

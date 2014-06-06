@@ -72,7 +72,7 @@ var TvShow = React.createClass({
           </div>
           <div className="row">
             <div className="col-xs-3 text-right">
-              <h4>Zerofill</h4>
+              <h5>Zerofill</h5>
             </div>
             <div className="col-xs-1">
               <span className="h5 zerofill-label">Season</span>
@@ -86,7 +86,6 @@ var TvShow = React.createClass({
             <div className="col-xs-2">
               <input type="number" min="0" max="3" className="form-control" defaultValue={this.props.app.zerofill[1]} onChange={this.setZerofill.bind(this, 1)} />
             </div>
-
             <div className="col-xs-3">
               <span className="glyphicon glyphicon-info-sign h4 blue" onClick={this.toggleZerofillHelp} style={{position: 'relative', top: '-.1em', left: '-1em'}}></span>
             </div>
@@ -96,6 +95,19 @@ var TvShow = React.createClass({
               </div>
             </div>
           </div>
+
+          <div className="row">
+            <div className="col-xs-3 text-right">
+              <h5>Replace spaces with</h5>
+            </div>
+            <div className="col-xs-2">
+              <input type="text" className="form-control" maxLength="1" defaultValue={this.props.app.space} onChange={this.setSpaceReplacement} />
+            </div>
+            <div className="col-xs-9">
+
+            </div>
+          </div>
+
           <Episodes show={this.state.show} app={this.props.app} />
         </div>
       );
@@ -135,6 +147,12 @@ var TvShow = React.createClass({
     if(index == 0) AppState.app.zerofill = [value, zf[1]];
     else if(index == 1) AppState.app.zerofill = [zf[0], value];
     AppState.update();
+  },
+  setSpaceReplacement: function(e) {
+    var space = e.target.value;
+    AppState.app.space = space;
+    AppState.update();
+    //console.log(space);
   },
   toggleZerofillHelp: function() {
     var visible = this.refs.zerofillHelp.getDOMNode().style.display == 'none' ? false : true;
