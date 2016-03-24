@@ -124,7 +124,7 @@ var TvShow = React.createClass({
   },
   loadShow: function(id) {
     if(id !== null) {
-      theMovieDb.tv.getById({"id": id}, this.showShow, this.showError);
+      theMovieDb.tv.getById({"id": id, "language": this.props.app.language}, this.showShow, this.showError);
       theMovieDb.tv.getTranslations({"id": id}, this.showTranslations, this.showError);
     }
     else this.setState(this.getInitialState());
