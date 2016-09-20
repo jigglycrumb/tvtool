@@ -4,7 +4,7 @@ var App = React.createClass({
     return (
       <div className="app container">
         <Header />
-        <Search app={this.props.app} />
+        <Search app={this.props.app} />
         <Footer />
       </div>
     );

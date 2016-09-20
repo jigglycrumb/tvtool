@@ -49,7 +49,7 @@ var Search = React.createClass({
                 type="text"
                 className="form-control"
                 placeholder="TV show"
-                defaultValue="" 
+                defaultValue=""
                 onChange={this.getResults}
                 onKeyDown={this.checkReturn} />
             </div>
