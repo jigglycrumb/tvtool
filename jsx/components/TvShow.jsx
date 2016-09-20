@@ -44,10 +44,10 @@ var TvShow = React.createClass({
             </div>
             <div className="col-xs-9">
               <div className="btn-group btn-group-md">
-                {this.state.translations.map(function(translation) {
+                {this.state.translations.map(function(translation, i) {
                   var active = (this.props.app.language == translation.iso_639_1) ? true : false;
                   return (
-                    <TvShowLanguage key={translation.iso_639_1} translation={translation} active={active} />
+                    <TvShowLanguage key={'show-language-'+i} translation={translation} active={active} />
                   )
                 }, this)}
               </div>
