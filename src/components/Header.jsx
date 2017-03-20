@@ -1,17 +1,18 @@
-/** @jsx React.DOM */
-var Header = React.createClass({
-  render: function() {
+import React from 'react';
+
+export default class Header extends React.Component {
+  render() {
     return (
       <header className="page-header">
         <div className="backdrop"></div>
         <div className="backdrop-overlay"></div>
         <h1 className="row">
           <span className="col-xs-10 col-xs-offset-1">
-            episode helper<br />
-            <small>rename your TV show episodes easier.</small>
+            TvTool<br />
+            <small>Rename TV show episodes with ease.</small>
           </span>
         </h1>
       </header>
     );
   }
-});
+}

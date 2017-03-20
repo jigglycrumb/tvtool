@@ -1,4 +1,28 @@
-/** @jsx React.DOM */
+import React from 'react';
+import Header from './Header';
+import Footer from './Footer';
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <div className="app container">
+        <Header />
+        <Footer />
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    // update.add(this.updateProps);
+  }
+
+  updateProps() {
+    // this.setProps({app: AppState.app});
+  }
+}
+
+
+/*
 var App = React.createClass({
   render: function() {
     return (
@@ -16,3 +40,4 @@ var App = React.createClass({
     this.setProps({app: AppState.app});
   },
 });
+*/

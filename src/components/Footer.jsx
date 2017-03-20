@@ -1,6 +1,7 @@
-/** @jsx React.DOM */
-var Footer = React.createClass({
-  render: function() {
+import React from 'react';
+
+export default class Footer extends React.Component {
+  render() {
     var year = new Date().getFullYear();
 
     return (
@@ -9,5 +10,5 @@ var Footer = React.createClass({
         <p className="col-xs-12">&copy; <a href="http://hpcodecraft.me">hpcodecraft</a> 2014-{year}</p>
       </footer>
     );
-  },
-});
+  }
+}

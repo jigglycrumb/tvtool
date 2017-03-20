@@ -1,17 +1,23 @@
+import bootstrap from 'bootstrap/dist/css/bootstrap';
+import styles from './styles/app';
+
 import theMovieDb from 'themoviedb-javascript-library';
 import AppState from './lib/AppState';
 
-import styles from './styles/app.css';
 
 theMovieDb.common.api_key = "0c00851b985d8ed85c29492b352c717e";
 
-console.log(theMovieDb);
-console.log(AppState);
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App.jsx';
+
+window.onload = function() {
+  AppState.load();
+  ReactDOM.render(<App app={AppState.app} />, document.getElementById('app'));
+};
 
 
-
-
-/** @jsx React.DOM */
 
 /*
 var AppState = {

@@ -9,33 +9,54 @@ const config = {
     publicPath: '/pak/',
     filename: 'bundle.js'
   },
+  resolve: {
+     extensions: ['.css', '.js', '.jsx']
+  },
   module: {
     rules: [{
       test: /\.css$/,
       use: ['style-loader', 'css-loader']
     },{
-      test: /\.js$/,
-      exclude: [/bower_components/, /build/, /dist/, /node_modules/],
+      test: /\.jsx?$/,
+      include: path.resolve(__dirname, 'src'),
       use: [{
         loader: 'babel-loader',
         options: {
-          presets: [
-            ['es2015', { modules: false }]
-          ]
+          presets: ['es2015', 'react']
         }
       }]
     },{
-      test: /\.jsx$/,
-      exclude: [/bower_components/, /build/, /dist/, /node_modules/],
+      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+      use: ['file-loader']
+    },{
+      test: /\.(woff|woff2)$/,
       use: [{
-        loader: 'babel-loader',
+        loader: 'url-loader',
         options: {
-          presets: [
-            ['es2015', 'react']
-          ]
+          prefix: 'font',
+          limit: 5000
         }
       }]
-    }]
+    },{
+      test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+      use: [{
+        loader: 'url-loader',
+        options: {
+          mimetype: 'application/octet-stream',
+          limit: 10000
+        }
+      }]
+    },{
+      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      use: [{
+        loader: 'url-loader',
+        options: {
+          mimetype: 'image/svg+xml',
+          limit: 10000
+        }
+      }]
+    }
+  ]
   },
   plugins: [
     new webpack.NamedModulesPlugin()
