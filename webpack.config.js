@@ -6,16 +6,19 @@ const config = {
   entry: './src/app.js',
   output: {
     path: path.resolve(__dirname, 'pak'),
-    publicPath: '/pak/',
+    publicPath: 'pak/',
     filename: 'bundle.js'
   },
   resolve: {
-     extensions: ['.css', '.js', '.jsx']
+     extensions: ['.less', '.css', '.js', '.jsx']
   },
   module: {
     rules: [{
       test: /\.css$/,
       use: ['style-loader', 'css-loader']
+    },{
+      test: /\.less$/,
+      use: ['style-loader', 'css-loader', 'less-loader']
     },{
       test: /\.jsx?$/,
       include: path.resolve(__dirname, 'src'),
@@ -34,7 +37,8 @@ const config = {
         loader: 'url-loader',
         options: {
           prefix: 'font',
-          limit: 5000
+          mimetype: "application/font-woff",
+          limit: 10000
         }
       }]
     },{
@@ -55,6 +59,9 @@ const config = {
           limit: 10000
         }
       }]
+    },{
+      test: /\.swf$/,
+      use: ['file-loader']
     }
   ]
   },

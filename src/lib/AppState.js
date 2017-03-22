@@ -14,6 +14,8 @@ const AppState = {
   load: function() {
     var app = localStorage.getItem('episodehelper');
     if(null !== app && "undefined" !== app) this.app = JSON.parse(app);
+
+    console.info('loaded app state', this.app);
   }
 };
 

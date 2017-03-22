@@ -1,5 +1,6 @@
 import React from 'react';
 import Header from './Header';
+import Search from './Search';
 import Footer from './Footer';
 
 export default class App extends React.Component {
@@ -7,6 +8,7 @@ export default class App extends React.Component {
     return (
       <div className="app container">
         <Header />
+        <Search app={this.props.app} />
         <Footer />
       </div>
     );
@@ -20,24 +22,3 @@ export default class App extends React.Component {
     // this.setProps({app: AppState.app});
   }
 }
-
-
-/*
-var App = React.createClass({
-  render: function() {
-    return (
-      <div className="app container">
-        <Header />
-        <Search app={this.props.app} />
-        <Footer />
-      </div>
-    );
-  },
-  componentDidMount: function() {
-    update.add(this.updateProps);
-  },
-  updateProps: function() {
-    this.setProps({app: AppState.app});
-  },
-});
-*/

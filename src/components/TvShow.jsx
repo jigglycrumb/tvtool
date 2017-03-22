@@ -1,25 +1,40 @@
-/** @jsx React.DOM */
-var TvShow = React.createClass({
-  getInitialState: function() {
-    return {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import theMovieDb from 'themoviedb-javascript-library';
+import AppState from '../lib/AppState';
+
+import TvShowLanguage from './TvShowLanguage';
+import TvShowSeason from './TvShowSeason';
+import Episodes from './Episodes';
+
+export default class TvShow extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       show: null, // show data from API
       translations: [], // translation data from API
-    }
-  },
-  render: function() {
+    };
+
+    this.showTranslations = this.showTranslations.bind(this);
+    this.showShow = this.showShow.bind(this);
+    this.toggleZerofillHelp = this.toggleZerofillHelp.bind(this);
+  }
+
+  render() {
     if(this.state.show !== null) {
       var backdrop = false,
           poster = false;
 
-      if(this.state.show.backdrop_path != null)
+      if(this.state.show.backdrop_path !== null)
         backdrop = theMovieDb.common.images_uri + 'w1000' + this.state.show.backdrop_path;
-      if(this.state.show.poster_path != null)
+      if(this.state.show.poster_path !== null)
           poster = theMovieDb.common.images_uri + 'w150' + this.state.show.poster_path;
 
       if(backdrop) document.querySelector('.backdrop').style.backgroundImage = 'url('+backdrop+')';
 
-      var posterStr = <div className="img-thumbnail text-center"><p className="no-poster">No poster available</p></div>
-      if(poster) posterStr = <img alt="Show poster" className="img-thumbnail show-poster" src={poster} />
+      var posterStr = <div className="img-thumbnail text-center"><p className="no-poster">No poster available</p></div>;
+
+      if(poster) posterStr = <img alt="Show poster" className="img-thumbnail show-poster" src={poster} />;
 
       return (
         <div>
@@ -48,7 +63,7 @@ var TvShow = React.createClass({
                   var active = (this.props.app.language == translation.iso_639_1) ? true : false;
                   return (
                     <TvShowLanguage key={'show-language-'+i} translation={translation} active={active} />
-                  )
+                  );
                 }, this)}
               </div>
             </div>
@@ -64,7 +79,7 @@ var TvShow = React.createClass({
                     var active = (this.props.app.season == season.season_number) ? true : false;
                     return (
                       <TvShowSeason key={season.season_number} show={this.state.show} season={season} language={this.props.app.language} active={active} />
-                    )
+                    );
                   }
                 }, this)}
               </div>
@@ -113,50 +128,59 @@ var TvShow = React.createClass({
       );
     }
     else return (<span />);
-  },
-  componentDidMount: function() {
+  }
+
+  componentDidMount() {
     this.loadShow(this.props.app.show);
-  },
-  componentWillReceiveProps: function(nextProps) {
+  }
+
+  componentWillReceiveProps(nextProps) {
     if(this.isMounted()) {
       this.loadShow(nextProps.app.show);
     }
-  },
-  loadShow: function(id) {
+  }
+
+  loadShow(id) {
     if(id !== null) {
       theMovieDb.tv.getById({"id": id, "language": this.props.app.language}, this.showShow, this.showError);
       theMovieDb.tv.getTranslations({"id": id}, this.showTranslations, this.showError);
     }
     else this.setState(this.getInitialState());
-  },
-  showTranslations: function(json) {
+  }
+
+  showTranslations(json) {
     json = JSON.parse(json);
     this.setState({translations: json.translations});
-  },
-  showShow: function(json) {
+  }
+
+  showShow(json) {
     json = JSON.parse(json);
     this.setState({show: json});
-  },
-  showError: function(json) {
+  }
+
+  showError(json) {
     json = JSON.parse(json);
     console.log('TvShow.showError', json);
-  },
-  setZerofill: function(index, e) {
+  }
+
+  setZerofill(index, e) {
     var zf = AppState.app.zerofill,
         value = parseInt(e.target.value);
-    if(index == 0) AppState.app.zerofill = [value, zf[1]];
+    if(index === 0) AppState.app.zerofill = [value, zf[1]];
     else if(index == 1) AppState.app.zerofill = [zf[0], value];
     AppState.update();
-  },
-  setSpaceReplacement: function(e) {
+  }
+
+  toggleZerofillHelp() {
+    var node = ReactDOM.findDOMNode(this.refs.zerofillHelp);
+    var visible = node.style.display == 'none' ? false : true;
+    if(visible) node.style.display = 'none';
+    else node.style.display = 'table-row';
+  }
+
+  setSpaceReplacement(e) {
     var space = e.target.value;
     AppState.app.space = space;
     AppState.update();
-    //console.log(space);
-  },
-  toggleZerofillHelp: function() {
-    var visible = this.refs.zerofillHelp.getDOMNode().style.display == 'none' ? false : true;
-    if(visible) this.refs.zerofillHelp.getDOMNode().style.display = 'none';
-    else this.refs.zerofillHelp.getDOMNode().style.display = 'table-row';
-  },
-});
+  }
+}

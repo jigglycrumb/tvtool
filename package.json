@@ -16,6 +16,8 @@
     "babel-preset-react": "^6.23.0",
     "css-loader": "^0.27.3",
     "file-loader": "^0.10.1",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.1",
     "style-loader": "^0.14.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.2.1",
@@ -23,8 +25,11 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.7",
+    "classnames": "^2.2.5",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "themoviedb-javascript-library": "^1.0.0"
+    "redux": "^3.6.0",
+    "themoviedb-javascript-library": "^1.0.0",
+    "zeroclipboard": "^2.3.0"
   }
 }

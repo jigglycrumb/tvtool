@@ -1,12 +1,19 @@
-/** @jsx React.DOM */
-var Episode = React.createClass({
-  getInitialState: function() {
-    return {
-      clipboard: null,
-    }
-  },
-  render: function() {
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ZeroClipboard from 'zeroclipboard';
 
+export default class Episode extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      clipboard: null
+    };
+
+    this.mouseover = this.mouseover.bind(this);
+    this.keydown = this.keydown.bind(this);
+  }
+
+  render() {
     var notice = 'Press Ctrl+C to copy',
         isMac = navigator.platform.toUpperCase().indexOf('MAC') !== -1;
 
@@ -14,30 +21,31 @@ var Episode = React.createClass({
     if(this.isFlash()) notice = 'Click to copy';
 
     return (
-      <tr onMouseOver={this.mouseover} onMouseOut={this.mouseout} onKeyDown={this.keydown}>
-        <td className="col-xs-3 text-right">
-          <small ref="notice" className="copy-notice"><em className="text-muted">{notice}</em></small>
-        </td>
-        <td className="col-xs-8">
-          <input ref="name" className="episode form-control" type="text" value={this.props.name} readOnly />
-        </td>
-        <td className="col-xs-1">
-          <span ref="iconOk" className="glyphicon glyphicon-ok copy-ok" />
-        </td>
-      </tr>
+        <tr onMouseOver={this.mouseover} onKeyDown={this.keydown}>
+          <td className="col-xs-3 text-right">
+            <small ref="notice" className="copy-notice"><em className="text-muted">{notice}</em></small>
+          </td>
+          <td className="col-xs-8">
+            <input ref="name" className="episode form-control" type="text" value={this.props.name} readOnly />
+          </td>
+          <td className="col-xs-1">
+            <span ref="iconOk" className="glyphicon glyphicon-ok copy-ok" />
+          </td>
+        </tr>
     );
-  },
-  componentDidMount: function() {
+  }
+
+  componentDidMount() {
     if(ZeroClipboard.isFlashUnusable() === false) {
       var self = this,
-          client = new ZeroClipboard(this.getDOMNode());
+          client = new ZeroClipboard(ReactDOM.findDOMNode(this));
 
       client.on('ready', function(event) {
 
-        client.clip(self.getDOMNode());
+        client.clip(ReactDOM.findDOMNode(self));
 
         client.on('copy', function(event) {
-          event.clipboardData.setData('text/plain', self.refs.name.getDOMNode().value);
+          event.clipboardData.setData('text/plain', ReactDOM.findDOMNode(self.refs.name).value);
         });
 
         client.on('aftercopy', function(event) {
@@ -48,36 +56,45 @@ var Episode = React.createClass({
       this.setState({clipboard: client});
     }
 
-    update.add(this.unmark);
-  },
-  componentWillUnmount: function() {
-    update.remove(this.unmark);
-  },
-  mouseover: function() {
+    // update.add(this.unmark);
+  }
+
+  componentWillUnmount() {
+    // update.remove(this.unmark);
+  }
+
+  mouseover() {
+    const nameNode = ReactDOM.findDOMNode(this.refs.name);
+    const noticeNode = ReactDOM.findDOMNode(this.refs.notice);
+
     [].forEach.call(document.querySelectorAll('.copy-notice'), function(el) { el.style.display = 'none'; });
-    this.refs.notice.getDOMNode().style.display = 'inline';
+    noticeNode.style.display = 'inline';
+
     if(!this.isFlash()) {
-      this.refs.name.getDOMNode().focus();
-      this.refs.name.getDOMNode().select();
+      nameNode.focus();
+      nameNode.select();
     }
-  },
-  keydown: function(e) {
+  }
+
+  keydown(e) {
     if(this.isFlash()) return false;
-    var c = 67;
-    if(e.keyCode == 67 && (e.metaKey == true || e.ctrlKey == true)) {
+    if(e.keyCode == 67 && (e.metaKey === true || e.ctrlKey === true)) {
       // user pressed ctrl+c, cmd+c
       this.markOk();
     }
-  },
-  markOk: function() {
-    this.refs.iconOk.getDOMNode().style.display = 'inline';
-    this.getDOMNode().classList.add('success', 'has-success');
-  },
-  unmark: function() {
-    this.refs.iconOk.getDOMNode().style.display = 'none';
-    this.getDOMNode().classList.remove('success', 'has-success');
-  },
-  isFlash: function() {
+  }
+
+  markOk() {
+    ReactDOM.findDOMNode(this.refs.iconOk).style.display = 'inline';
+    ReactDOM.findDOMNode(this).classList.add('success', 'has-success');
+  }
+
+  unmark() {
+    ReactDOM.findDOMNode(this.refs.iconOk).style.display = 'none';
+    ReactDOM.findDOMNode(this).classList.remove('success', 'has-success');
+  }
+
+  isFlash() {
     return this.state.clipboard instanceof ZeroClipboard;
-  },
-});
+  }
+}

@@ -8,7 +8,7 @@ export default class Header extends React.Component {
         <div className="backdrop-overlay"></div>
         <h1 className="row">
           <span className="col-xs-10 col-xs-offset-1">
-            TvTool<br />
+            ShowTool<br />
             <small>Rename TV show episodes with ease.</small>
           </span>
         </h1>
