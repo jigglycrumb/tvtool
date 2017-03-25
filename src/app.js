@@ -6,7 +6,17 @@ import ReactDOM from 'react-dom';
 import ZeroClipboard from 'zeroclipboard';
 import ZeroClipboardSWF from 'zeroclipboard/dist/ZeroClipboard.swf';
 import styles from './styles/app';
-import App from './components/App.jsx';
+import App from './views/App.jsx';
+import store from './state/store';
+import { Provider } from 'react-redux';
+
+console.log(store.getState());
+store.subscribe(() => console.log(store.getState()));
+
+// import actions from './state/actions';
+// const { selectLanguage } = actions;
+// store.dispatch(selectLanguage('de'));
+
 
 /*
   var update = new signals.Signal();
@@ -17,5 +27,10 @@ ZeroClipboard.config({ swfPath: ZeroClipboardSWF });
 
 window.onload = function() {
   AppState.load();
-  ReactDOM.render(<App app={AppState.app} />, document.getElementById('app'));
+  ReactDOM.render(
+    <Provider store={store}>
+      <App />
+    </Provider>,
+    document.getElementById('app')
+  );
 };

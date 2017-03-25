@@ -1,7 +1,7 @@
 const AppState = {
   app: {
-    language: 'en',
     show: null,
+    language: 'en',
     season: 1,
     format: '(show) - (season)x(episode) - (title)',
     zerofill: [0, 0],
@@ -15,7 +15,7 @@ const AppState = {
     var app = localStorage.getItem('episodehelper');
     if(null !== app && "undefined" !== app) this.app = JSON.parse(app);
 
-    console.info('loaded app state', this.app);
+    // console.info('loaded app state', this.app);
   }
 };
 

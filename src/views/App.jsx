@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './Header';
 import Search from './Search';
+import SearchContainer from '../Containers/SearchContainer';
 import Footer from './Footer';
 
 export default class App extends React.Component {
@@ -8,7 +9,7 @@ export default class App extends React.Component {
     return (
       <div className="app container">
         <Header />
-        <Search app={this.props.app} />
+        <SearchContainer />
         <Footer />
       </div>
     );

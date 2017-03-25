@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import theMovieDb from 'themoviedb-javascript-library';
 import AppState from '../lib/AppState';
 
+import TvShowLanguageContainer from '../containers/TvShowLanguageContainer';
 import TvShowLanguage from './TvShowLanguage';
 import TvShowSeason from './TvShowSeason';
 import Episodes from './Episodes';
@@ -61,6 +62,7 @@ export default class TvShow extends React.Component {
               <div className="btn-group btn-group-md">
                 {this.state.translations.map(function(translation, i) {
                   var active = (this.props.app.language == translation.iso_639_1) ? true : false;
+                  // console.log(translation);
                   return (
                     <TvShowLanguage key={'show-language-'+i} translation={translation} active={active} />
                   );
