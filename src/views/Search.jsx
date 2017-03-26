@@ -51,7 +51,7 @@ export default class Search extends React.Component {
                 ref="searchInput"
                 type="text"
                 className="form-control"
-                placeholder="Enter TV show name"
+                placeholder="Enter tv show name"
                 onChange={(e)=>this.props.searchTmdb(e.target.value)}
                 onKeyDown={this.checkReturn.bind(this)} />
             </div>
