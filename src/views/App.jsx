@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from './Header';
-import Search from './Search';
 import SearchContainer from '../Containers/SearchContainer';
 import Footer from './Footer';
 
@@ -13,13 +12,5 @@ export default class App extends React.Component {
         <Footer />
       </div>
     );
-  }
-
-  componentDidMount() {
-    // update.add(this.updateProps);
-  }
-
-  updateProps() {
-    // this.setProps({app: AppState.app});
   }
 }

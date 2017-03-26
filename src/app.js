@@ -10,17 +10,7 @@ import App from './views/App.jsx';
 import store from './state/store';
 import { Provider } from 'react-redux';
 
-console.log(store.getState());
-store.subscribe(() => console.log(store.getState()));
-
-// import actions from './state/actions';
-// const { selectLanguage } = actions;
-// store.dispatch(selectLanguage('de'));
-
-
-/*
-  var update = new signals.Signal();
-*/
+store.subscribe(() => console.info("Store changed", store.getState()));
 
 theMovieDb.common.api_key = "0c00851b985d8ed85c29492b352c717e";
 ZeroClipboard.config({ swfPath: ZeroClipboardSWF });

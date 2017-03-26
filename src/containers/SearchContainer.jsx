@@ -37,19 +37,19 @@ const SearchContainer = React.createClass({
     document.querySelector('.backdrop').style.backgroundImage = 'none';
     if(query.length > 1) {
       this.query = encodeURIComponent(query);
-      theMovieDb.search.getTv({"query": this.query}, this.showResults, this.showError);
+      theMovieDb.search.getTv({"query": this.query}, this.searchSuccess, this.searchError);
     }
     else {
       this.props.searchSuccess('', []);
     }
   },
-  showResults: function(json) {
+  searchSuccess: function(json) {
     json = JSON.parse(json);
     this.props.searchSuccess(this.query, json.results);
   },
-  showError: function(json) {
+  searchError: function(json) {
     json = JSON.parse(json);
-    console.error('TMDb search failed', json);
+    console.error('SearchContainer.searchError', json);
   }
 });
 
