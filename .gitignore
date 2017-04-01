@@ -1,4 +1,3 @@
-bower_components/*
-build/*
-node_modules/*
+dist
+node_modules
 todo.txt

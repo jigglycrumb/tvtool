@@ -1,14 +1,13 @@
 const webpack = require('webpack');
 const path = require('path');
-
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   context: path.resolve(__dirname, '.'),
   entry: './src/app.js',
   output: {
-    path: path.resolve(__dirname, 'pak'),
-    // publicPath: 'pak/',
+    path: path.resolve(__dirname, 'dist'),
+    // publicPath: 'dist/',
     filename: 'bundle.js'
   },
   resolve: {
