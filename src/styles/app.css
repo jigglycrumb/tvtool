@@ -1,3 +1,10 @@
+.row {
+  padding: .5em 0;
+}
+
+.alert, .btn-group {
+  margin-bottom: 0 !important;
+}
 
 .page-header {
   position: relative;
@@ -74,6 +81,7 @@ ul.flat {
 .help-text {
   font-weight: normal;
   font-style: italic;
+  margin-top: 0.5em;
 }
 
 .addthis_toolbox {
@@ -99,7 +107,6 @@ ul.flat {
 
 .search-result:hover {
   background: #C2FFC4;
-  -webkit-box-shadow: 0 0 5px 2px #bce8f1;
   box-shadow: 0 0 5px 2px #bce8f1;
 }
 

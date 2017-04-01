@@ -1,24 +1,23 @@
 const webpack = require('webpack');
 const path = require('path');
 
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const config = {
   context: path.resolve(__dirname, '.'),
   entry: './src/app.js',
   output: {
     path: path.resolve(__dirname, 'pak'),
-    publicPath: 'pak/',
+    // publicPath: 'pak/',
     filename: 'bundle.js'
   },
   resolve: {
-     extensions: ['.less', '.css', '.js', '.jsx']
+     extensions: ['.css', '.js', '.jsx']
   },
   module: {
     rules: [{
       test: /\.css$/,
       use: ['style-loader', 'css-loader']
-    },{
-      test: /\.less$/,
-      use: ['style-loader', 'css-loader', 'less-loader']
     },{
       test: /\.jsx?$/,
       include: path.resolve(__dirname, 'src'),
@@ -29,6 +28,10 @@ const config = {
         }
       }]
     },{
+      test: /\.swf$/,
+      use: ['file-loader']
+    },
+    {
       test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
       use: ['file-loader']
     },{
@@ -59,14 +62,18 @@ const config = {
           limit: 10000
         }
       }]
-    },{
-      test: /\.swf$/,
-      use: ['file-loader']
-    }
+    },
+    {
+      test: /\.html$/,
+      use: ['html-loader']
+    },
   ]
   },
   plugins: [
-    new webpack.NamedModulesPlugin()
+    new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    })
   ]
 };
 

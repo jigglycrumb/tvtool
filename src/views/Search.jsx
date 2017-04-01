@@ -76,7 +76,9 @@ export default class Search extends React.Component {
   }
 
   setBackdrop(backdrop) {
-    if(backdrop === null) document.querySelector('.backdrop').style.backgroundImage = 'none';
+    if(backdrop === null) {
+      document.querySelector('.backdrop').style.backgroundImage = 'none';
+    }
     else {
       var url = theMovieDb.common.images_uri + 'w1000' + backdrop;
       document.querySelector('.backdrop').style.backgroundImage = 'url('+url+')';

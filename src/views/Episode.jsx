@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ZeroClipboard from 'zeroclipboard';
 
 export default class Episode extends React.Component {
@@ -21,7 +20,7 @@ export default class Episode extends React.Component {
     if(this.isFlash()) notice = 'Click to copy';
 
     return (
-        <tr onMouseOver={this.mouseover} onKeyDown={this.keydown}>
+        <tr ref="self" onMouseOver={this.mouseover} onKeyDown={this.keydown}>
           <td className="col-xs-3 text-right">
             <small ref="notice" className="copy-notice"><em className="text-muted">{notice}</em></small>
           </td>
@@ -38,14 +37,14 @@ export default class Episode extends React.Component {
   componentDidMount() {
     if(ZeroClipboard.isFlashUnusable() === false) {
       var self = this,
-          client = new ZeroClipboard(ReactDOM.findDOMNode(this));
+          client = new ZeroClipboard(this.refs.self);
 
       client.on('ready', function(event) {
 
-        client.clip(ReactDOM.findDOMNode(self));
+        client.clip(self.refs.self);
 
         client.on('copy', function(event) {
-          event.clipboardData.setData('text/plain', ReactDOM.findDOMNode(self.refs.name).value);
+          event.clipboardData.setData('text/plain', self.refs.name.value);
         });
 
         client.on('aftercopy', function(event) {
@@ -55,17 +54,15 @@ export default class Episode extends React.Component {
 
       this.setState({clipboard: client});
     }
-
-    // update.add(this.unmark);
   }
 
-  componentWillUnmount() {
-    // update.remove(this.unmark);
+  componentDidUpdate() {
+    this.unmark();
   }
 
   mouseover() {
-    const nameNode = ReactDOM.findDOMNode(this.refs.name);
-    const noticeNode = ReactDOM.findDOMNode(this.refs.notice);
+    const nameNode = this.refs.name;
+    const noticeNode = this.refs.notice;
 
     [].forEach.call(document.querySelectorAll('.copy-notice'), function(el) { el.style.display = 'none'; });
     noticeNode.style.display = 'inline';
@@ -85,13 +82,13 @@ export default class Episode extends React.Component {
   }
 
   markOk() {
-    ReactDOM.findDOMNode(this.refs.iconOk).style.display = 'inline';
-    ReactDOM.findDOMNode(this).classList.add('success', 'has-success');
+    this.refs.iconOk.style.display = 'inline';
+    this.refs.self.classList.add('success', 'has-success');
   }
 
   unmark() {
-    ReactDOM.findDOMNode(this.refs.iconOk).style.display = 'none';
-    ReactDOM.findDOMNode(this).classList.remove('success', 'has-success');
+    this.refs.iconOk.style.display = 'none';
+    this.refs.self.classList.remove('success', 'has-success');
   }
 
   isFlash() {

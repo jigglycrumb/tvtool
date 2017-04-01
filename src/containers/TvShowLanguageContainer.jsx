@@ -42,7 +42,7 @@ const TvShowLanguageContainer = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps) {
-    if(this.isMounted() && this.props.show !== nextProps.show ) {
+    if(this.props.show !== nextProps.show) {
       this.loadTranslations(nextProps.show);
     }
   },

@@ -2,7 +2,7 @@ import React from 'react';
 import theMovieDb from 'themoviedb-javascript-library';
 
 import TvShowLanguageContainer from '../containers/TvShowLanguageContainer';
-import Episodes from './Episodes';
+import EpisodeListContainer from '../containers/EpisodeListContainer';
 import Button from './Button';
 
 export default class TvShow extends React.Component {
@@ -91,7 +91,7 @@ export default class TvShow extends React.Component {
               <input type="number" min="0" max="3" className="form-control" defaultValue={this.props.zerofill[1]} onChange={this.setZerofill.bind(this, 1)} />
             </div>
             <div className="col-xs-3">
-              <span className="glyphicon glyphicon-info-sign h4 blue" onClick={this.toggleZerofillHelp.bind(this)} style={{position: 'relative', top: '-.1em', left: '-1em'}}></span>
+              <span className="glyphicon glyphicon-info-sign blue" onClick={this.toggleZerofillHelp.bind(this)} style={{position: 'relative', top: '0.6em', left: '-1em'}}></span>
             </div>
             <div ref="zerofillHelp" className="col-xs-8 col-xs-offset-3" style={{display: 'none'}}>
               <div className="alert alert-info help-text">
@@ -111,7 +111,7 @@ export default class TvShow extends React.Component {
             <div className="col-xs-9" />
           </div>
 
-          {/*<Episodes show={this.state.show} app={this.props.app} />*/}
+          <EpisodeListContainer />
         </div>
       );
     }

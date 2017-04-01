@@ -46,7 +46,7 @@ const TvShowContainer = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps) {
-    if(this.isMounted() && (this.props.show !== nextProps.show || this.props.language !== nextProps.language)) {
+    if(this.props.show !== nextProps.show || this.props.language !== nextProps.language) {
       this.loadShow(nextProps.show, nextProps.language);
     }
   },

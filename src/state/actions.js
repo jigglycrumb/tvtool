@@ -1,4 +1,10 @@
 export default {
+  restoreState: function(state) {
+    return {
+      type: 'RESTORE_STATE',
+      state
+    };
+  },
   searchSuccess: function(query, results) {
     return {
       type: 'SEARCH_SUCCESS',
@@ -36,6 +42,12 @@ export default {
       translations
     };
   },
+  loadEpisodesSuccess: function(episodes) {
+    return {
+      type: 'LOAD_EPISODES_SUCCESS',
+      episodes
+    };
+  },
   setZerofill: function(zerofill) {
     return {
       type: 'SET_ZEROFILL',
@@ -46,6 +58,12 @@ export default {
     return {
       type: 'SET_SPACE',
       space
+    };
+  },
+  setEpisodeFormat: function(format) {
+    return {
+      type: 'SET_EPISODE_FORMAT',
+      format
     };
   },
 };
