@@ -16,7 +16,9 @@ function reducer(state = initialState, action) {
     case 'SELECT_SHOW':
       return Object.assign({}, state, { show: action.id, language: 'en', season: 1, search: { query: "", results: [] }});
     case 'LOAD_INFO_SUCCESS':
-      return Object.assign({}, state, {showLoaded: true, showdata: {info: action.info, translations: state.showdata.translations}});
+      // Guess season zerofill
+      var zerofill = [(""+action.info.seasons.length).length-1, state.zerofill[1]];
+      return Object.assign({}, state, {showLoaded: true, showdata: {info: action.info, translations: state.showdata.translations}, zerofill: zerofill});
     case 'LOAD_TRANSLATIONS_SUCCESS':
       return Object.assign({}, state, {showdata: {info: state.showdata.info, translations: action.translations}});
     case 'LOAD_EPISODES_SUCCESS':
