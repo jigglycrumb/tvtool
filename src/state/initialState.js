@@ -1,22 +1,22 @@
 const state = {
-  format: '(show) - (season)x(episode) - (title)',
-  language: 'en',
+  format: "(show) - (season)x(episode) - (title)",
+  language: "en",
   search: {
-    query: '',
+    query: "",
     results: []
   },
   season: 1,
   show: null,
-  space: ' ',
+  space: " ",
   zerofill: [0, 0],
   showLoaded: false,
   showdata: {
     info: {
-      seasons: [],
+      seasons: []
     },
     translations: []
   },
-  episodes: [],
+  episodes: []
 };
 
 export default state;

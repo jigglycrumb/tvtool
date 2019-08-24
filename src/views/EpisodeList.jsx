@@ -1,9 +1,9 @@
-import React from 'react';
-import EpisodeFormatContainer from '../containers/EpisodeFormatContainer';
-import Episode from './Episode';
+import React from "react";
+import EpisodeFormatContainer from "../containers/EpisodeFormatContainer";
+import Episode from "./Episode";
 
-const EpisodeList = ({showLoaded, episodes}) => {
-  if(showLoaded === false) {
+const EpisodeList = ({ showLoaded, episodes }) => {
+  if (showLoaded === false) {
     return <div>Loading</div>;
   }
 
@@ -13,9 +13,7 @@ const EpisodeList = ({showLoaded, episodes}) => {
         <EpisodeFormatContainer />
         <tbody>
           {episodes.map(function(episode, index) {
-            return (
-              <Episode key={index} name={episode} />
-            );
+            return <Episode key={index} name={episode} />;
           }, this)}
         </tbody>
       </table>

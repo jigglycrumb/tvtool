@@ -1,11 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import EpisodeList from '../views/EpisodeList';
-import theMovieDb from 'themoviedb-javascript-library';
-import actions from '../state/actions';
+import React from "react";
+import { connect } from "react-redux";
+import EpisodeList from "../views/EpisodeList";
+import theMovieDb from "themoviedb-javascript-library";
+import actions from "../state/actions";
 const { loadEpisodesSuccess } = actions;
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     showLoaded: state.showLoaded,
     show: state.show,
@@ -15,13 +15,13 @@ const mapStateToProps = (state) => {
     zerofill: state.zerofill,
     format: state.format,
     info: state.showdata.info,
-    episodes: state.episodes,
+    episodes: state.episodes
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    loadEpisodesSuccess: (episodes) => dispatch(loadEpisodesSuccess(episodes))
+    loadEpisodesSuccess: episodes => dispatch(loadEpisodesSuccess(episodes))
   };
 };
 
@@ -30,7 +30,8 @@ const EpisodeListContainer = React.createClass({
     return (
       <EpisodeList
         showLoaded={this.props.showLoaded}
-        episodes={this.props.episodes} />
+        episodes={this.props.episodes}
+      />
     );
   },
 
@@ -39,33 +40,46 @@ const EpisodeListContainer = React.createClass({
   },
 
   componentWillReceiveProps: function(nextProps) {
-    if(this.props.show !== nextProps.show || this.props.language !== nextProps.language || this.props.season !== nextProps.season || this.props.showLoaded !== nextProps.showLoaded || this.props.zerofill !== nextProps.zerofill || this.props.format !== nextProps.format) {
+    if (
+      this.props.show !== nextProps.show ||
+      this.props.language !== nextProps.language ||
+      this.props.season !== nextProps.season ||
+      this.props.showLoaded !== nextProps.showLoaded ||
+      this.props.zerofill !== nextProps.zerofill ||
+      this.props.format !== nextProps.format
+    ) {
       this.loadEpisodes(nextProps.show, nextProps.season, nextProps.language);
     }
   },
 
   loadEpisodes: function(show, season, language) {
-    theMovieDb.tvSeasons.getById({
-      "id": show,
-      "season_number": season,
-      "language": language
-    }, this.showEpisodes, this.showError);
+    theMovieDb.tvSeasons.getById(
+      {
+        id: show,
+        season_number: season,
+        language: language
+      },
+      this.showEpisodes,
+      this.showError
+    );
   },
 
   showEpisodes: function(json) {
     json = JSON.parse(json);
     var self = this,
-        episodes = [],
-        dict = {
-          'show': this.props.info.name,
-          'season': this.props.season,
-        };
+      episodes = [],
+      dict = {
+        show: this.props.info.name,
+        season: this.props.season
+      };
 
     function zerofill(index, number) {
-      if(self.props.zerofill[index] > 0) {
-        var pad = "", len = (""+number).length;
-        for(var i=0; i<(self.props.zerofill[index]-len+1); i++) pad += "0";
-        number = pad+number;
+      if (self.props.zerofill[index] > 0) {
+        var pad = "",
+          len = ("" + number).length;
+        for (var i = 0; i < self.props.zerofill[index] - len + 1; i++)
+          pad += "0";
+        number = pad + number;
       }
       return number;
     }
@@ -97,7 +111,7 @@ const EpisodeListContainer = React.createClass({
       dict.episode = zerofill(1, episode.episode_number);
       dict.title = episode.name;
       var ep = replace(self.props.format);
-      if(self.props.space === '') ep = cutSpacesAndCapitalize(ep);
+      if (self.props.space === "") ep = cutSpacesAndCapitalize(ep);
       ep = replaceSpaces(ep);
       episodes.push(ep);
     }
@@ -111,8 +125,8 @@ const EpisodeListContainer = React.createClass({
 
   showError: function(json) {
     json = JSON.parse(json);
-    console.error('Episodes.showError', json);
-  },
+    console.error("Episodes.showError", json);
+  }
 });
 
 export default connect(

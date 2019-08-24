@@ -1,11 +1,11 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Search from '../views/Search';
-import theMovieDb from 'themoviedb-javascript-library';
-import actions from '../state/actions';
+import React from "react";
+import { connect } from "react-redux";
+import Search from "../views/Search";
+import theMovieDb from "themoviedb-javascript-library";
+import actions from "../state/actions";
 const { searchSuccess, selectShow } = actions;
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     show: state.show,
     query: state.search.query,
@@ -13,15 +13,15 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     searchSuccess: (query, results) => dispatch(searchSuccess(query, results)),
-    selectShow: (id) => dispatch(selectShow(id, name))
+    selectShow: id => dispatch(selectShow(id, name))
   };
 };
 
 const SearchContainer = React.createClass({
-  query: '',
+  query: "",
   render: function() {
     return (
       <Search
@@ -30,17 +30,21 @@ const SearchContainer = React.createClass({
         results={this.props.results}
         searchTmdb={this.searchTmdb}
         selectShow={this.props.selectShow}
-        checkReturn={this.checkReturn} />
+        checkReturn={this.checkReturn}
+      />
     );
   },
   searchTmdb: function(query) {
-    document.querySelector('.backdrop').style.backgroundImage = 'none';
-    if(query.length > 1) {
+    document.querySelector(".backdrop").style.backgroundImage = "none";
+    if (query.length > 1) {
       this.query = encodeURIComponent(query);
-      theMovieDb.search.getTv({"query": this.query}, this.searchSuccess, this.searchError);
-    }
-    else {
-      this.props.searchSuccess('', []);
+      theMovieDb.search.getTv(
+        { query: this.query },
+        this.searchSuccess,
+        this.searchError
+      );
+    } else {
+      this.props.searchSuccess("", []);
     }
   },
   searchSuccess: function(json) {
@@ -49,7 +53,7 @@ const SearchContainer = React.createClass({
   },
   searchError: function(json) {
     json = JSON.parse(json);
-    console.error('SearchContainer.searchError', json);
+    console.error("SearchContainer.searchError", json);
   }
 });
 
