@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default class EpisodeFormat extends React.Component {
   constructor(props) {
@@ -28,23 +28,59 @@ export default class EpisodeFormat extends React.Component {
               defaultValue={this.props.format}
               onKeyDown={this.checkReturn}
               onChange={this.updateFormat}
-              onBlur={this.dispatchNewFormat} />
+              onBlur={this.dispatchNewFormat}
+            />
           </th>
           <th className="col-xs-1">
-            <span className="glyphicon glyphicon-info-sign blue" onClick={this.toggleFormatHelp} style={{position: 'relative', top: '-0.4em'}}></span>
+            <span
+              className="glyphicon glyphicon-info-sign blue"
+              onClick={this.toggleFormatHelp}
+              style={{ position: "relative", top: "-0.4em" }}
+            />
           </th>
         </tr>
-        <tr ref="formatHelp" style={{display: 'none'}}>
+        <tr ref="formatHelp" style={{ display: "none" }}>
           <th className="col-xs-3">&nbsp;</th>
           <th className="col-xs-8">
             <div className="alert alert-info">
               <ul className="flat help-text">
-                <li><p>The field above controls how the episode names are formatted. You can use these variables to insert episode data:</p></li>
-                <li><a className="pointer" onClick={this.insertVariable}>(show)</a> The name of the show</li>
-                <li><a className="pointer" onClick={this.insertVariable}>(season)</a> The season number</li>
-                <li><a className="pointer" onClick={this.insertVariable}>(episode)</a> The episode number</li>
-                <li><a className="pointer" onClick={this.insertVariable}>(title)</a> The episode name</li>
-                <li><p><br/>Hit return to refresh the episode list when finished!</p></li>
+                <li>
+                  <p>
+                    The field above controls how the episode names are
+                    formatted. You can use these variables to insert episode
+                    data:
+                  </p>
+                </li>
+                <li>
+                  <a className="pointer" onClick={this.insertVariable}>
+                    (show)
+                  </a>{" "}
+                  The name of the show
+                </li>
+                <li>
+                  <a className="pointer" onClick={this.insertVariable}>
+                    (season)
+                  </a>{" "}
+                  The season number
+                </li>
+                <li>
+                  <a className="pointer" onClick={this.insertVariable}>
+                    (episode)
+                  </a>{" "}
+                  The episode number
+                </li>
+                <li>
+                  <a className="pointer" onClick={this.insertVariable}>
+                    (title)
+                  </a>{" "}
+                  The episode name
+                </li>
+                <li>
+                  <p>
+                    <br />
+                    Hit return to refresh the episode list when finished!
+                  </p>
+                </li>
               </ul>
             </div>
           </th>
@@ -56,7 +92,7 @@ export default class EpisodeFormat extends React.Component {
 
   checkReturn(e) {
     this.updateFormat(e);
-    if(e.nativeEvent.keyCode == 13) {
+    if (e.nativeEvent.keyCode == 13) {
       this.dispatchNewFormat();
     }
   }
@@ -71,18 +107,18 @@ export default class EpisodeFormat extends React.Component {
 
   toggleFormatHelp() {
     var node = this.refs.formatHelp;
-    var visible = node.style.display == 'none' ? false : true;
-    if(visible) node.style.display = 'none';
-    else node.style.display = 'table-row';
+    var visible = node.style.display == "none" ? false : true;
+    if (visible) node.style.display = "none";
+    else node.style.display = "table-row";
   }
 
   insertVariable(e) {
     var text = e.target.innerHTML,
-        formatString = document.getElementById('episode-format').value,
-        newFormat = formatString + text;
+      formatString = document.getElementById("episode-format").value,
+      newFormat = formatString + text;
 
     this.format = newFormat;
-    document.getElementById('episode-format').value = newFormat;
+    document.getElementById("episode-format").value = newFormat;
     this.dispatchNewFormat();
   }
 }

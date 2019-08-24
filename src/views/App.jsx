@@ -1,23 +1,21 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Header from './Header';
-import SearchContainer from '../Containers/SearchContainer';
-import Footer from './Footer';
+import React from "react";
+import { connect } from "react-redux";
+import Header from "./Header";
+import SearchContainer from "../Containers/SearchContainer";
+import Footer from "./Footer";
 
-import actions from '../state/actions';
+import actions from "../state/actions";
 const { restoreState } = actions;
 
-
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    restoreState: (state) => dispatch(restoreState(state))
+    restoreState: state => dispatch(restoreState(state))
   };
 };
-
 
 class App extends React.Component {
   render() {
@@ -31,17 +29,16 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    var storedState = localStorage.getItem('TvTool');
-    if(storedState !== null) {
+    var storedState = localStorage.getItem("TvTool");
+    if (storedState !== null) {
       try {
         let state = JSON.parse(storedState);
         console.info("Restored state from localStorage");
         this.props.restoreState(state);
-      } catch(e) {
+      } catch (e) {
         console.error("Failed to restore state from localStorage");
       }
-    }
-    else {
+    } else {
       console.info("Found no previous state in localStorage, using defaults");
     }
   }
