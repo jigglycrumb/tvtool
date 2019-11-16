@@ -5,6 +5,8 @@ import TvShowLanguageContainer from "../containers/TvShowLanguageContainer";
 import EpisodeListContainer from "../containers/EpisodeListContainer";
 import Button from "./Button";
 
+import Octicon, { Info } from "@primer/octicons-react";
+
 const posterWidth = 300;
 const backdropWidth = 500;
 
@@ -49,8 +51,8 @@ export default class TvShow extends React.Component {
         <div>
           {/* Show info */}
           <div className="row">
-            <div className="col-xs-3 text-right">{posterStr}</div>
-            <div className="col-xs-9">
+            <div className="col-3 text-right">{posterStr}</div>
+            <div className="col-9">
               <h2>{this.props.info.name}</h2>
               <ul className="flat">
                 <li>
@@ -68,20 +70,20 @@ export default class TvShow extends React.Component {
 
           {/* Language selection */}
           <div className="row">
-            <div className="col-xs-3 text-right">
+            <div className="col-3 text-right">
               <h4>Select a language</h4>
             </div>
-            <div className="col-xs-9">
+            <div className="col-9">
               <TvShowLanguageContainer />
             </div>
           </div>
 
           {/* Season selection */}
           <div className="row">
-            <div className="col-xs-3 text-right">
+            <div className="col-3 text-right">
               <h4>Select a season</h4>
             </div>
-            <div className="col-xs-9">
+            <div className="col-9">
               <div className="btn-group btn-group-md">
                 {this.props.info.seasons.map(function(season) {
                   if (season.season_number > 0) {
@@ -104,13 +106,13 @@ export default class TvShow extends React.Component {
 
           {/* Zerofill */}
           <div className="row">
-            <div className="col-xs-3 text-right">
+            <div className="col-3 text-right">
               <h5>Zerofill</h5>
             </div>
-            <div className="col-xs-1">
+            <div className="col-1">
               <span className="h5 zerofill-label">Season</span>
             </div>
-            <div className="col-xs-2">
+            <div className="col-2">
               <input
                 type="number"
                 min="0"
@@ -120,10 +122,10 @@ export default class TvShow extends React.Component {
                 onChange={this.setZerofill.bind(this, 0)}
               />
             </div>
-            <div className="col-xs-1">
+            <div className="col-1">
               <span className="h5 zerofill-label">Episode</span>
             </div>
-            <div className="col-xs-2">
+            <div className="col-2">
               <input
                 type="number"
                 min="0"
@@ -133,16 +135,22 @@ export default class TvShow extends React.Component {
                 onChange={this.setZerofill.bind(this, 1)}
               />
             </div>
-            <div className="col-xs-3">
+            <div className="col-3">
               <span
-                className="glyphicon glyphicon-info-sign blue"
                 onClick={this.toggleZerofillHelp.bind(this)}
-                style={{ position: "relative", top: "0.6em", left: "-1em" }}
-              />
+                style={{
+                  color: "blue",
+                  cursor: "pointer",
+                  left: "-1em",
+                  position: "relative"
+                }}
+              >
+                <Octicon icon={Info} size="medium" />
+              </span>
             </div>
             <div
               ref="zerofillHelp"
-              className="col-xs-8 col-xs-offset-3"
+              className="col-8 offset-3"
               style={{ display: "none" }}
             >
               <div className="alert alert-info help-text">
@@ -153,10 +161,10 @@ export default class TvShow extends React.Component {
 
           {/* Space replacement */}
           <div className="row">
-            <div className="col-xs-3 text-right">
+            <div className="col-3 text-right">
               <h5>Replace spaces with</h5>
             </div>
-            <div className="col-xs-2">
+            <div className="col-2">
               <input
                 type="text"
                 className="form-control"
@@ -165,7 +173,7 @@ export default class TvShow extends React.Component {
                 onChange={this.setSpaceReplacement.bind(this)}
               />
             </div>
-            <div className="col-xs-9" />
+            <div className="col-9" />
           </div>
 
           <EpisodeListContainer />

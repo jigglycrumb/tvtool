@@ -11,7 +11,7 @@ import classNames from "classnames";
 
 export default class Button extends React.Component {
   render() {
-    const classes = classNames("btn", "btn-default", {
+    const classes = classNames("btn", "btn-secondary", {
       active: this.props.active
     });
     return (

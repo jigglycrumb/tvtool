@@ -30,8 +30,8 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const TvShowContainer = React.createClass({
-  render: function() {
+class TvShowContainer extends React.Component {
+  render() {
     return (
       <TvShow
         language={this.props.language}
@@ -45,22 +45,22 @@ const TvShowContainer = React.createClass({
         selectSeason={this.props.selectSeason}
       />
     );
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.loadShow(this.props.show, this.props.language);
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-      this.props.show !== nextProps.show ||
-      this.props.language !== nextProps.language
+      this.props.show !== prevProps.show ||
+      this.props.language !== prevProps.language
     ) {
-      this.loadShow(nextProps.show, nextProps.language);
+      this.loadShow(this.props.show, this.props.language);
     }
-  },
+  }
 
-  loadShow: function(id, language) {
+  loadShow(id, language) {
     if (id !== null) {
       theMovieDb.tv.getById(
         { id: id, language: language },
@@ -68,20 +68,17 @@ const TvShowContainer = React.createClass({
         this.loadShowError
       );
     }
-  },
+  }
 
-  loadShowSuccess: function(json) {
+  loadShowSuccess = json => {
     json = JSON.parse(json);
     this.props.loadShowInfoSuccess(json);
-  },
+  };
 
-  loadShowError: function(json) {
+  loadShowError(json) {
     json = JSON.parse(json);
     console.error("TvShow.loadShowError", json);
   }
-});
+}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TvShowContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(TvShowContainer);

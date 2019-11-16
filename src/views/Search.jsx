@@ -74,15 +74,12 @@ export default class Search extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="col-xs-10 col-xs-offset-1">
-            <div className="search-bar input-group input-group-lg">
-              <span className="input-group-addon">
-                <span className="glyphicon glyphicon-search" />
-              </span>
+          <div className="col-10 offset-1">
+            <div className="search-bar">
               <input
                 ref="searchInput"
                 type="text"
-                className="form-control"
+                className="form-control form-control-lg"
                 placeholder="Enter tv show name"
                 onChange={e => this.props.searchTmdb(e.target.value)}
                 onKeyDown={this.checkReturn.bind(this)}

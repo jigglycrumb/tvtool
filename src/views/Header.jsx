@@ -6,7 +6,7 @@ const Header = () => {
       <div className="backdrop" />
       <div className="backdrop-overlay" />
       <h1 className="row">
-        <span className="col-xs-10 col-xs-offset-1">
+        <span className="col-10 offset-1">
           TvTool
           <br />
           <small>Rename tv show episodes with ease.</small>

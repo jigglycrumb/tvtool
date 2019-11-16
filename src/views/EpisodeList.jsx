@@ -9,7 +9,7 @@ const EpisodeList = ({ showLoaded, episodes }) => {
 
   return (
     <div className="row">
-      <table className="table table-striped table-hover">
+      <table className="table">
         <EpisodeFormatContainer />
         <tbody>
           {episodes.map(function(episode, index) {
