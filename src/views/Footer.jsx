@@ -5,7 +5,7 @@ const Footer = () => {
 
   return (
     <footer className="row text-center text-muted">
-      <p className="col-xs-12">
+      <p className="col-12">
         This product uses the{" "}
         <a href="http://www.themoviedb.org/" target="_blank">
           TMDb
@@ -16,7 +16,7 @@ const Footer = () => {
         </a>
         .
       </p>
-      <p className="col-xs-12">
+      <p className="col-12">
         &copy; <a href="http://hpcodecraft.me">hpcodecraft</a> 2014-{year}
       </p>
     </footer>

@@ -2,8 +2,6 @@ import bootstrap from "bootstrap/dist/css/bootstrap";
 import theMovieDb from "themoviedb-javascript-library";
 import React from "react";
 import ReactDOM from "react-dom";
-import ZeroClipboard from "zeroclipboard";
-import ZeroClipboardSWF from "zeroclipboard/dist/ZeroClipboard.swf";
 import styles from "./styles/app";
 import App from "./views/App.jsx";
 import store from "./state/store";
@@ -15,7 +13,6 @@ store.subscribe(() => {
 });
 
 theMovieDb.common.api_key = "0c00851b985d8ed85c29492b352c717e";
-ZeroClipboard.config({ swfPath: ZeroClipboardSWF });
 
 window.onload = function() {
   ReactDOM.render(

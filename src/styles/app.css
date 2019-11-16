@@ -1,5 +1,24 @@
+.app {
+  height: 100vh;
+}
+
+.table td {
+  border: none;
+}
+
+.table th,
+.table thead th {
+  border: none;
+}
+
 .row {
   padding: 0.5em 0;
+  align-items: center;
+  border: 1px solid transparent;
+}
+
+.alert {
+  border-radius: 0;
 }
 
 .alert,
@@ -15,7 +34,7 @@
 
 .page-header h1 {
   position: relative;
-  top: 70%;
+  top: 60%;
 }
 
 .backdrop,
@@ -92,8 +111,7 @@ ul.flat {
 
 .copy-notice {
   display: none;
-  float: right;
-  margin-top: 0.75em;
+  text-align: right;
 }
 
 .episode {
@@ -104,11 +122,6 @@ ul.flat {
 
 .show-poster {
   margin-top: 1.5em;
-}
-
-.glyphicon-info-sign,
-.pointer {
-  cursor: pointer;
 }
 
 .help-text {

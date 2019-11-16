@@ -20,9 +20,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const SearchContainer = React.createClass({
-  query: "",
-  render: function() {
+class SearchContainer extends React.Component {
+  state = {
+    query: ""
+  };
+
+  render() {
     return (
       <Search
         show={this.props.show}
@@ -33,29 +36,33 @@ const SearchContainer = React.createClass({
         checkReturn={this.checkReturn}
       />
     );
-  },
-  searchTmdb: function(query) {
+  }
+
+  searchTmdb = query => {
     document.querySelector(".backdrop").style.backgroundImage = "none";
     if (query.length > 1) {
-      this.query = encodeURIComponent(query);
-      theMovieDb.search.getTv(
-        { query: this.query },
-        this.searchSuccess,
-        this.searchError
-      );
+      this.setState({ query: encodeURIComponent(query) }, () => {
+        theMovieDb.search.getTv(
+          { query: this.state.query },
+          this.searchSuccess,
+          this.searchError
+        );
+      });
     } else {
       this.props.searchSuccess("", []);
     }
-  },
-  searchSuccess: function(json) {
+  };
+
+  searchSuccess = json => {
     json = JSON.parse(json);
-    this.props.searchSuccess(this.query, json.results);
-  },
-  searchError: function(json) {
+    this.props.searchSuccess(this.state.query, json.results);
+  };
+
+  searchError(json) {
     json = JSON.parse(json);
     console.error("SearchContainer.searchError", json);
   }
-});
+}
 
 export default connect(
   mapStateToProps,

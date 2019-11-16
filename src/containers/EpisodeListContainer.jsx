@@ -25,34 +25,39 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const EpisodeListContainer = React.createClass({
-  render: function() {
+class EpisodeListContainer extends React.Component {
+  render() {
     return (
       <EpisodeList
         showLoaded={this.props.showLoaded}
         episodes={this.props.episodes}
       />
     );
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.loadEpisodes(this.props.show, this.props.season, this.props.language);
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
+  componentDidUpdate(prevProps) {
     if (
-      this.props.show !== nextProps.show ||
-      this.props.language !== nextProps.language ||
-      this.props.season !== nextProps.season ||
-      this.props.showLoaded !== nextProps.showLoaded ||
-      this.props.zerofill !== nextProps.zerofill ||
-      this.props.format !== nextProps.format
+      this.props.show !== prevProps.show ||
+      this.props.language !== prevProps.language ||
+      this.props.season !== prevProps.season ||
+      this.props.showLoaded !== prevProps.showLoaded ||
+      this.props.space !== prevProps.space ||
+      this.props.zerofill !== prevProps.zerofill ||
+      this.props.format !== prevProps.format
     ) {
-      this.loadEpisodes(nextProps.show, nextProps.season, nextProps.language);
+      this.loadEpisodes(
+        this.props.show,
+        this.props.season,
+        this.props.language
+      );
     }
-  },
+  }
 
-  loadEpisodes: function(show, season, language) {
+  loadEpisodes(show, season, language) {
     theMovieDb.tvSeasons.getById(
       {
         id: show,
@@ -62,9 +67,9 @@ const EpisodeListContainer = React.createClass({
       this.showEpisodes,
       this.showError
     );
-  },
+  }
 
-  showEpisodes: function(json) {
+  showEpisodes = json => {
     json = JSON.parse(json);
     var self = this,
       episodes = [],
@@ -121,13 +126,13 @@ const EpisodeListContainer = React.createClass({
     });
 
     this.props.loadEpisodesSuccess(episodes);
-  },
+  };
 
-  showError: function(json) {
+  showError(json) {
     json = JSON.parse(json);
     console.error("Episodes.showError", json);
   }
-});
+}
 
 export default connect(
   mapStateToProps,

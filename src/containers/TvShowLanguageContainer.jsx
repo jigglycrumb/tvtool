@@ -21,10 +21,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const TvShowLanguageContainer = React.createClass({
-  render: function() {
+class TvShowLanguageContainer extends React.Component {
+  render() {
     return (
-      <div className="btn-group btn-group-md">
+      <div className="btn-group">
         {this.props.translations.map(function(translation, i) {
           return (
             <Button
@@ -40,19 +40,19 @@ const TvShowLanguageContainer = React.createClass({
         }, this)}
       </div>
     );
-  },
+  }
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.loadTranslations(this.props.show);
-  },
+  }
 
-  componentWillReceiveProps: function(nextProps) {
-    if (this.props.show !== nextProps.show) {
-      this.loadTranslations(nextProps.show);
+  componentDidUpdate(prevProps) {
+    if (this.props.show !== prevProps.show) {
+      this.loadTranslations(this.props.show);
     }
-  },
+  }
 
-  loadTranslations: function(id) {
+  loadTranslations(id) {
     if (id !== null) {
       theMovieDb.tv.getTranslations(
         { id: id },
@@ -60,20 +60,20 @@ const TvShowLanguageContainer = React.createClass({
         this.showError
       );
     }
-  },
+  }
 
-  showTranslations: function(json) {
+  showTranslations = json => {
     this.props.loadShowTranslationsSuccess(JSON.parse(json).translations);
-  },
+  };
 
-  showShow: function(json) {
+  showShow(json) {
     this.props.loadTranslationsInfoSuccess(JSON.parse(json));
-  },
+  }
 
-  showError: function(json) {
+  showError(json) {
     console.error("TvShowLanguageContainer.showError", JSON.parse(json));
   }
-});
+}
 
 export default connect(
   mapStateToProps,

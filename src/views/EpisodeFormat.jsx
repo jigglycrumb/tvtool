@@ -1,5 +1,6 @@
 import React from "react";
 
+import Octicon, { Info } from "@primer/octicons-react";
 export default class EpisodeFormat extends React.Component {
   constructor(props) {
     super(props);
@@ -15,11 +16,11 @@ export default class EpisodeFormat extends React.Component {
   render() {
     return (
       <thead>
-        <tr>
-          <th className="col-xs-3 text-right">
+        <tr className="row">
+          <th className="col-3 text-right">
             <h4>Episode format</h4>
           </th>
-          <th className="col-xs-8">
+          <th className="col-8">
             <input
               id="episode-format"
               ref="format"
@@ -31,17 +32,23 @@ export default class EpisodeFormat extends React.Component {
               onBlur={this.dispatchNewFormat}
             />
           </th>
-          <th className="col-xs-1">
+          <th className="col-1">
             <span
-              className="glyphicon glyphicon-info-sign blue"
               onClick={this.toggleFormatHelp}
-              style={{ position: "relative", top: "-0.4em" }}
-            />
+              style={{
+                color: "blue",
+                cursor: "pointer",
+                left: "-0.5em",
+                position: "relative"
+              }}
+            >
+              <Octicon icon={Info} size="medium" />
+            </span>
           </th>
         </tr>
-        <tr ref="formatHelp" style={{ display: "none" }}>
-          <th className="col-xs-3">&nbsp;</th>
-          <th className="col-xs-8">
+        <tr ref="formatHelp" style={{ display: "none" }} className="row">
+          <th className="col-3">&nbsp;</th>
+          <th className="col-8">
             <div className="alert alert-info">
               <ul className="flat help-text">
                 <li>
@@ -84,7 +91,7 @@ export default class EpisodeFormat extends React.Component {
               </ul>
             </div>
           </th>
-          <th className="col-xs-1">&nbsp;</th>
+          <th className="col-1">&nbsp;</th>
         </tr>
       </thead>
     );
@@ -109,7 +116,7 @@ export default class EpisodeFormat extends React.Component {
     var node = this.refs.formatHelp;
     var visible = node.style.display == "none" ? false : true;
     if (visible) node.style.display = "none";
-    else node.style.display = "table-row";
+    else node.style.display = "flex";
   }
 
   insertVariable(e) {
