@@ -3,7 +3,6 @@ import theMovieDb from "themoviedb-javascript-library";
 
 import TvShowLanguageContainer from "../containers/TvShowLanguageContainer";
 import EpisodeListContainer from "../containers/EpisodeListContainer";
-import Button from "./Button";
 
 import Octicon, { Info } from "@primer/octicons-react";
 
@@ -73,7 +72,7 @@ export default class TvShow extends React.Component {
             <div className="col-3 text-right">
               <h4>Select a language</h4>
             </div>
-            <div className="col-9">
+            <div className="col-8">
               <TvShowLanguageContainer />
             </div>
           </div>
@@ -83,24 +82,25 @@ export default class TvShow extends React.Component {
             <div className="col-3 text-right">
               <h4>Select a season</h4>
             </div>
-            <div className="col-9">
-              <div className="btn-group btn-group-md">
-                {this.props.info.seasons.map(function(season) {
+            <div className="col-8">
+              <select
+                className="form-control"
+                onChange={event => this.props.selectSeason(event.target.value)}
+                defaultValue={this.props.season}
+              >
+                {this.props.info.seasons.map(function (season) {
                   if (season.season_number > 0) {
                     return (
-                      <Button
+                      <option
                         key={"show-season-" + season.season_number}
-                        active={this.props.season === season.season_number}
-                        text={season.season_number}
-                        onClick={this.props.selectSeason.bind(
-                          this,
-                          season.season_number
-                        )}
-                      />
+                        value={season.season_number}
+                      >
+                        {season.season_number}
+                      </option>
                     );
                   }
                 }, this)}
-              </div>
+              </select>
             </div>
           </div>
 
@@ -109,8 +109,8 @@ export default class TvShow extends React.Component {
             <div className="col-3 text-right">
               <h5>Zerofill</h5>
             </div>
-            <div className="col-1">
-              <span className="h5 zerofill-label">Season</span>
+            <div className="col-2 text-right">
+              <span className="h5">Season</span>
             </div>
             <div className="col-2">
               <input
@@ -122,8 +122,8 @@ export default class TvShow extends React.Component {
                 onChange={this.setZerofill.bind(this, 0)}
               />
             </div>
-            <div className="col-1">
-              <span className="h5 zerofill-label">Episode</span>
+            <div className="col-2 text-right">
+              <span className="h5">Episode</span>
             </div>
             <div className="col-2">
               <input
@@ -135,14 +135,13 @@ export default class TvShow extends React.Component {
                 onChange={this.setZerofill.bind(this, 1)}
               />
             </div>
-            <div className="col-3">
+            <div className="col-1">
               <span
                 onClick={this.toggleZerofillHelp.bind(this)}
                 style={{
                   color: "blue",
                   cursor: "pointer",
-                  left: "-1em",
-                  position: "relative"
+                  position: "relative",
                 }}
               >
                 <Octicon icon={Info} size="medium" />
