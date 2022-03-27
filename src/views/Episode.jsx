@@ -14,10 +14,14 @@ export default class Episode extends React.Component {
   }
 
   render() {
-    var notice = "Press Ctrl+C to copy",
-      isMac = navigator.platform.toUpperCase().indexOf("MAC") !== -1;
+    let notice = "Click to copy";
 
-    if (isMac) notice = "Press Cmd+C to copy";
+    if (!navigator.clipboard) {
+      notice = "Press Ctrl+C to copy";
+
+      const isMac = navigator.platform.toUpperCase().indexOf("MAC") !== -1;
+      if (isMac) notice = "Press Cmd+C to copy";
+    }
 
     let rowClasses = "row";
     if (this.state.copied) {

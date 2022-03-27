@@ -12,12 +12,9 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    loadShowTranslationsSuccess: translations =>
-      dispatch(loadShowTranslationsSuccess(translations)),
-    selectLanguage: language => dispatch(selectLanguage(language)),
-  };
+const mapDispatchToProps = {
+  loadShowTranslationsSuccess,
+  selectLanguage,
 };
 
 class TvShowLanguageContainer extends React.Component {
