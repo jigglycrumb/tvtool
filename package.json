@@ -7,7 +7,6 @@
     "start": "webpack-dev-server --inline --hot",
     "build": "webpack -p"
   },
-  "author": "Volker Wieban",
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.6.4",

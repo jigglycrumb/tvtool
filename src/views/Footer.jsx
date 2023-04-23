@@ -17,7 +17,8 @@ const Footer = () => {
         .
       </p>
       <p className="col-12">
-        &copy; <a href="http://hpcodecraft.me">hpcodecraft</a> 2014-{year}
+        &copy; <a href="https://github.com/jigglycrumb">jigglycrumb</a> 2014-
+        {year}
       </p>
     </footer>
   );
