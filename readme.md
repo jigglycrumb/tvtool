@@ -1,6 +1,6 @@
 # TvTool
 
-An online tool to format file names for TV show episodes in a consistent way.
+A web based tool to format file names for TV show episodes.
 
 If you are using a PVR to record series, this is the tool for you.
 
