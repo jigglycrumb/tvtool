@@ -12,8 +12,8 @@ const EpisodeList = ({ showLoaded, episodes }) => {
       <table className="table">
         <EpisodeFormatContainer />
         <tbody>
-          {episodes.map(function(episode, index) {
-            return <Episode key={index} name={episode} />;
+          {episodes.map(function (episode, index) {
+            return <Episode key={index} episode={episode} />;
           }, this)}
         </tbody>
       </table>

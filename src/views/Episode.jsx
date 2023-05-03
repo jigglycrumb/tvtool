@@ -35,6 +35,7 @@ export default class Episode extends React.Component {
         onMouseOver={this.mouseover}
         onKeyDown={this.keydown}
         className={rowClasses}
+        title={this.props.episode.overview}
       >
         <td className="col-3 text-right">
           <small ref="notice" className="copy-notice">
@@ -46,7 +47,7 @@ export default class Episode extends React.Component {
             ref="name"
             className="episode form-control"
             type="text"
-            value={this.props.name}
+            value={this.props.episode.title}
             readOnly
           />
         </td>
@@ -68,7 +69,7 @@ export default class Episode extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.name !== prevProps.name) {
+    if (this.props.episode.title !== prevProps.episode.title) {
       this.unmark();
     }
   }

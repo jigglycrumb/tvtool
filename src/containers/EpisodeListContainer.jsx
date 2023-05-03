@@ -15,13 +15,13 @@ const mapStateToProps = state => {
     zerofill: state.zerofill,
     format: state.format,
     info: state.showdata.info,
-    episodes: state.episodes
+    episodes: state.episodes,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadEpisodesSuccess: episodes => dispatch(loadEpisodesSuccess(episodes))
+    loadEpisodesSuccess: episodes => dispatch(loadEpisodesSuccess(episodes)),
   };
 };
 
@@ -62,7 +62,7 @@ class EpisodeListContainer extends React.Component {
       {
         id: show,
         season_number: season,
-        language: language
+        language: language,
       },
       this.showEpisodes,
       this.showError
@@ -75,7 +75,7 @@ class EpisodeListContainer extends React.Component {
       episodes = [],
       dict = {
         show: this.props.info.name,
-        season: this.props.season
+        season: this.props.season,
       };
 
     function zerofill(index, number) {
@@ -92,21 +92,24 @@ class EpisodeListContainer extends React.Component {
     dict.season = zerofill(0, dict.season);
 
     function replace(text) {
-      text = text.replace(new RegExp("[(]([a-z ]*)[)]", "gim"), function(a, b) {
-        return dict[b.toLowerCase()] || a;
-      });
+      text = text.replace(
+        new RegExp("[(]([a-z ]*)[)]", "gim"),
+        function (a, b) {
+          return dict[b.toLowerCase()] || a;
+        }
+      );
       return text;
     }
 
     function replaceSpaces(text) {
-      text = text.replace(new RegExp("( )", "gim"), function(a, b) {
+      text = text.replace(new RegExp("( )", "gim"), function (a, b) {
         return self.props.space;
       });
       return text;
     }
 
     function cutSpacesAndCapitalize(text) {
-      text = text.replace(new RegExp("( [a-z*])", "gim"), function(a, b) {
+      text = text.replace(new RegExp("( [a-z*])", "gim"), function (a, b) {
         return a.charAt(1).toUpperCase();
       });
       return text;
@@ -118,10 +121,10 @@ class EpisodeListContainer extends React.Component {
       var ep = replace(self.props.format);
       if (self.props.space === "") ep = cutSpacesAndCapitalize(ep);
       ep = replaceSpaces(ep);
-      episodes.push(ep);
+      episodes.push({ title: ep, overview: episode.overview });
     }
 
-    json.episodes.forEach(function(episode) {
+    json.episodes.forEach(function (episode) {
       buildEpisodeName(episode);
     });
 
