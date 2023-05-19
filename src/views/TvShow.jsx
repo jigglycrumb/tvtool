@@ -39,20 +39,26 @@ export default class TvShow extends React.Component {
 
       if (poster)
         posterStr = (
-          <img
-            alt="Show poster"
-            className="img-thumbnail show-poster"
-            src={poster}
-          />
+          <img alt="Show poster" className="img-thumbnail" src={poster} />
         );
+
+      var yearStart = this.props.info.first_air_date
+        ? this.props.info.first_air_date.split("-")[0]
+        : "";
+      var yearEnd = this.props.info.last_air_date
+        ? this.props.info.last_air_date.split("-")[0]
+        : "";
 
       return (
         <div>
           {/* Show info */}
           <div className="row">
-            <div className="col-3 text-right">{posterStr}</div>
+            <div className="col-3">{posterStr}</div>
             <div className="col-9">
               <h2>{this.props.info.name}</h2>
+              <h6>
+                {yearStart}-{yearEnd}
+              </h6>
               <ul className="flat">
                 <li>
                   <strong>

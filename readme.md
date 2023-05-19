@@ -15,3 +15,8 @@ There is no need to install anything, you can use it directly at [http://jigglyc
 
 - Run dev server: `npm start`
 - Build: `npm run build`
+
+### Deployment
+
+Runs on Github pages, from the `docs` folder.
+Do a manual build and commit it to deploy.
