@@ -3,37 +3,38 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const config = {
+  mode: "development",
   context: path.resolve(__dirname, "."),
   entry: "./src/app.js",
   output: {
     path: path.resolve(__dirname, "docs"),
-    filename: "bundle.js"
+    filename: "bundle.js",
   },
   resolve: {
-    extensions: [".css", ".js", ".jsx"]
+    extensions: [".css", ".js", ".jsx"],
   },
   module: {
     rules: [
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.jsx?$/,
         include: path.resolve(__dirname, "src"),
         use: [
           {
-            loader: "babel-loader"
-          }
-        ]
+            loader: "babel-loader",
+          },
+        ],
       },
       {
         test: /\.swf$/,
-        use: ["file-loader"]
+        use: ["file-loader"],
       },
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: ["file-loader"]
+        use: ["file-loader"],
       },
       {
         test: /\.(woff|woff2)$/,
@@ -43,10 +44,10 @@ const config = {
             options: {
               prefix: "font",
               mimetype: "application/font-woff",
-              limit: 10000
-            }
-          }
-        ]
+              limit: 10000,
+            },
+          },
+        ],
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
@@ -55,10 +56,10 @@ const config = {
             loader: "url-loader",
             options: {
               mimetype: "application/octet-stream",
-              limit: 10000
-            }
-          }
-        ]
+              limit: 10000,
+            },
+          },
+        ],
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -67,23 +68,23 @@ const config = {
             loader: "url-loader",
             options: {
               mimetype: "image/svg+xml",
-              limit: 10000
-            }
-          }
-        ]
+              limit: 10000,
+            },
+          },
+        ],
       },
       {
         test: /\.html$/,
-        use: ["html-loader"]
-      }
-    ]
+        use: ["html-loader"],
+      },
+    ],
   },
   plugins: [
-    new webpack.NamedModulesPlugin(),
+    // new webpack.NamedModulesPlugin(),
     new HtmlWebpackPlugin({
-      template: "src/index.html"
-    })
-  ]
+      template: "src/index.html",
+    }),
+  ],
 };
 
 module.exports = config;

@@ -5,6 +5,11 @@
 
 .table td {
   border: none;
+  background-color: transparent;
+}
+
+.table td.text-right {
+  text-align: right;
 }
 
 .table th,
@@ -13,9 +18,11 @@
 }
 
 .row {
-  padding: 0.5em 0;
   align-items: center;
   border: 1px solid transparent;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 0.5em 0;
 }
 
 .alert {
@@ -118,7 +125,6 @@ ul.flat {
 
 .copy-notice {
   display: none;
-  text-align: right;
 }
 
 .episode {
@@ -184,4 +190,8 @@ ul.flat {
   margin-top: 0.5em;
   display: none;
   color: #3c763d;
+}
+
+.no-padding {
+  padding: 0;
 }

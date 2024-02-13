@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import Search from "../views/Search";
+import { Search } from "../views/Search";
 import theMovieDb from "themoviedb-javascript-library";
 import actions from "../state/actions";
 const { searchSuccess, selectShow } = actions;
@@ -9,20 +9,20 @@ const mapStateToProps = state => {
   return {
     show: state.show,
     query: state.search.query,
-    results: state.search.results
+    results: state.search.results,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     searchSuccess: (query, results) => dispatch(searchSuccess(query, results)),
-    selectShow: id => dispatch(selectShow(id, name))
+    selectShow: id => dispatch(selectShow(id, name)),
   };
 };
 
 class SearchContainer extends React.Component {
   state = {
-    query: ""
+    query: "",
   };
 
   render() {
@@ -64,7 +64,4 @@ class SearchContainer extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SearchContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer);

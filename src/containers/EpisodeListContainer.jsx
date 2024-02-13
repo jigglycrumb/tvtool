@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import EpisodeList from "../views/EpisodeList";
+import { EpisodeList } from "../views/EpisodeList";
 import theMovieDb from "themoviedb-javascript-library";
 import actions from "../state/actions";
 const { loadEpisodesSuccess } = actions;
@@ -91,7 +91,7 @@ class EpisodeListContainer extends React.Component {
 
     dict.season = zerofill(0, dict.season);
 
-    function replace(text) {
+    function replace(text = "") {
       text = text.replace(
         new RegExp("[(]([a-z ]*)[)]", "gim"),
         function (a, b) {

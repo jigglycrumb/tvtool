@@ -1,14 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import theMovieDb from "themoviedb-javascript-library";
-import TvShow from "../views/TvShow";
+import { TvShow } from "../views/TvShow";
 import actions from "../state/actions";
-const {
-  loadShowInfoSuccess,
-  setZerofill,
-  setSpaceReplacement,
-  selectSeason
-} = actions;
+const { loadShowInfoSuccess, setZerofill, setSpaceReplacement, selectSeason } =
+  actions;
 
 const mapStateToProps = state => {
   return {
@@ -17,7 +13,7 @@ const mapStateToProps = state => {
     info: state.showdata.info,
     space: state.space,
     zerofill: state.zerofill,
-    season: state.season
+    season: state.season,
   };
 };
 
@@ -26,7 +22,7 @@ const mapDispatchToProps = dispatch => {
     loadShowInfoSuccess: info => dispatch(loadShowInfoSuccess(info)),
     setZerofill: zerofill => dispatch(setZerofill(zerofill)),
     setSpaceReplacement: space => dispatch(setSpaceReplacement(space)),
-    selectSeason: season => dispatch(selectSeason(season))
+    selectSeason: season => dispatch(selectSeason(season)),
   };
 };
 
