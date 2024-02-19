@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --hot",
-    "build": "webpack -p"
+    "build": "webpack --mode production"
   },
   "license": "ISC",
   "devDependencies": {
