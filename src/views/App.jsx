@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import Header from "./Header";
-import SearchContainer from "../Containers/SearchContainer";
-import Footer from "./Footer";
+import { Header } from "./Header";
+import SearchContainer from "../containers/SearchContainer";
+import { Footer } from "./Footer";
 
 import actions from "../state/actions";
 const { restoreState } = actions;
@@ -13,7 +13,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    restoreState: state => dispatch(restoreState(state))
+    restoreState: state => dispatch(restoreState(state)),
   };
 };
 
@@ -44,7 +44,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

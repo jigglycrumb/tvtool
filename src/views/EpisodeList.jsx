@@ -1,8 +1,8 @@
 import React from "react";
 import EpisodeFormatContainer from "../containers/EpisodeFormatContainer";
-import Episode from "./Episode";
+import { Episode } from "./Episode";
 
-const EpisodeList = ({ showLoaded, episodes }) => {
+export const EpisodeList = ({ showLoaded, episodes }) => {
   if (showLoaded === false) {
     return <div>Loading</div>;
   }
@@ -14,11 +14,9 @@ const EpisodeList = ({ showLoaded, episodes }) => {
         <tbody>
           {episodes.map(function (episode, index) {
             return <Episode key={index} episode={episode} />;
-          }, this)}
+          })}
         </tbody>
       </table>
     </div>
   );
 };
-
-export default EpisodeList;

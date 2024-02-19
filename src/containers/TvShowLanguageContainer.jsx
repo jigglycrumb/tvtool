@@ -1,5 +1,5 @@
 import React from "react";
-import theMovieDb from "themoviedb-javascript-library";
+import theMovieDb from "../tmdb";
 import { connect } from "react-redux";
 import actions from "../state/actions";
 const { selectLanguage, loadShowTranslationsSuccess } = actions;
