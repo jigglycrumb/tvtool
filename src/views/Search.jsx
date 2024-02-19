@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import theMovieDb from "themoviedb-javascript-library";
+import theMovieDb from "../tmdb";
 import TvShowContainer from "../containers/TvShowContainer";
 import { NoImage } from "./NoImage";
 

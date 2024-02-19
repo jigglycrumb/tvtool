@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import theMovieDb from "themoviedb-javascript-library";
+import theMovieDb from "../tmdb";
 import { TvShow } from "../views/TvShow";
 import actions from "../state/actions";
 const { loadShowInfoSuccess, setZerofill, setSpaceReplacement, selectSeason } =

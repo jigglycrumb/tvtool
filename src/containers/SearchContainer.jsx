@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Search } from "../views/Search";
-import theMovieDb from "themoviedb-javascript-library";
+import theMovieDb from "../tmdb";
 import actions from "../state/actions";
 const { searchSuccess, selectShow } = actions;
 

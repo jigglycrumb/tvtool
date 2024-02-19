@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import theMovieDb from "themoviedb-javascript-library";
+import theMovieDb from "../tmdb";
 
 import TvShowLanguageContainer from "../containers/TvShowLanguageContainer";
 import EpisodeListContainer from "../containers/EpisodeListContainer";

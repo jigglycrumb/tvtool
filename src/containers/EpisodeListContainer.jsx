@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { EpisodeList } from "../views/EpisodeList";
-import theMovieDb from "themoviedb-javascript-library";
+import theMovieDb from "../tmdb";
 import actions from "../state/actions";
 const { loadEpisodesSuccess } = actions;
 

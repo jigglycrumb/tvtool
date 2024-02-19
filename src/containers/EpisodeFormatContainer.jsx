@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { EpisodeFormat } from "../views/EpisodeFormat";
-import theMovieDb from "themoviedb-javascript-library";
 import actions from "../state/actions";
 const { setEpisodeFormat } = actions;
 

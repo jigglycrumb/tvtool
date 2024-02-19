@@ -1,8 +1,8 @@
 import bootstrap from "bootstrap/dist/css/bootstrap";
-import theMovieDb from "themoviedb-javascript-library";
+import theMovieDb from "./tmdb";
 import React from "react";
 import styles from "./styles/app";
-import App from "./views/App.jsx";
+import App from "./views/App";
 import store from "./state/store";
 import { Provider, connect } from "react-redux";
 import { createRoot } from "react-dom/client";

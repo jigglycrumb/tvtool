@@ -1,69 +1,69 @@
 export default {
-  restoreState: function(state) {
+  restoreState: function (state) {
     return {
       type: "RESTORE_STATE",
-      state
+      state,
     };
   },
-  searchSuccess: function(query, results) {
+  searchSuccess: function (query, results) {
     return {
       type: "SEARCH_SUCCESS",
       query,
-      results
+      results,
     };
   },
-  selectLanguage: function(language) {
+  selectLanguage: function (language) {
     return {
       type: "SELECT_LANGUAGE",
-      language
+      language,
     };
   },
-  selectSeason: function(season) {
+  selectSeason: function (season) {
     return {
       type: "SELECT_SEASON",
-      season
+      season,
     };
   },
-  selectShow: function(id) {
+  selectShow: function (id) {
     return {
       type: "SELECT_SHOW",
-      id
+      id,
     };
   },
-  loadShowInfoSuccess: function(info) {
+  loadShowInfoSuccess: function (info) {
     return {
       type: "LOAD_INFO_SUCCESS",
-      info
+      info,
     };
   },
-  loadShowTranslationsSuccess: function(translations) {
+  loadShowTranslationsSuccess: function (translations) {
     return {
       type: "LOAD_TRANSLATIONS_SUCCESS",
-      translations
+      translations,
     };
   },
-  loadEpisodesSuccess: function(episodes) {
+  loadEpisodesSuccess: function (episodes) {
     return {
       type: "LOAD_EPISODES_SUCCESS",
-      episodes
+      episodes,
     };
   },
-  setZerofill: function(zerofill) {
+  setZerofill: function (zerofill) {
     return {
       type: "SET_ZEROFILL",
-      zerofill
+      zerofill,
     };
   },
-  setSpaceReplacement: function(space) {
+  setSpaceReplacement: function (space) {
     return {
       type: "SET_SPACE",
-      space
+      space,
     };
   },
-  setEpisodeFormat: function(format) {
+  setEpisodeFormat: function (format) {
     return {
       type: "SET_EPISODE_FORMAT",
-      format
+      format,
     };
-  }
+  },
 };
