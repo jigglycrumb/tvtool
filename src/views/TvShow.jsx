@@ -5,6 +5,9 @@ import TvShowLanguageContainer from "../containers/TvShowLanguageContainer";
 import EpisodeListContainer from "../containers/EpisodeListContainer";
 
 import { InfoIcon } from "@primer/octicons-react";
+import { spaceReplacement } from "../signals";
+
+import { ZeroFill } from "../components/ZeroFill";
 
 const posterWidth = 300;
 const backdropWidth = 500;
@@ -13,25 +16,30 @@ export const TvShow = ({
   info,
   season,
   selectSeason,
-  setSpaceReplacement,
-  setZerofill,
+  // setSpaceReplacement,
+  // setZerofill,
   show,
-  space,
-  zerofill,
+  // space,
+  // zerofill,
 }) => {
-  const [zerofillhelpVisible, setZerofillhelpVisible] = useState(false);
+  const setSpaceReplacement = space => {
+    console.log("setting space replacement", space);
+    spaceReplacement.value = space;
+  };
+
+  // const [zerofillhelpVisible, setZerofillhelpVisible] = useState(false);
 
   if (show === null) return <span />;
 
-  const handleSetZerofill = (index, e) => {
-    let zf = zerofill;
-    const value = parseInt(e.target.value);
+  // const handleSetZerofill = (index, e) => {
+  //   let zf = zerofill;
+  //   const value = parseInt(e.target.value);
 
-    if (index === 0) zf = [value, zf[1]];
-    else if (index == 1) zf = [zf[0], value];
+  //   if (index === 0) zf = [value, zf[1]];
+  //   else if (index == 1) zf = [zf[0], value];
 
-    setZerofill(zf);
-  };
+  //   setZerofill(zf);
+  // };
 
   let backdrop = false;
   let poster = false;
@@ -126,58 +134,7 @@ export const TvShow = ({
         </div>
       </div>
 
-      {/* Zerofill */}
-      <div className="row">
-        <div className="col-3 text-right">
-          <h5>Zerofill</h5>
-        </div>
-        <div className="col-2 text-right">
-          <span className="h5">Season</span>
-        </div>
-        <div className="col-2">
-          <input
-            type="number"
-            min="0"
-            max="3"
-            className="form-control"
-            defaultValue={zerofill[0]}
-            onChange={e => handleSetZerofill(0, e)}
-          />
-        </div>
-        <div className="col-2 text-right">
-          <span className="h5">Episode</span>
-        </div>
-        <div className="col-2">
-          <input
-            type="number"
-            min="0"
-            max="3"
-            className="form-control"
-            defaultValue={zerofill[1]}
-            onChange={e => handleSetZerofill(1, e)}
-          />
-        </div>
-        <div className="col-1 no-padding">
-          <span
-            onClick={() => setZerofillhelpVisible(!zerofillhelpVisible)}
-            style={{
-              color: "blue",
-              cursor: "pointer",
-              position: "relative",
-            }}
-          >
-            <InfoIcon size="medium" />
-          </span>
-        </div>
-        <div
-          className="col-8 offset-3"
-          style={{ display: zerofillhelpVisible ? "table-row" : "none" }}
-        >
-          <div className="alert alert-info help-text">
-            Zerofill adds leading zeroes to episode and season numbers.
-          </div>
-        </div>
-      </div>
+      <ZeroFill />
 
       {/* Space replacement */}
       <div className="row">
@@ -189,7 +146,7 @@ export const TvShow = ({
             type="text"
             className="form-control"
             maxLength="1"
-            defaultValue={space}
+            defaultValue={spaceReplacement}
             onChange={e => setSpaceReplacement(e.target.value)}
           />
         </div>

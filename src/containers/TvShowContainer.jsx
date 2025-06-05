@@ -11,7 +11,7 @@ const mapStateToProps = state => {
     language: state.language,
     show: state.show,
     info: state.showdata.info,
-    space: state.space,
+    // space: state.space,
     zerofill: state.zerofill,
     season: state.season,
   };
@@ -21,7 +21,7 @@ const mapDispatchToProps = dispatch => {
   return {
     loadShowInfoSuccess: info => dispatch(loadShowInfoSuccess(info)),
     setZerofill: zerofill => dispatch(setZerofill(zerofill)),
-    setSpaceReplacement: space => dispatch(setSpaceReplacement(space)),
+    // setSpaceReplacement: space => dispatch(setSpaceReplacement(space)),
     selectSeason: season => dispatch(selectSeason(season)),
   };
 };
@@ -33,11 +33,11 @@ class TvShowContainer extends React.Component {
         language={this.props.language}
         show={this.props.show}
         info={this.props.info}
-        space={this.props.space}
+        // space={this.props.space}
         season={this.props.season}
         zerofill={this.props.zerofill}
         setZerofill={this.props.setZerofill}
-        setSpaceReplacement={this.props.setSpaceReplacement}
+        // setSpaceReplacement={this.props.setSpaceReplacement}
         selectSeason={this.props.selectSeason}
       />
     );

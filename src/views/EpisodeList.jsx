@@ -1,6 +1,7 @@
 import React from "react";
 import EpisodeFormatContainer from "../containers/EpisodeFormatContainer";
 import { Episode } from "./Episode";
+import { EpisodeFormat } from "./EpisodeFormat";
 
 export const EpisodeList = ({ showLoaded, episodes }) => {
   if (showLoaded === false) {
@@ -10,7 +11,7 @@ export const EpisodeList = ({ showLoaded, episodes }) => {
   return (
     <div className="row">
       <table className="table">
-        <EpisodeFormatContainer />
+        <EpisodeFormat />
         <tbody>
           {episodes.map(function (episode, index) {
             return <Episode key={index} episode={episode} />;

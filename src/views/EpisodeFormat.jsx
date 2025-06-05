@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import { InfoIcon } from "@primer/octicons-react";
 
-export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
+import { episodeFormat } from "../signals";
+
+export const EpisodeFormat = () => {
+  console.log("format render", episodeFormat);
+
+  const setEpisodeFormat = format => {
+    console.log("setting new format", format);
+    episodeFormat.value = format;
+  };
+
   const [formatHelpVisible, setFormatHelpVisible] = useState(false);
-  const [inputFormat, setInputFormat] = useState(format);
+  const [inputFormat, setInputFormat] = useState(episodeFormat);
 
   const checkReturn = e => {
     updateFormat(e);
-    if (e.nativeEvent.keyCode == 13) {
+    if (e.nativeEvent.keyCode === 13) {
       dispatchNewFormat();
     }
   };

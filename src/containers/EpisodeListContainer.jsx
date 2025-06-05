@@ -5,6 +5,8 @@ import theMovieDb from "../tmdb";
 import actions from "../state/actions";
 const { loadEpisodesSuccess } = actions;
 
+import { episodeFormat } from "../signals";
+
 const mapStateToProps = state => {
   return {
     showLoaded: state.showLoaded,
@@ -13,7 +15,7 @@ const mapStateToProps = state => {
     language: state.language,
     space: state.space,
     zerofill: state.zerofill,
-    format: state.format,
+    // format: episodeFormat.value,
     info: state.showdata.info,
     episodes: state.episodes,
   };
@@ -27,10 +29,13 @@ const mapDispatchToProps = dispatch => {
 
 class EpisodeListContainer extends React.Component {
   render() {
+    console.log("list container render", episodeFormat);
+
     return (
       <EpisodeList
         showLoaded={this.props.showLoaded}
         episodes={this.props.episodes}
+        // format={episodeFormat}
       />
     );
   }
@@ -40,6 +45,8 @@ class EpisodeListContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    // console.log("update", prevProps.format, this.props.format);
+
     if (
       this.props.show !== prevProps.show ||
       this.props.language !== prevProps.language ||
