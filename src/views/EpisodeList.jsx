@@ -1,6 +1,7 @@
 import React from "react";
 import EpisodeFormatContainer from "../containers/EpisodeFormatContainer";
 import { Episode } from "./Episode";
+import { CopyAllButton } from "./CopyAllButton";
 
 export const EpisodeList = ({ showLoaded, episodes }) => {
   if (showLoaded === false) {
@@ -17,6 +18,8 @@ export const EpisodeList = ({ showLoaded, episodes }) => {
           })}
         </tbody>
       </table>
+
+      <CopyAllButton episodes={episodes} />
     </div>
   );
 };

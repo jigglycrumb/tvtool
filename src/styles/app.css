@@ -195,3 +195,8 @@ ul.flat {
 .no-padding {
   padding: 0;
 }
+
+.copy-all-button {
+  width: 20ch;
+  margin: 1ch auto;
+}
