@@ -2,7 +2,7 @@
 
 A web based tool to format file names for TV show episodes.
 
-If you are using a PVR to record series, this is the tool for you.
+When you are capturing your DVD/BluRay collection or using a PVR to record series, this is the tool for you.
 
 There is no need to install anything, you can use it directly at [http://jigglycrumb.github.io/tvtool](http://jigglycrumb.github.io/tvtool)
 
