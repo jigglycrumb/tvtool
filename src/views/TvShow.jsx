@@ -229,9 +229,11 @@ export const TvShow = ({
           style={{ display: filtercharshelpVisible ? "table-row" : "none" }}
         >
           <div className="alert alert-info help-text">
-            Replaces '/' and '\' and with ','
+            Replaces ' / ' with ' & '
             <br />
-            Replaces ':' and with ' -'
+            Replaces '/' and '\' with ','
+            <br />
+            Replaces ':' with ' -'
             <br />
             Removes ? and !
           </div>
