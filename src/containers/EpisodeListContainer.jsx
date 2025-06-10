@@ -118,7 +118,7 @@ class EpisodeListContainer extends React.Component {
     }
 
     function filterChars(text) {
-      text = text.split(" /").join(",");
+      text = text.split(" / ").join(" & ");
       text = text.split("/").join(",");
       text = text.split("\\").join(",");
       text = text.split(":").join(" -");
