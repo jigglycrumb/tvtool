@@ -66,4 +66,10 @@ export default {
       format,
     };
   },
+  toggleFilterChars: function (filterChars) {
+    return {
+      type: "TOGGLE_FILTER_CHARS",
+      filterChars,
+    };
+  },
 };

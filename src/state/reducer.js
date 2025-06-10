@@ -9,7 +9,7 @@ function reducer(state = initialState, action) {
     case "SEARCH_SUCCESS":
       return Object.assign({}, state, {
         show: null,
-        search: { query: action.query, results: action.results }
+        search: { query: action.query, results: action.results },
       });
     case "SELECT_LANGUAGE":
       return { ...state, language: action.language };
@@ -20,28 +20,28 @@ function reducer(state = initialState, action) {
         show: action.id,
         language: "en",
         season: 1,
-        search: { query: "", results: [] }
+        search: { query: "", results: [] },
       });
     case "LOAD_INFO_SUCCESS":
       // Guess season zerofill
       var zerofill = [
         ("" + action.info.seasons.length).length - 1,
-        state.zerofill[1]
+        state.zerofill[1],
       ];
       return Object.assign({}, state, {
         showLoaded: true,
         showdata: {
           info: action.info,
-          translations: state.showdata.translations
+          translations: state.showdata.translations,
         },
-        zerofill: zerofill
+        zerofill: zerofill,
       });
     case "LOAD_TRANSLATIONS_SUCCESS":
       return Object.assign({}, state, {
         showdata: {
           info: state.showdata.info,
-          translations: action.translations
-        }
+          translations: action.translations,
+        },
       });
     case "LOAD_EPISODES_SUCCESS":
       return { ...state, episodes: action.episodes };
@@ -51,6 +51,8 @@ function reducer(state = initialState, action) {
       return { ...state, space: action.space };
     case "SET_EPISODE_FORMAT":
       return { ...state, format: action.format };
+    case "TOGGLE_FILTER_CHARS":
+      return { ...state, filterChars: action.filterChars };
 
     default:
       return state;

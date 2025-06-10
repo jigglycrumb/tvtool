@@ -5,7 +5,7 @@ import theMovieDb from "../tmdb";
 import actions from "../state/actions";
 const { loadEpisodesSuccess } = actions;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     showLoaded: state.showLoaded,
     show: state.show,
@@ -16,12 +16,13 @@ const mapStateToProps = state => {
     format: state.format,
     info: state.showdata.info,
     episodes: state.episodes,
+    filterChars: state.filterChars,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    loadEpisodesSuccess: episodes => dispatch(loadEpisodesSuccess(episodes)),
+    loadEpisodesSuccess: (episodes) => dispatch(loadEpisodesSuccess(episodes)),
   };
 };
 
@@ -47,12 +48,13 @@ class EpisodeListContainer extends React.Component {
       this.props.showLoaded !== prevProps.showLoaded ||
       this.props.space !== prevProps.space ||
       this.props.zerofill !== prevProps.zerofill ||
-      this.props.format !== prevProps.format
+      this.props.format !== prevProps.format ||
+      this.props.filterChars !== prevProps.filterChars
     ) {
       this.loadEpisodes(
         this.props.show,
         this.props.season,
-        this.props.language
+        this.props.language,
       );
     }
   }
@@ -65,11 +67,11 @@ class EpisodeListContainer extends React.Component {
         language: language,
       },
       this.showEpisodes,
-      this.showError
+      this.showError,
     );
   }
 
-  showEpisodes = json => {
+  showEpisodes = (json) => {
     json = JSON.parse(json);
     var self = this,
       episodes = [],
@@ -96,7 +98,7 @@ class EpisodeListContainer extends React.Component {
         new RegExp("[(]([a-z ]*)[)]", "gim"),
         function (a, b) {
           return dict[b.toLowerCase()] || a;
-        }
+        },
       );
       return text;
     }
@@ -115,12 +117,25 @@ class EpisodeListContainer extends React.Component {
       return text;
     }
 
+    function filterChars(text) {
+      text = text.split(" /").join(",");
+      text = text.split("/").join(",");
+      text = text.split("\\").join(",");
+      text = text.split(":").join(" -");
+      text = text.split("?").join("");
+      text = text.split("!").join("");
+      return text;
+    }
+
     function buildEpisodeName(episode) {
       dict.episode = zerofill(1, episode.episode_number);
       dict.title = episode.name;
       var ep = replace(self.props.format);
       if (self.props.space === "") ep = cutSpacesAndCapitalize(ep);
       ep = replaceSpaces(ep);
+      if (self.props.filterChars === true) {
+        ep = filterChars(ep);
+      }
       episodes.push({ title: ep, overview: episode.overview });
     }
 
@@ -139,5 +154,5 @@ class EpisodeListContainer extends React.Component {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(EpisodeListContainer);

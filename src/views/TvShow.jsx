@@ -18,8 +18,11 @@ export const TvShow = ({
   show,
   space,
   zerofill,
+  filterChars,
+  toggleFilterChars,
 }) => {
   const [zerofillhelpVisible, setZerofillhelpVisible] = useState(false);
+  const [filtercharshelpVisible, setFiltercharshelpVisible] = useState(false);
 
   if (show === null) return <span />;
 
@@ -92,7 +95,7 @@ export const TvShow = ({
       {/* Language selection */}
       <div className="row">
         <div className="col-3 text-right">
-          <h4>Select a language</h4>
+          <h6>Language</h6>
         </div>
         <div className="col-8">
           <TvShowLanguageContainer />
@@ -102,12 +105,12 @@ export const TvShow = ({
       {/* Season selection */}
       <div className="row">
         <div className="col-3 text-right">
-          <h4>Select a season</h4>
+          <h6>Season</h6>
         </div>
         <div className="col-8">
           <select
             className="form-control"
-            onChange={event => selectSeason(event.target.value)}
+            onChange={(event) => selectSeason(event.target.value)}
             defaultValue={season}
           >
             {info.seasons.map(function (season) {
@@ -129,10 +132,10 @@ export const TvShow = ({
       {/* Zerofill */}
       <div className="row">
         <div className="col-3 text-right">
-          <h5>Zerofill</h5>
+          <h6>Zerofill</h6>
         </div>
         <div className="col-2 text-right">
-          <span className="h5">Season</span>
+          <h6>Season</h6>
         </div>
         <div className="col-2">
           <input
@@ -141,11 +144,11 @@ export const TvShow = ({
             max="3"
             className="form-control"
             defaultValue={zerofill[0]}
-            onChange={e => handleSetZerofill(0, e)}
+            onChange={(e) => handleSetZerofill(0, e)}
           />
         </div>
         <div className="col-2 text-right">
-          <span className="h5">Episode</span>
+          <h6>Episode</h6>
         </div>
         <div className="col-2">
           <input
@@ -154,7 +157,7 @@ export const TvShow = ({
             max="3"
             className="form-control"
             defaultValue={zerofill[1]}
-            onChange={e => handleSetZerofill(1, e)}
+            onChange={(e) => handleSetZerofill(1, e)}
           />
         </div>
         <div className="col-1 no-padding">
@@ -182,7 +185,7 @@ export const TvShow = ({
       {/* Space replacement */}
       <div className="row">
         <div className="col-3 text-right">
-          <h5>Replace spaces with</h5>
+          <h6>Replace spaces with</h6>
         </div>
         <div className="col-2">
           <input
@@ -190,10 +193,49 @@ export const TvShow = ({
             className="form-control"
             maxLength="1"
             defaultValue={space}
-            onChange={e => setSpaceReplacement(e.target.value)}
+            onChange={(e) => setSpaceReplacement(e.target.value)}
           />
         </div>
         <div className="col-9" />
+      </div>
+
+      {/* Problematic characters replacement */}
+      <div className="row">
+        <div className="col-3 text-right">
+          <h6>Filter problematic characters</h6>
+        </div>
+        <div className="col-2">
+          <input
+            type="checkbox"
+            defaultValue={filterChars}
+            onChange={(e) => toggleFilterChars(e.target.checked)}
+          />
+        </div>
+
+        <div className="col-1 no-padding">
+          <span
+            onClick={() => setFiltercharshelpVisible(!filtercharshelpVisible)}
+            style={{
+              color: "blue",
+              cursor: "pointer",
+              position: "relative",
+            }}
+          >
+            <InfoIcon size="medium" />
+          </span>
+        </div>
+        <div
+          className="col-8 offset-3"
+          style={{ display: filtercharshelpVisible ? "table-row" : "none" }}
+        >
+          <div className="alert alert-info help-text">
+            Replaces '/' and '\' and with ','
+            <br />
+            Replaces ':' and with ' -'
+            <br />
+            Removes ? and !
+          </div>
+        </div>
       </div>
 
       <EpisodeListContainer />

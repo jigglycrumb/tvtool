@@ -3,10 +3,15 @@ import { connect } from "react-redux";
 import theMovieDb from "../tmdb";
 import { TvShow } from "../views/TvShow";
 import actions from "../state/actions";
-const { loadShowInfoSuccess, setZerofill, setSpaceReplacement, selectSeason } =
-  actions;
+const {
+  loadShowInfoSuccess,
+  setZerofill,
+  setSpaceReplacement,
+  selectSeason,
+  toggleFilterChars,
+} = actions;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     language: state.language,
     show: state.show,
@@ -14,15 +19,18 @@ const mapStateToProps = state => {
     space: state.space,
     zerofill: state.zerofill,
     season: state.season,
+    filterChars: state.filterChars,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    loadShowInfoSuccess: info => dispatch(loadShowInfoSuccess(info)),
-    setZerofill: zerofill => dispatch(setZerofill(zerofill)),
-    setSpaceReplacement: space => dispatch(setSpaceReplacement(space)),
-    selectSeason: season => dispatch(selectSeason(season)),
+    loadShowInfoSuccess: (info) => dispatch(loadShowInfoSuccess(info)),
+    setZerofill: (zerofill) => dispatch(setZerofill(zerofill)),
+    setSpaceReplacement: (space) => dispatch(setSpaceReplacement(space)),
+    selectSeason: (season) => dispatch(selectSeason(season)),
+    toggleFilterChars: (filterChars) =>
+      dispatch(toggleFilterChars(filterChars)),
   };
 };
 
@@ -39,6 +47,8 @@ class TvShowContainer extends React.Component {
         setZerofill={this.props.setZerofill}
         setSpaceReplacement={this.props.setSpaceReplacement}
         selectSeason={this.props.selectSeason}
+        filterChars={this.props.filterChars}
+        toggleFilterChars={this.props.toggleFilterChars}
       />
     );
   }
@@ -61,12 +71,12 @@ class TvShowContainer extends React.Component {
       theMovieDb.tv.getById(
         { id: id, language: language },
         this.loadShowSuccess,
-        this.loadShowError
+        this.loadShowError,
       );
     }
   }
 
-  loadShowSuccess = json => {
+  loadShowSuccess = (json) => {
     json = JSON.parse(json);
     this.props.loadShowInfoSuccess(json);
   };

@@ -5,14 +5,14 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
   const [formatHelpVisible, setFormatHelpVisible] = useState(false);
   const [inputFormat, setInputFormat] = useState(format);
 
-  const checkReturn = e => {
+  const checkReturn = (e) => {
     updateFormat(e);
     if (e.nativeEvent.keyCode == 13) {
       dispatchNewFormat();
     }
   };
 
-  const updateFormat = e => {
+  const updateFormat = (e) => {
     setInputFormat(e.target.value);
   };
 
@@ -24,7 +24,7 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
     setFormatHelpVisible(!formatHelpVisible);
   };
 
-  const insertVariable = e => {
+  const insertVariable = (e) => {
     const text = e.target.innerHTML;
     const formatString = document.getElementById("episode-format").value;
     const newFormat = formatString + text;
@@ -37,7 +37,7 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
     <thead>
       <tr className="row">
         <th className="col-3 text-right">
-          <h4>Episode format</h4>
+          <h6>Episode format</h6>
         </th>
         <th className="col-8">
           <input
