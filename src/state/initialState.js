@@ -3,20 +3,21 @@ const state = {
   language: "en",
   search: {
     query: "",
-    results: []
+    results: [],
   },
   season: 1,
   show: null,
   space: " ",
   zerofill: [0, 0],
+  filterChars: false,
   showLoaded: false,
   showdata: {
     info: {
-      seasons: []
+      seasons: [],
     },
-    translations: []
+    translations: [],
   },
-  episodes: []
+  episodes: [],
 };
 
 export default state;

@@ -21,7 +21,7 @@ export const Episode = ({ episode }) => {
     nameNode.select();
   };
 
-  const handleKeydown = e => {
+  const handleKeydown = (e) => {
     if (e.keyCode == 67 && (e.metaKey === true || e.ctrlKey === true)) {
       // user pressed ctrl+c, cmd+c
       markOk();
