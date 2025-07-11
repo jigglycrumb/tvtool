@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Footer = () => {
   var year = new Date().getFullYear();
 
@@ -7,11 +5,11 @@ export const Footer = () => {
     <footer className="row text-center text-muted">
       <p className="col-12">
         This product uses the{" "}
-        <a href="http://www.themoviedb.org/" target="_blank">
+        <a href="http://www.themoviedb.org/" target="_blank" rel="noopener">
           TMDb
         </a>{" "}
         API but is not endorsed or certified by{" "}
-        <a href="http://www.themoviedb.org/" target="_blank">
+        <a href="http://www.themoviedb.org/" target="_blank" rel="noopener">
           TMDb
         </a>
         .

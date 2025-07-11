@@ -24,18 +24,13 @@ theMovieDb.common = {
 
     if (Object.keys(myOptions).length > 0) {
       for (option in myOptions) {
-        if (
-          myOptions.hasOwnProperty(option) &&
-          option !== "id" &&
-          option !== "body"
-        ) {
+        if (myOptions.hasOwnProperty(option) && option !== "id" && option !== "body") {
           query = query + "&" + option + "=" + myOptions[option];
         }
       }
     }
 
-    if (!myOptions["language"])
-      query = query + "&language=" + theMovieDb.common.language;
+    if (!myOptions["language"]) query = query + "&language=" + theMovieDb.common.language;
 
     return query;
   },
@@ -53,11 +48,7 @@ theMovieDb.common = {
 
     if (args.length !== argsReq) {
       throw (
-        "The method requires  " +
-        argsReq +
-        " arguments and you are sending " +
-        args.length +
-        "!"
+        "The method requires  " + argsReq + " arguments and you are sending " + args.length + "!"
       );
     }
 
@@ -68,10 +59,7 @@ theMovieDb.common = {
     if (argsReq > 2) {
       for (i = 0; i < optReq.length; i = i + 1) {
         if (!opt.hasOwnProperty(optReq[i])) {
-          throw (
-            optReq[i] +
-            " is a required parameter and is not present in the options!"
-          );
+          throw optReq[i] + " is a required parameter and is not present in the options!";
         }
       }
     }
@@ -194,9 +182,7 @@ theMovieDb.configurations = {
 
     theMovieDb.common.client(
       {
-        url:
-          "configuration/primary_translations" +
-          theMovieDb.common.generateQuery(),
+        url: "configuration/primary_translations" + theMovieDb.common.generateQuery(),
       },
       success,
       error
@@ -238,20 +224,13 @@ theMovieDb.account = {
   getLists: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "account/" +
-          options.id +
-          "/lists" +
-          theMovieDb.common.generateQuery(options),
+        url: "account/" + options.id + "/lists" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -260,20 +239,14 @@ theMovieDb.account = {
   getFavoritesMovies: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
         url:
-          "account/" +
-          options.id +
-          "/favorite/movies" +
-          theMovieDb.common.generateQuery(options),
+          "account/" + options.id + "/favorite/movies" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -282,20 +255,13 @@ theMovieDb.account = {
   getFavoritesTvShows: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "account/" +
-          options.id +
-          "/favorite/tv?" +
-          theMovieDb.common.generateQuery(options),
+        url: "account/" + options.id + "/favorite/tv?" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -323,11 +289,7 @@ theMovieDb.account = {
 
     theMovieDb.common.client(
       {
-        url:
-          "account/" +
-          options.id +
-          "/favorite" +
-          theMovieDb.common.generateQuery(options),
+        url: "account/" + options.id + "/favorite" + theMovieDb.common.generateQuery(options),
         status: 201,
         method: "POST",
         body: body,
@@ -339,20 +301,13 @@ theMovieDb.account = {
   getRatedMovies: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "account/" +
-          options.id +
-          "/rated/movies" +
-          theMovieDb.common.generateQuery(options),
+        url: "account/" + options.id + "/rated/movies" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -361,20 +316,13 @@ theMovieDb.account = {
   getRatedTvShows: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "account/" +
-          options.id +
-          "/rated/tv" +
-          theMovieDb.common.generateQuery(options),
+        url: "account/" + options.id + "/rated/tv" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -383,20 +331,14 @@ theMovieDb.account = {
   getRatedTvEpisodes: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
         url:
-          "account/" +
-          options.id +
-          "rated/tv/episodes" +
-          theMovieDb.common.generateQuery(options),
+          "account/" + options.id + "rated/tv/episodes" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -405,20 +347,14 @@ theMovieDb.account = {
   getMovieWatchlist: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
         url:
-          "account/" +
-          options.id +
-          "/watchlist/movies" +
-          theMovieDb.common.generateQuery(options),
+          "account/" + options.id + "/watchlist/movies" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -427,20 +363,13 @@ theMovieDb.account = {
   getTvShowsWatchlist: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "account/" +
-          options.id +
-          "/watchlist/tv" +
-          theMovieDb.common.generateQuery(options),
+        url: "account/" + options.id + "/watchlist/tv" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -469,11 +398,7 @@ theMovieDb.account = {
 
     theMovieDb.common.client(
       {
-        url:
-          "account/" +
-          options.id +
-          "/watchlist" +
-          theMovieDb.common.generateQuery(options),
+        url: "account/" + options.id + "/watchlist" + theMovieDb.common.generateQuery(options),
         method: "POST",
         status: 201,
         body: body,
@@ -523,9 +448,7 @@ theMovieDb.authentication = {
 
     theMovieDb.common.client(
       {
-        url:
-          "authentication/token/validate_with_login" +
-          theMovieDb.common.generateQuery(options),
+        url: "authentication/token/validate_with_login" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -534,17 +457,13 @@ theMovieDb.authentication = {
   generateSession: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "request_token",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["request_token"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "authentication/session/new" +
-          theMovieDb.common.generateQuery(options),
+        url: "authentication/session/new" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -559,9 +478,7 @@ theMovieDb.authentication = {
 
     theMovieDb.common.client(
       {
-        url:
-          "authentication/guest_session/new" +
-          theMovieDb.common.generateQuery(),
+        url: "authentication/guest_session/new" + theMovieDb.common.generateQuery(),
       },
       success,
       error
@@ -660,8 +577,7 @@ theMovieDb.collections = {
 
     theMovieDb.common.client(
       {
-        url:
-          "collection/" + options.id + theMovieDb.common.generateQuery(options),
+        url: "collection/" + options.id + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -676,11 +592,7 @@ theMovieDb.collections = {
 
     theMovieDb.common.client(
       {
-        url:
-          "collection/" +
-          options.id +
-          "/images" +
-          theMovieDb.common.generateQuery(options),
+        url: "collection/" + options.id + "/images" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -696,10 +608,7 @@ theMovieDb.collections = {
     theMovieDb.common.client(
       {
         url:
-          "collection/" +
-          options.id +
-          "/translations" +
-          theMovieDb.common.generateQuery(options),
+          "collection/" + options.id + "/translations" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -733,10 +642,7 @@ theMovieDb.companies = {
     theMovieDb.common.client(
       {
         url:
-          "company/" +
-          options.id +
-          "/alternative_names" +
-          theMovieDb.common.generateQuery(options),
+          "company/" + options.id + "/alternative_names" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -799,10 +705,7 @@ theMovieDb.find = {
   getById: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "id",
-      "external_source",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["id", "external_source"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -841,11 +744,7 @@ theMovieDb.genres = {
 
     theMovieDb.common.client(
       {
-        url:
-          "genre/" +
-          options.id +
-          "/movies" +
-          theMovieDb.common.generateQuery(options),
+        url: "genre/" + options.id + "/movies" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -878,11 +777,7 @@ theMovieDb.guestSession = {
 
     theMovieDb.common.client(
       {
-        url:
-          "guest_session/" +
-          options.id +
-          "/rated/movies" +
-          theMovieDb.common.generateQuery(),
+        url: "guest_session/" + options.id + "/rated/movies" + theMovieDb.common.generateQuery(),
       },
       success,
       error
@@ -897,11 +792,7 @@ theMovieDb.guestSession = {
 
     theMovieDb.common.client(
       {
-        url:
-          "guest_session/" +
-          options.id +
-          "/rated/tv" +
-          theMovieDb.common.generateQuery(),
+        url: "guest_session/" + options.id + "/rated/tv" + theMovieDb.common.generateQuery(),
       },
       success,
       error
@@ -917,10 +808,7 @@ theMovieDb.guestSession = {
     theMovieDb.common.client(
       {
         url:
-          "guest_session/" +
-          options.id +
-          "/rated/tv/episodes" +
-          theMovieDb.common.generateQuery(),
+          "guest_session/" + options.id + "/rated/tv/episodes" + theMovieDb.common.generateQuery(),
       },
       success,
       error
@@ -953,11 +841,7 @@ theMovieDb.keywords = {
 
     theMovieDb.common.client(
       {
-        url:
-          "keyword/" +
-          options.id +
-          "/movies" +
-          theMovieDb.common.generateQuery(options),
+        url: "keyword/" + options.id + "/movies" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -984,20 +868,13 @@ theMovieDb.lists = {
   getStatusById: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "id",
-      "movie_id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["id", "movie_id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "list/" +
-          options.id +
-          "/item_status" +
-          theMovieDb.common.generateQuery(options),
+        url: "list/" + options.id + "/item_status" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1046,11 +923,7 @@ theMovieDb.lists = {
 
     var body;
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-      "media_id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id", "media_id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -1062,11 +935,7 @@ theMovieDb.lists = {
       {
         method: "POST",
         status: 201,
-        url:
-          "list/" +
-          options.id +
-          "/add_item" +
-          theMovieDb.common.generateQuery(options),
+        url: "list/" + options.id + "/add_item" + theMovieDb.common.generateQuery(options),
         body: body,
       },
       success,
@@ -1078,11 +947,7 @@ theMovieDb.lists = {
 
     var body;
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-      "media_id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id", "media_id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -1094,11 +959,7 @@ theMovieDb.lists = {
       {
         method: "POST",
         status: 201,
-        url:
-          "list/" +
-          options.id +
-          "/remove_item" +
-          theMovieDb.common.generateQuery(options),
+        url: "list/" + options.id + "/remove_item" + theMovieDb.common.generateQuery(options),
         body: body,
       },
       success,
@@ -1108,10 +969,7 @@ theMovieDb.lists = {
   removeList: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -1128,11 +986,7 @@ theMovieDb.lists = {
   clearList: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-      "confirm",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id", "confirm"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -1141,11 +995,7 @@ theMovieDb.lists = {
         method: "POST",
         status: 204,
         body: {},
-        url:
-          "list/" +
-          options.id +
-          "/clear" +
-          theMovieDb.common.generateQuery(options),
+        url: "list/" + options.id + "/clear" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1172,20 +1022,13 @@ theMovieDb.movies = {
   getAccountStates: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/account_states" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/account_states" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1194,20 +1037,13 @@ theMovieDb.movies = {
   getAccountStatesGuest: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "guest_session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["guest_session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/account_states" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/account_states" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1223,10 +1059,7 @@ theMovieDb.movies = {
     theMovieDb.common.client(
       {
         url:
-          "movie/" +
-          options.id +
-          "/alternative_titles" +
-          theMovieDb.common.generateQuery(options),
+          "movie/" + options.id + "/alternative_titles" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1241,11 +1074,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/changes" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/changes" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1260,11 +1089,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/credits" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/credits" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1279,11 +1104,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/external_ids" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/external_ids" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1298,11 +1119,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/images" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/images" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1317,11 +1134,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/keywords" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/keywords" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1336,11 +1149,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/release_dates" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/release_dates" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1355,11 +1164,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/videos" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/videos" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1374,11 +1179,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/translations" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/translations" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1393,11 +1194,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/recommendations" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/recommendations" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1412,11 +1209,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/similar" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/similar" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1431,11 +1224,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/reviews" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/reviews" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1450,11 +1239,7 @@ theMovieDb.movies = {
 
     theMovieDb.common.client(
       {
-        url:
-          "movie/" +
-          options.id +
-          "/lists" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/lists" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1538,10 +1323,7 @@ theMovieDb.movies = {
   rate: function (options, rate, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 4, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 4, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -1549,11 +1331,7 @@ theMovieDb.movies = {
       {
         method: "POST",
         status: 201,
-        url:
-          "movie/" +
-          options.id +
-          "/rating" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/rating" + theMovieDb.common.generateQuery(options),
         body: {
           value: rate,
         },
@@ -1565,10 +1343,7 @@ theMovieDb.movies = {
   rateGuest: function (options, rate, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 4, options, [
-      "guest_session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 4, options, ["guest_session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -1576,11 +1351,7 @@ theMovieDb.movies = {
       {
         method: "POST",
         status: 201,
-        url:
-          "movie/" +
-          options.id +
-          "/rating" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/rating" + theMovieDb.common.generateQuery(options),
         body: {
           value: rate,
         },
@@ -1592,10 +1363,7 @@ theMovieDb.movies = {
   removeRate: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -1603,11 +1371,7 @@ theMovieDb.movies = {
       {
         method: "DELETE",
         status: 200,
-        url:
-          "movie/" +
-          options.id +
-          "/rating" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/rating" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1616,10 +1380,7 @@ theMovieDb.movies = {
   removeRateGuest: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "guest_session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["guest_session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -1627,11 +1388,7 @@ theMovieDb.movies = {
       {
         method: "DELETE",
         status: 200,
-        url:
-          "movie/" +
-          options.id +
-          "/rating" +
-          theMovieDb.common.generateQuery(options),
+        url: "movie/" + options.id + "/rating" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1665,10 +1422,7 @@ theMovieDb.networks = {
     theMovieDb.common.client(
       {
         url:
-          "network/" +
-          options.id +
-          "/alternative_names" +
-          theMovieDb.common.generateQuery(options),
+          "network/" + options.id + "/alternative_names" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1701,11 +1455,7 @@ theMovieDb.people = {
 
     theMovieDb.common.client(
       {
-        url:
-          "person/" +
-          options.id +
-          "/movie_credits" +
-          theMovieDb.common.generateQuery(options),
+        url: "person/" + options.id + "/movie_credits" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1720,11 +1470,7 @@ theMovieDb.people = {
 
     theMovieDb.common.client(
       {
-        url:
-          "person/" +
-          options.id +
-          "/tv_credits" +
-          theMovieDb.common.generateQuery(options),
+        url: "person/" + options.id + "/tv_credits" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1740,10 +1486,7 @@ theMovieDb.people = {
     theMovieDb.common.client(
       {
         url:
-          "person/" +
-          options.id +
-          "/combined_credits" +
-          theMovieDb.common.generateQuery(options),
+          "person/" + options.id + "/combined_credits" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1758,11 +1501,7 @@ theMovieDb.people = {
 
     theMovieDb.common.client(
       {
-        url:
-          "person/" +
-          options.id +
-          "/external_ids" +
-          theMovieDb.common.generateQuery(options),
+        url: "person/" + options.id + "/external_ids" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1777,11 +1516,7 @@ theMovieDb.people = {
 
     theMovieDb.common.client(
       {
-        url:
-          "person/" +
-          options.id +
-          "/images" +
-          theMovieDb.common.generateQuery(options),
+        url: "person/" + options.id + "/images" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1796,11 +1531,7 @@ theMovieDb.people = {
 
     theMovieDb.common.client(
       {
-        url:
-          "person/" +
-          options.id +
-          "/tagged_images" +
-          theMovieDb.common.generateQuery(options),
+        url: "person/" + options.id + "/tagged_images" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -1815,11 +1546,7 @@ theMovieDb.people = {
 
     theMovieDb.common.client(
       {
-        url:
-          "person/" +
-          options.id +
-          "/changes" +
-          theMovieDb.common.generateQuery(options),
+        url: "person/" + options.id + "/changes" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2002,20 +1729,13 @@ theMovieDb.tv = {
   getAccountStates: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/account_states" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/account_states" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2024,20 +1744,13 @@ theMovieDb.tv = {
   getAccountStatesGuest: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "guest_session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["guest_session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/account_states" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/account_states" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2052,11 +1765,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/alternative_titles" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/alternative_titles" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2071,11 +1780,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/changes" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/changes" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2090,11 +1795,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/content_ratings" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/content_ratings" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2109,11 +1810,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/credits" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/credits" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2128,11 +1825,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/external_ids" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/external_ids" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2147,11 +1840,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/images" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/images" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2166,11 +1855,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/keywords" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/keywords" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2185,11 +1870,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/recommendations" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/recommendations" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2204,11 +1885,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/reviews" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/reviews" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2224,10 +1901,7 @@ theMovieDb.tv = {
     theMovieDb.common.client(
       {
         url:
-          "tv/" +
-          options.id +
-          "/screened_theatrically" +
-          theMovieDb.common.generateQuery(options),
+          "tv/" + options.id + "/screened_theatrically" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2242,11 +1916,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/similar" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/similar" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2261,11 +1931,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/translations" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/translations" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2280,11 +1946,7 @@ theMovieDb.tv = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/" +
-          options.id +
-          "/videos" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/videos" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2368,10 +2030,7 @@ theMovieDb.tv = {
   rate: function (options, rate, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 4, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 4, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2379,11 +2038,7 @@ theMovieDb.tv = {
       {
         method: "POST",
         status: 201,
-        url:
-          "tv/" +
-          options.id +
-          "/rating" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/rating" + theMovieDb.common.generateQuery(options),
         body: {
           value: rate,
         },
@@ -2395,10 +2050,7 @@ theMovieDb.tv = {
   rateGuest: function (options, rate, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 4, options, [
-      "guest_session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 4, options, ["guest_session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2406,11 +2058,7 @@ theMovieDb.tv = {
       {
         method: "POST",
         status: 201,
-        url:
-          "tv/" +
-          options.id +
-          "/rating" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/rating" + theMovieDb.common.generateQuery(options),
         body: {
           value: rate,
         },
@@ -2422,10 +2070,7 @@ theMovieDb.tv = {
   removeRate: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2433,11 +2078,7 @@ theMovieDb.tv = {
       {
         method: "DELETE",
         status: 200,
-        url:
-          "tv/" +
-          options.id +
-          "/rating" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/rating" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2446,10 +2087,7 @@ theMovieDb.tv = {
   removeRateGuest: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "guest_session_id",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["guest_session_id", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2457,11 +2095,7 @@ theMovieDb.tv = {
       {
         method: "DELETE",
         status: 200,
-        url:
-          "tv/" +
-          options.id +
-          "/rating" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/" + options.id + "/rating" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2473,10 +2107,7 @@ theMovieDb.tvSeasons = {
   getById: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "season_number",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["season_number", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2502,11 +2133,7 @@ theMovieDb.tvSeasons = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/season/" +
-          options.id +
-          "/changes" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/season/" + options.id + "/changes" + theMovieDb.common.generateQuery(options),
       },
       success,
       error
@@ -2565,10 +2192,7 @@ theMovieDb.tvSeasons = {
   getCredits: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "season_number",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["season_number", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2589,10 +2213,7 @@ theMovieDb.tvSeasons = {
   getExternalIds: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "season_number",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["season_number", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2613,10 +2234,7 @@ theMovieDb.tvSeasons = {
   getImages: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "season_number",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["season_number", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2637,10 +2255,7 @@ theMovieDb.tvSeasons = {
   getVideos: function (options, success, error) {
     "use strict";
 
-    theMovieDb.common.validateRequired(arguments, 3, options, [
-      "season_number",
-      "id",
-    ]);
+    theMovieDb.common.validateRequired(arguments, 3, options, ["season_number", "id"]);
 
     theMovieDb.common.validateCallbacks(success, error);
 
@@ -2696,11 +2311,7 @@ theMovieDb.tvEpisodes = {
 
     theMovieDb.common.client(
       {
-        url:
-          "tv/episode/" +
-          options.id +
-          "/changes" +
-          theMovieDb.common.generateQuery(options),
+        url: "tv/episode/" + options.id + "/changes" + theMovieDb.common.generateQuery(options),
       },
       success,
       error

@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import { useSignals } from "@preact/signals-react/runtime";
 import { InfoIcon } from "@primer/octicons-react";
+import { useEffect, useState } from "react";
+import { actions, format } from "../state/signals";
 
-export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
+const EpisodeFormat = () => {
+  useSignals();
+
   const [formatHelpVisible, setFormatHelpVisible] = useState(false);
-  const [inputFormat, setInputFormat] = useState(format);
+  const [inputFormat, setInputFormat] = useState(format.value);
+
+  // Keep input in sync with signal
+  useEffect(() => {
+    setInputFormat(format.value);
+  }, []);
 
   const checkReturn = (e) => {
     updateFormat(e);
-    if (e.nativeEvent.keyCode == 13) {
+    if (e.nativeEvent.keyCode === 13) {
       dispatchNewFormat();
     }
   };
@@ -17,7 +26,7 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
   };
 
   const dispatchNewFormat = () => {
-    setEpisodeFormat(inputFormat);
+    actions.setEpisodeFormat(inputFormat);
   };
 
   const toggleFormatHelp = () => {
@@ -30,7 +39,7 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
     const newFormat = formatString + text;
 
     setInputFormat(newFormat);
-    dispatchNewFormat();
+    actions.setEpisodeFormat(newFormat);
   };
 
   return (
@@ -51,55 +60,53 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
           />
         </th>
         <th className="col-1">
-          <span
+          <button
+            type="button"
+            className="btn btn-link p-0"
             onClick={toggleFormatHelp}
             style={{
               color: "blue",
-              cursor: "pointer",
               left: "-0.5em",
               position: "relative",
             }}
           >
             <InfoIcon size="medium" />
-          </span>
+          </button>
         </th>
       </tr>
-      <tr
-        style={{ display: formatHelpVisible ? "flex" : "none" }}
-        className="row"
-      >
+      <tr style={{ display: formatHelpVisible ? "flex" : "none" }} className="row">
         <th className="col-3">&nbsp;</th>
         <th className="col-8">
           <div className="alert alert-info">
             <ul className="flat help-text">
               <li>
                 <p>
-                  The field above controls how the episode names are formatted.
-                  You can use these variables to insert episode data:
+                  The field above controls how the episode names are formatted. You can use these
+                  variables to insert episode data:
                 </p>
               </li>
               <li>
-                <a className="pointer" onClick={insertVariable}>
+                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
                   (show)
-                </a>{" "}
+                </button>{" "}
                 The name of the show
               </li>
               <li>
-                <a className="pointer" onClick={insertVariable}>
+                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
                   (season)
-                </a>{" "}
+                </button>{" "}
                 The season number
               </li>
               <li>
-                <a className="pointer" onClick={insertVariable}>
+                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
                   (episode)
-                </a>{" "}
+                </button>{" "}
                 The episode number
               </li>
               <li>
-                <a className="pointer" onClick={insertVariable}>
+                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
                   (title)
-                </a>{" "}
+                </button>{" "}
                 The episode name
               </li>
               <li>
@@ -116,3 +123,5 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
     </thead>
   );
 };
+
+export default EpisodeFormat;

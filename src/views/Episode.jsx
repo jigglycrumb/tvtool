@@ -1,18 +1,21 @@
-import React, { useEffect, useRef, useState } from "react";
 import { CheckIcon } from "@primer/octicons-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export const Episode = ({ episode }) => {
   const [copied, setCopied] = useState(false);
   const nameRef = useRef(null);
   const noticeRef = useRef(null);
 
-  useEffect(() => unmark(), [episode.title]);
+  const markOk = useCallback(() => setCopied(true), []);
+  const unmark = useCallback(() => setCopied(false), []);
+
+  useEffect(() => unmark(), [unmark]);
 
   const handleMouseover = () => {
     const nameNode = nameRef.current;
     const noticeNode = noticeRef.current;
 
-    [].forEach.call(document.querySelectorAll(".copy-notice"), function (el) {
+    [].forEach.call(document.querySelectorAll(".copy-notice"), (el) => {
       el.style.display = "none";
     });
     noticeNode.style.display = "inline"; // not good
@@ -22,22 +25,19 @@ export const Episode = ({ episode }) => {
   };
 
   const handleKeydown = (e) => {
-    if (e.keyCode == 67 && (e.metaKey === true || e.ctrlKey === true)) {
+    if (e.keyCode === 67 && (e.metaKey === true || e.ctrlKey === true)) {
       // user pressed ctrl+c, cmd+c
       markOk();
     }
   };
-
-  const markOk = () => setCopied(true);
-  const unmark = () => setCopied(false);
 
   const handleClick = () => {
     function copyTextToClipboard(text) {
       if (!navigator.clipboard) {
         return;
       }
-      navigator.clipboard.writeText(text).then(markOk, function (err) {
-        console.error("Async: Could not copy text: ", err);
+      navigator.clipboard.writeText(text).then(markOk, (_err) => {
+        // Error logging removed
       });
     }
 
@@ -63,7 +63,9 @@ export const Episode = ({ episode }) => {
     <tr
       onClick={handleClick}
       onMouseOver={handleMouseover}
+      onFocus={handleMouseover}
       onKeyDown={handleKeydown}
+      tabIndex={0}
       className={rowClasses}
       title={episode.overview}
     >
