@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import theMovieDb from "../tmdb";
-import TvShowContainer from "../containers/TvShowContainer";
+import TvShow from "./TvShow";
 import { NoImage } from "./NoImage";
+import { show as showSignal, searchQuery, searchResults, actions } from "../state/signals";
 
 const thumbnailWidth = 200;
 const backdropWidth = 500;
@@ -16,27 +17,50 @@ const setBackdrop = backdrop => {
   }
 };
 
-export const Search = ({ query, results, searchTmdb, selectShow, show }) => {
+const Search = () => {
   const searchInputRef = useRef(null);
+  const [localQuery, setLocalQuery] = useState("");
 
-  const checkReturn = e => {
-    if (e.nativeEvent.keyCode === 13) {
-      if (results.length === 1) clearInputAndselectShow(results[0]);
+  const searchTmdb = query => {
+    setLocalQuery(query);
+    document.querySelector(".backdrop").style.backgroundImage = "none";
+    if (query.length > 1) {
+      const encodedQuery = encodeURIComponent(query);
+      theMovieDb.search.getTv(
+        { query: encodedQuery },
+        json => {
+          const data = JSON.parse(json);
+          actions.searchSuccess(encodedQuery, data.results);
+        },
+        json => {
+          const data = JSON.parse(json);
+          console.error("Search.searchError", data);
+        }
+      );
+    } else {
+      actions.searchSuccess("", []);
     }
   };
 
-  const clearInputAndselectShow = result => {
+  const checkReturn = e => {
+    if (e.nativeEvent.keyCode === 13) {
+      if (searchResults.value.length === 1) clearInputAndSelectShow(searchResults.value[0]);
+    }
+  };
+
+  const clearInputAndSelectShow = result => {
     searchInputRef.current.value = "";
+    setLocalQuery("");
     setBackdrop(result.backdrop_path);
-    selectShow(result.id);
+    actions.selectShow(result.id);
   };
 
   let resultList = "";
 
-  if (show === null && results.length > 0) {
+  if (showSignal.value === null && searchResults.value.length > 0) {
     resultList = (
       <ul className="list-inline">
-        {results.map(function (result) {
+        {searchResults.value.map(result => {
           const img =
             result.poster_path === null ? (
               <div
@@ -64,15 +88,15 @@ export const Search = ({ query, results, searchTmdb, selectShow, show }) => {
               key={result.id}
               className="search-result"
               onMouseOver={() => setBackdrop(result.backdrop_path)}
-              onClick={() => clearInputAndselectShow(result)}
+              onClick={() => clearInputAndSelectShow(result)}
             >
               {img}
             </li>
           );
-        }, this)}
+        })}
       </ul>
     );
-  } else if (show === null && results.length === 0 && query.length > 0) {
+  } else if (showSignal.value === null && searchResults.value.length === 0 && searchQuery.value.length > 0) {
     resultList = (
       <p className="alert alert-info">
         No shows found. Please enter the full name of the show you are looking
@@ -98,7 +122,9 @@ export const Search = ({ query, results, searchTmdb, selectShow, show }) => {
           {resultList}
         </div>
       </div>
-      {show && <TvShowContainer show={show} />}
+      {showSignal.value && <TvShow showId={showSignal.value} />}
     </div>
   );
 };
+
+export default Search;

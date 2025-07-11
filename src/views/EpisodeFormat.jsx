@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { InfoIcon } from "@primer/octicons-react";
+import { format, actions } from "../state/signals";
 
-export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
+const EpisodeFormat = () => {
   const [formatHelpVisible, setFormatHelpVisible] = useState(false);
-  const [inputFormat, setInputFormat] = useState(format);
+  const [inputFormat, setInputFormat] = useState(format.value);
+
+  // Keep input in sync with signal
+  useEffect(() => {
+    setInputFormat(format.value);
+  }, [format.value]);
 
   const checkReturn = (e) => {
     updateFormat(e);
-    if (e.nativeEvent.keyCode == 13) {
+    if (e.nativeEvent.keyCode === 13) {
       dispatchNewFormat();
     }
   };
@@ -17,7 +23,7 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
   };
 
   const dispatchNewFormat = () => {
-    setEpisodeFormat(inputFormat);
+    actions.setEpisodeFormat(inputFormat);
   };
 
   const toggleFormatHelp = () => {
@@ -30,7 +36,7 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
     const newFormat = formatString + text;
 
     setInputFormat(newFormat);
-    dispatchNewFormat();
+    actions.setEpisodeFormat(newFormat);
   };
 
   return (
@@ -116,3 +122,5 @@ export const EpisodeFormat = ({ format, setEpisodeFormat }) => {
     </thead>
   );
 };
+
+export default EpisodeFormat;

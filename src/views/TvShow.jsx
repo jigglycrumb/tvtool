@@ -1,53 +1,66 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import theMovieDb from "../tmdb";
-
-import TvShowLanguageContainer from "../containers/TvShowLanguageContainer";
-import EpisodeListContainer from "../containers/EpisodeListContainer";
-
 import { InfoIcon } from "@primer/octicons-react";
+import { 
+  show as showSignal, 
+  showInfo, 
+  season, 
+  space, 
+  zerofill, 
+  filterChars,
+  language, 
+  actions 
+} from "../state/signals";
+import TvShowLanguage from "./TvShowLanguage";
+import EpisodeList from "./EpisodeList";
 
 const posterWidth = 300;
 const backdropWidth = 500;
 
-export const TvShow = ({
-  info,
-  season,
-  selectSeason,
-  setSpaceReplacement,
-  setZerofill,
-  show,
-  space,
-  zerofill,
-  filterChars,
-  toggleFilterChars,
-}) => {
+const TvShow = ({ showId }) => {
   const [zerofillhelpVisible, setZerofillhelpVisible] = useState(false);
   const [filtercharshelpVisible, setFiltercharshelpVisible] = useState(false);
 
-  if (show === null) return <span />;
+  useEffect(() => {
+    if (showId !== null) {
+      theMovieDb.tv.getById(
+        { id: showId, language: language.value },
+        (json) => {
+          const data = JSON.parse(json);
+          actions.loadShowInfoSuccess(data);
+        },
+        (json) => {
+          const data = JSON.parse(json);
+          console.error("TvShow.loadShowError", data);
+        }
+      );
+    }
+  }, [showId, language.value]);
+
+  if (showId === null) return <span />;
 
   const handleSetZerofill = (index, e) => {
-    let zf = zerofill;
+    let zf = [...zerofill.value];
     const value = parseInt(e.target.value);
 
     if (index === 0) zf = [value, zf[1]];
     else if (index == 1) zf = [zf[0], value];
 
-    setZerofill(zf);
+    actions.setZerofill(zf);
   };
 
   let backdrop = false;
   let poster = false;
 
-  if (info.backdrop_path !== null)
+  if (showInfo.value.backdrop_path !== null)
     backdrop =
-      theMovieDb.common.images_uri + `w${backdropWidth}` + info.backdrop_path;
+      theMovieDb.common.images_uri + `w${backdropWidth}` + showInfo.value.backdrop_path;
 
-  if (info.poster_path !== null)
+  if (showInfo.value.poster_path !== null)
     poster =
-      theMovieDb.common.images_uri + `w${posterWidth}` + info.poster_path;
+      theMovieDb.common.images_uri + `w${posterWidth}` + showInfo.value.poster_path;
 
-  // TODO this should be an effect or similar
+  // Set backdrop image
   if (backdrop)
     document.querySelector(".backdrop").style.backgroundImage =
       "url(" + backdrop + ")";
@@ -63,10 +76,12 @@ export const TvShow = ({
       <img alt="Show poster" className="img-thumbnail" src={poster} />
     );
 
-  const yearStart = info.first_air_date
-    ? info.first_air_date.split("-")[0]
+  const yearStart = showInfo.value.first_air_date
+    ? showInfo.value.first_air_date.split("-")[0]
     : "";
-  const yearEnd = info.last_air_date ? info.last_air_date.split("-")[0] : "";
+  const yearEnd = showInfo.value.last_air_date 
+    ? showInfo.value.last_air_date.split("-")[0] 
+    : "";
 
   return (
     <div>
@@ -74,18 +89,18 @@ export const TvShow = ({
       <div className="row">
         <div className="col-3">{posterStr}</div>
         <div className="col-9">
-          <h2>{info.name}</h2>
+          <h2>{showInfo.value.name}</h2>
           <h6>
             {yearStart}-{yearEnd}
           </h6>
           <ul className="flat">
             <li>
               <strong>
-                {info.number_of_seasons} seasons, {info.number_of_episodes}{" "}
+                {showInfo.value.number_of_seasons} seasons, {showInfo.value.number_of_episodes}{" "}
                 episodes
               </strong>
             </li>
-            <li>{info.overview}</li>
+            <li>{showInfo.value.overview}</li>
           </ul>
         </div>
       </div>
@@ -98,7 +113,7 @@ export const TvShow = ({
           <h6>Language</h6>
         </div>
         <div className="col-8">
-          <TvShowLanguageContainer />
+          <TvShowLanguage />
         </div>
       </div>
 
@@ -110,21 +125,22 @@ export const TvShow = ({
         <div className="col-8">
           <select
             className="form-control"
-            onChange={(event) => selectSeason(event.target.value)}
-            defaultValue={season}
+            onChange={(event) => actions.selectSeason(event.target.value)}
+            value={season.value}
           >
-            {info.seasons.map(function (season) {
-              if (season.season_number > 0) {
+            {showInfo.value.seasons.map(seasonItem => {
+              if (seasonItem.season_number > 0) {
                 return (
                   <option
-                    key={"show-season-" + season.season_number}
-                    value={season.season_number}
+                    key={"show-season-" + seasonItem.season_number}
+                    value={seasonItem.season_number}
                   >
-                    {season.season_number}
+                    {seasonItem.season_number}
                   </option>
                 );
               }
-            }, this)}
+              return null;
+            })}
           </select>
         </div>
       </div>
@@ -143,7 +159,7 @@ export const TvShow = ({
             min="0"
             max="3"
             className="form-control"
-            defaultValue={zerofill[0]}
+            value={zerofill.value[0]}
             onChange={(e) => handleSetZerofill(0, e)}
           />
         </div>
@@ -156,7 +172,7 @@ export const TvShow = ({
             min="0"
             max="3"
             className="form-control"
-            defaultValue={zerofill[1]}
+            value={zerofill.value[1]}
             onChange={(e) => handleSetZerofill(1, e)}
           />
         </div>
@@ -192,8 +208,8 @@ export const TvShow = ({
             type="text"
             className="form-control"
             maxLength="1"
-            defaultValue={space}
-            onChange={(e) => setSpaceReplacement(e.target.value)}
+            value={space.value}
+            onChange={(e) => actions.setSpaceReplacement(e.target.value)}
           />
         </div>
         <div className="col-9" />
@@ -207,8 +223,8 @@ export const TvShow = ({
         <div className="col-2">
           <input
             type="checkbox"
-            defaultValue={filterChars}
-            onChange={(e) => toggleFilterChars(e.target.checked)}
+            checked={filterChars.value}
+            onChange={(e) => actions.toggleFilterChars(e.target.checked)}
           />
         </div>
 
@@ -240,7 +256,9 @@ export const TvShow = ({
         </div>
       </div>
 
-      <EpisodeListContainer />
+      <EpisodeList />
     </div>
   );
 };
+
+export default TvShow;
