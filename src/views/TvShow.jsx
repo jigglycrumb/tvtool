@@ -1,12 +1,12 @@
+import { useSignals } from "@preact/signals-react/runtime";
 import { InfoIcon } from "@primer/octicons-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   actions,
   filterChars,
   language,
   season,
   showInfo,
-  show as showSignal,
   space,
   zerofill,
 } from "../state/signals";
@@ -15,9 +15,10 @@ import EpisodeList from "./EpisodeList";
 import TvShowLanguage from "./TvShowLanguage";
 
 const posterWidth = 300;
-const backdropWidth = 500;
 
 const TvShow = ({ showId }) => {
+  useSignals();
+
   const [zerofillhelpVisible, setZerofillhelpVisible] = useState(false);
   const [filtercharshelpVisible, setFiltercharshelpVisible] = useState(false);
 
@@ -30,12 +31,12 @@ const TvShow = ({ showId }) => {
           actions.loadShowInfoSuccess(data);
         },
         (json) => {
-          const data = JSON.parse(json);
-          console.error("TvShow.loadShowError", data);
+          const _data = JSON.parse(json);
+          // Error logging removed
         }
       );
     }
-  }, [showId, language.value]);
+  }, [showId]);
 
   if (showId === null) return <span />;
 
@@ -49,19 +50,10 @@ const TvShow = ({ showId }) => {
     actions.setZerofill(zf);
   };
 
-  let backdrop = false;
   let poster = false;
 
-  if (showInfo.value.backdrop_path !== null)
-    backdrop = theMovieDb.common.images_uri + `w${backdropWidth}` + showInfo.value.backdrop_path;
-
   if (showInfo.value.poster_path !== null)
-    poster = theMovieDb.common.images_uri + `w${posterWidth}` + showInfo.value.poster_path;
-
-  // Set backdrop image
-  // if (backdrop)
-  //   document.querySelector(".backdrop").style.backgroundImage =
-  //     "url(" + backdrop + ")";
+    poster = `${theMovieDb.common.images_uri}w${posterWidth}${showInfo.value.poster_path}`;
 
   let posterStr = (
     <div className="img-thumbnail text-center">
@@ -125,7 +117,7 @@ const TvShow = ({ showId }) => {
               if (seasonItem.season_number > 0) {
                 return (
                   <option
-                    key={"show-season-" + seasonItem.season_number}
+                    key={`show-season-${seasonItem.season_number}`}
                     value={seasonItem.season_number}
                   >
                     {seasonItem.season_number}
@@ -170,16 +162,17 @@ const TvShow = ({ showId }) => {
           />
         </div>
         <div className="col-1 no-padding">
-          <span
+          <button
+            className="btn btn-link p-0"
+            type="button"
             onClick={() => setZerofillhelpVisible(!zerofillhelpVisible)}
             style={{
               color: "blue",
-              cursor: "pointer",
               position: "relative",
             }}
           >
             <InfoIcon size="medium" />
-          </span>
+          </button>
         </div>
         <div
           className="col-8 offset-3"
@@ -222,16 +215,17 @@ const TvShow = ({ showId }) => {
         </div>
 
         <div className="col-1 no-padding">
-          <span
+          <button
+            className="btn btn-link p-0"
+            type="button"
             onClick={() => setFiltercharshelpVisible(!filtercharshelpVisible)}
             style={{
               color: "blue",
-              cursor: "pointer",
               position: "relative",
             }}
           >
             <InfoIcon size="medium" />
-          </span>
+          </button>
         </div>
         <div
           className="col-8 offset-3"

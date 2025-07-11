@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useSignals } from "@preact/signals-react/runtime";
 import { InfoIcon } from "@primer/octicons-react";
-import { format, actions } from "../state/signals";
+import { useEffect, useState } from "react";
+import { actions, format } from "../state/signals";
 
 const EpisodeFormat = () => {
+  useSignals();
+
   const [formatHelpVisible, setFormatHelpVisible] = useState(false);
   const [inputFormat, setInputFormat] = useState(format.value);
 
   // Keep input in sync with signal
   useEffect(() => {
     setInputFormat(format.value);
-  }, [format.value]);
+  }, []);
 
   const checkReturn = (e) => {
     updateFormat(e);
@@ -57,17 +60,18 @@ const EpisodeFormat = () => {
           />
         </th>
         <th className="col-1">
-          <span
+          <button
+            type="button"
+            className="btn btn-link p-0"
             onClick={toggleFormatHelp}
             style={{
               color: "blue",
-              cursor: "pointer",
               left: "-0.5em",
               position: "relative",
             }}
           >
             <InfoIcon size="medium" />
-          </span>
+          </button>
         </th>
       </tr>
       <tr style={{ display: formatHelpVisible ? "flex" : "none" }} className="row">
@@ -82,27 +86,27 @@ const EpisodeFormat = () => {
                 </p>
               </li>
               <li>
-                <a className="pointer" onClick={insertVariable}>
+                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
                   (show)
-                </a>{" "}
+                </button>{" "}
                 The name of the show
               </li>
               <li>
-                <a className="pointer" onClick={insertVariable}>
+                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
                   (season)
-                </a>{" "}
+                </button>{" "}
                 The season number
               </li>
               <li>
-                <a className="pointer" onClick={insertVariable}>
+                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
                   (episode)
-                </a>{" "}
+                </button>{" "}
                 The episode number
               </li>
               <li>
-                <a className="pointer" onClick={insertVariable}>
+                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
                   (title)
-                </a>{" "}
+                </button>{" "}
                 The episode name
               </li>
               <li>

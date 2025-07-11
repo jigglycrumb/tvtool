@@ -1,28 +1,20 @@
-import React, { useRef, useState } from "react";
+import { useSignals } from "@preact/signals-react/runtime";
+import { useRef, useState } from "react";
+import { actions, searchQuery, searchResults, show as showSignal } from "../state/signals";
 import theMovieDb from "../tmdb";
-import TvShow from "./TvShow";
 import { NoImage } from "./NoImage";
-import { show as showSignal, searchQuery, searchResults, actions } from "../state/signals";
+import TvShow from "./TvShow";
 
 const thumbnailWidth = 200;
-const backdropWidth = 500;
-
-const setBackdrop = (backdrop) => {
-  if (backdrop === null) {
-    document.querySelector(".backdrop").style.backgroundImage = "none";
-  } else {
-    var url = theMovieDb.common.images_uri + `w${backdropWidth}` + backdrop;
-    document.querySelector(".backdrop").style.backgroundImage = "url(" + url + ")";
-  }
-};
 
 const Search = () => {
+  useSignals();
+
   const searchInputRef = useRef(null);
-  const [localQuery, setLocalQuery] = useState("");
+  const [_localQuery, setLocalQuery] = useState("");
 
   const searchTmdb = (query) => {
     setLocalQuery(query);
-    document.querySelector(".backdrop").style.backgroundImage = "none";
     if (query.length > 1) {
       const encodedQuery = encodeURIComponent(query);
       theMovieDb.search.getTv(
@@ -32,8 +24,8 @@ const Search = () => {
           actions.searchSuccess(encodedQuery, data.results);
         },
         (json) => {
-          const data = JSON.parse(json);
-          console.error("Search.searchError", data);
+          const _data = JSON.parse(json);
+          // Error logging removed
         }
       );
     } else {
@@ -50,7 +42,6 @@ const Search = () => {
   const clearInputAndSelectShow = (result) => {
     searchInputRef.current.value = "";
     setLocalQuery("");
-    setBackdrop(result.backdrop_path);
     actions.selectShow(result.id);
   };
 
@@ -73,7 +64,7 @@ const Search = () => {
               <img
                 alt={result.original_name}
                 className="img-thumbnail"
-                src={theMovieDb.common.images_uri + `w${thumbnailWidth}` + result.poster_path}
+                src={`${theMovieDb.common.images_uri}w${thumbnailWidth}${result.poster_path}`}
                 title={result.original_name}
               />
             );
@@ -82,8 +73,10 @@ const Search = () => {
             <li
               key={result.id}
               className="search-result"
-              onMouseOver={() => setBackdrop(result.backdrop_path)}
               onClick={() => clearInputAndSelectShow(result)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") clearInputAndSelectShow(result);
+              }}
             >
               {img}
             </li>

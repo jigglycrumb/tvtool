@@ -1,25 +1,28 @@
-import React, { useEffect } from "react";
+import { useSignals } from "@preact/signals-react/runtime";
+import { useCallback, useEffect } from "react";
+import { actions, language, show, showTranslations } from "../state/signals";
 import theMovieDb from "../tmdb";
-import { language, show, showTranslations, actions } from "../state/signals";
 
 const TvShowLanguage = () => {
-  useEffect(() => {
-    loadTranslations(show.value);
-  }, [show.value]);
+  useSignals();
 
-  const loadTranslations = (id) => {
+  const loadTranslations = useCallback((id) => {
     if (id !== null) {
       theMovieDb.tv.getTranslations(
         { id: id },
         (json) => {
           actions.loadShowTranslationsSuccess(JSON.parse(json).translations);
         },
-        (json) => {
-          console.error("TvShowLanguage.showError", JSON.parse(json));
+        (_json) => {
+          // Error logging removed
         }
       );
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    loadTranslations(show.value);
+  }, [loadTranslations]);
 
   return (
     <select
@@ -27,9 +30,12 @@ const TvShowLanguage = () => {
       onChange={(event) => actions.selectLanguage(event.target.value)}
       value={language.value}
     >
-      {showTranslations.value.map((translation, i) => {
+      {showTranslations.value.map((translation, _i) => {
         return (
-          <option key={"show-language-" + i} value={translation.iso_639_1}>
+          <option
+            key={`show-language-${translation.iso_639_1}-${translation.iso_3166_1}`}
+            value={translation.iso_639_1}
+          >
             {translation.english_name}
           </option>
         );

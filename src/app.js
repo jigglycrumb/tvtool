@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.css";
 import theMovieDb from "./tmdb";
-import React from "react";
 import "./styles/app.css";
 import App from "./views/App";
 import { createRoot } from "react-dom/client";

@@ -1,4 +1,4 @@
-import { signal, computed, batch } from "@preact/signals";
+import { batch, computed, signal } from "@preact/signals-react";
 import initialState from "./initialState";
 
 // Create signals based on initial state
@@ -75,7 +75,7 @@ export const actions = {
 
   loadShowInfoSuccess: (info) => {
     // Guess season zerofill
-    const newZerofill = [("" + info.seasons.length).length - 1, zerofill.value[1]];
+    const newZerofill = [`${info.seasons.length}`.length - 1, zerofill.value[1]];
 
     batch(() => {
       showLoaded.value = true;
@@ -141,13 +141,13 @@ if (typeof window !== "undefined") {
   if (storedState !== null) {
     try {
       const state = JSON.parse(storedState);
-      console.info("Restored state from localStorage");
+      // State restored from localStorage
       actions.restoreState(state);
-    } catch (e) {
-      console.error("Failed to restore state from localStorage");
+    } catch (_e) {
+      // Failed to restore state from localStorage
     }
   } else {
-    console.info("Found no previous state in localStorage, using defaults");
+    // Found no previous state in localStorage, using defaults
   }
 
   // Subscribe to changes to save to localStorage
