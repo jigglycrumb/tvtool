@@ -46,7 +46,7 @@ export const actions = {
       episodes.value = state.episodes;
     });
   },
-  
+
   searchSuccess: (query, results) => {
     batch(() => {
       show.value = null;
@@ -54,15 +54,15 @@ export const actions = {
       searchResults.value = results;
     });
   },
-  
+
   selectLanguage: (newLanguage) => {
     language.value = newLanguage;
   },
-  
+
   selectSeason: (newSeason) => {
     season.value = newSeason;
   },
-  
+
   selectShow: (id) => {
     batch(() => {
       show.value = id;
@@ -72,41 +72,38 @@ export const actions = {
       searchResults.value = [];
     });
   },
-  
+
   loadShowInfoSuccess: (info) => {
     // Guess season zerofill
-    const newZerofill = [
-      ("" + info.seasons.length).length - 1,
-      zerofill.value[1],
-    ];
-    
+    const newZerofill = [("" + info.seasons.length).length - 1, zerofill.value[1]];
+
     batch(() => {
       showLoaded.value = true;
       showInfo.value = info;
       zerofill.value = newZerofill;
     });
   },
-  
+
   loadShowTranslationsSuccess: (translations) => {
     showTranslations.value = translations;
   },
-  
+
   loadEpisodesSuccess: (newEpisodes) => {
     episodes.value = newEpisodes;
   },
-  
+
   setZerofill: (newZerofill) => {
     zerofill.value = newZerofill;
   },
-  
+
   setSpaceReplacement: (newSpace) => {
     space.value = newSpace;
   },
-  
+
   setEpisodeFormat: (newFormat) => {
     format.value = newFormat;
   },
-  
+
   toggleFilterChars: (newFilterChars) => {
     filterChars.value = newFilterChars;
   },
@@ -133,12 +130,12 @@ export const saveState = () => {
     },
     episodes: episodes.value,
   };
-  
+
   localStorage.setItem("TvTool", JSON.stringify(state));
 };
 
 // Setup localStorage persistence
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   // Load state from localStorage on initialization
   const storedState = localStorage.getItem("TvTool");
   if (storedState !== null) {
@@ -154,11 +151,23 @@ if (typeof window !== 'undefined') {
   }
 
   // Subscribe to changes to save to localStorage
-  Object.values({ format, language, searchQuery, searchResults, season, show, 
-    space, zerofill, filterChars, showLoaded, showInfo, showTranslations, episodes })
-    .forEach(signal => {
-      signal.subscribe(() => {
-        saveState();
-      });
+  Object.values({
+    format,
+    language,
+    searchQuery,
+    searchResults,
+    season,
+    show,
+    space,
+    zerofill,
+    filterChars,
+    showLoaded,
+    showInfo,
+    showTranslations,
+    episodes,
+  }).forEach((signal) => {
+    signal.subscribe(() => {
+      saveState();
     });
+  });
 }

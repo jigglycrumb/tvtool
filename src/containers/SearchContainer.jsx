@@ -5,7 +5,7 @@ import theMovieDb from "../tmdb";
 import actions from "../state/actions";
 const { searchSuccess, selectShow } = actions;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     show: state.show,
     query: state.search.query,
@@ -13,10 +13,10 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     searchSuccess: (query, results) => dispatch(searchSuccess(query, results)),
-    selectShow: id => dispatch(selectShow(id, name)),
+    selectShow: (id) => dispatch(selectShow(id, name)),
   };
 };
 
@@ -38,22 +38,18 @@ class SearchContainer extends React.Component {
     );
   }
 
-  searchTmdb = query => {
+  searchTmdb = (query) => {
     document.querySelector(".backdrop").style.backgroundImage = "none";
     if (query.length > 1) {
       this.setState({ query: encodeURIComponent(query) }, () => {
-        theMovieDb.search.getTv(
-          { query: this.state.query },
-          this.searchSuccess,
-          this.searchError
-        );
+        theMovieDb.search.getTv({ query: this.state.query }, this.searchSuccess, this.searchError);
       });
     } else {
       this.props.searchSuccess("", []);
     }
   };
 
-  searchSuccess = json => {
+  searchSuccess = (json) => {
     json = JSON.parse(json);
     this.props.searchSuccess(this.state.query, json.results);
   };

@@ -28,12 +28,7 @@ const mapDispatchToProps = (dispatch) => {
 
 class EpisodeListContainer extends React.Component {
   render() {
-    return (
-      <EpisodeList
-        showLoaded={this.props.showLoaded}
-        episodes={this.props.episodes}
-      />
-    );
+    return <EpisodeList showLoaded={this.props.showLoaded} episodes={this.props.episodes} />;
   }
 
   componentDidMount() {
@@ -51,11 +46,7 @@ class EpisodeListContainer extends React.Component {
       this.props.format !== prevProps.format ||
       this.props.filterChars !== prevProps.filterChars
     ) {
-      this.loadEpisodes(
-        this.props.show,
-        this.props.season,
-        this.props.language,
-      );
+      this.loadEpisodes(this.props.show, this.props.season, this.props.language);
     }
   }
 
@@ -67,7 +58,7 @@ class EpisodeListContainer extends React.Component {
         language: language,
       },
       this.showEpisodes,
-      this.showError,
+      this.showError
     );
   }
 
@@ -84,8 +75,7 @@ class EpisodeListContainer extends React.Component {
       if (self.props.zerofill[index] > 0) {
         var pad = "",
           len = ("" + number).length;
-        for (var i = 0; i < self.props.zerofill[index] - len + 1; i++)
-          pad += "0";
+        for (var i = 0; i < self.props.zerofill[index] - len + 1; i++) pad += "0";
         number = pad + number;
       }
       return number;
@@ -94,12 +84,9 @@ class EpisodeListContainer extends React.Component {
     dict.season = zerofill(0, dict.season);
 
     function replace(text = "") {
-      text = text.replace(
-        new RegExp("[(]([a-z ]*)[)]", "gim"),
-        function (a, b) {
-          return dict[b.toLowerCase()] || a;
-        },
-      );
+      text = text.replace(new RegExp("[(]([a-z ]*)[)]", "gim"), function (a, b) {
+        return dict[b.toLowerCase()] || a;
+      });
       return text;
     }
 
@@ -152,7 +139,4 @@ class EpisodeListContainer extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(EpisodeListContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(EpisodeListContainer);

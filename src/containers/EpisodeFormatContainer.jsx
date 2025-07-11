@@ -4,15 +4,15 @@ import { EpisodeFormat } from "../views/EpisodeFormat";
 import actions from "../state/actions";
 const { setEpisodeFormat } = actions;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     format: state.format,
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
-    setEpisodeFormat: format => dispatch(setEpisodeFormat(format)),
+    setEpisodeFormat: (format) => dispatch(setEpisodeFormat(format)),
   };
 };
 

@@ -7,13 +7,12 @@ import { show as showSignal, searchQuery, searchResults, actions } from "../stat
 const thumbnailWidth = 200;
 const backdropWidth = 500;
 
-const setBackdrop = backdrop => {
+const setBackdrop = (backdrop) => {
   if (backdrop === null) {
     document.querySelector(".backdrop").style.backgroundImage = "none";
   } else {
     var url = theMovieDb.common.images_uri + `w${backdropWidth}` + backdrop;
-    document.querySelector(".backdrop").style.backgroundImage =
-      "url(" + url + ")";
+    document.querySelector(".backdrop").style.backgroundImage = "url(" + url + ")";
   }
 };
 
@@ -21,18 +20,18 @@ const Search = () => {
   const searchInputRef = useRef(null);
   const [localQuery, setLocalQuery] = useState("");
 
-  const searchTmdb = query => {
+  const searchTmdb = (query) => {
     setLocalQuery(query);
     document.querySelector(".backdrop").style.backgroundImage = "none";
     if (query.length > 1) {
       const encodedQuery = encodeURIComponent(query);
       theMovieDb.search.getTv(
         { query: encodedQuery },
-        json => {
+        (json) => {
           const data = JSON.parse(json);
           actions.searchSuccess(encodedQuery, data.results);
         },
-        json => {
+        (json) => {
           const data = JSON.parse(json);
           console.error("Search.searchError", data);
         }
@@ -42,13 +41,13 @@ const Search = () => {
     }
   };
 
-  const checkReturn = e => {
+  const checkReturn = (e) => {
     if (e.nativeEvent.keyCode === 13) {
       if (searchResults.value.length === 1) clearInputAndSelectShow(searchResults.value[0]);
     }
   };
 
-  const clearInputAndSelectShow = result => {
+  const clearInputAndSelectShow = (result) => {
     searchInputRef.current.value = "";
     setLocalQuery("");
     setBackdrop(result.backdrop_path);
@@ -60,7 +59,7 @@ const Search = () => {
   if (showSignal.value === null && searchResults.value.length > 0) {
     resultList = (
       <ul className="list-inline">
-        {searchResults.value.map(result => {
+        {searchResults.value.map((result) => {
           const img =
             result.poster_path === null ? (
               <div
@@ -74,11 +73,7 @@ const Search = () => {
               <img
                 alt={result.original_name}
                 className="img-thumbnail"
-                src={
-                  theMovieDb.common.images_uri +
-                  `w${thumbnailWidth}` +
-                  result.poster_path
-                }
+                src={theMovieDb.common.images_uri + `w${thumbnailWidth}` + result.poster_path}
                 title={result.original_name}
               />
             );
@@ -96,11 +91,14 @@ const Search = () => {
         })}
       </ul>
     );
-  } else if (showSignal.value === null && searchResults.value.length === 0 && searchQuery.value.length > 0) {
+  } else if (
+    showSignal.value === null &&
+    searchResults.value.length === 0 &&
+    searchQuery.value.length > 0
+  ) {
     resultList = (
       <p className="alert alert-info">
-        No shows found. Please enter the full name of the show you are looking
-        for.
+        No shows found. Please enter the full name of the show you are looking for.
       </p>
     );
   }
@@ -115,7 +113,7 @@ const Search = () => {
               type="text"
               className="form-control form-control-lg"
               placeholder="Enter tv show name"
-              onChange={e => searchTmdb(e.target.value)}
+              onChange={(e) => searchTmdb(e.target.value)}
               onKeyDown={checkReturn}
             />
           </div>

@@ -3,13 +3,8 @@ import { connect } from "react-redux";
 import theMovieDb from "../tmdb";
 import { TvShow } from "../views/TvShow";
 import actions from "../state/actions";
-const {
-  loadShowInfoSuccess,
-  setZerofill,
-  setSpaceReplacement,
-  selectSeason,
-  toggleFilterChars,
-} = actions;
+const { loadShowInfoSuccess, setZerofill, setSpaceReplacement, selectSeason, toggleFilterChars } =
+  actions;
 
 const mapStateToProps = (state) => {
   return {
@@ -29,8 +24,7 @@ const mapDispatchToProps = (dispatch) => {
     setZerofill: (zerofill) => dispatch(setZerofill(zerofill)),
     setSpaceReplacement: (space) => dispatch(setSpaceReplacement(space)),
     selectSeason: (season) => dispatch(selectSeason(season)),
-    toggleFilterChars: (filterChars) =>
-      dispatch(toggleFilterChars(filterChars)),
+    toggleFilterChars: (filterChars) => dispatch(toggleFilterChars(filterChars)),
   };
 };
 
@@ -58,10 +52,7 @@ class TvShowContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.show !== prevProps.show ||
-      this.props.language !== prevProps.language
-    ) {
+    if (this.props.show !== prevProps.show || this.props.language !== prevProps.language) {
       this.loadShow(this.props.show, this.props.language);
     }
   }
@@ -71,7 +62,7 @@ class TvShowContainer extends React.Component {
       theMovieDb.tv.getById(
         { id: id, language: language },
         this.loadShowSuccess,
-        this.loadShowError,
+        this.loadShowError
       );
     }
   }

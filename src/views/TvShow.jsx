@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import theMovieDb from "../tmdb";
 import { InfoIcon } from "@primer/octicons-react";
-import { 
-  show as showSignal, 
-  showInfo, 
-  season, 
-  space, 
-  zerofill, 
+import React, { useEffect, useState } from "react";
+import {
+  actions,
   filterChars,
-  language, 
-  actions 
+  language,
+  season,
+  showInfo,
+  show as showSignal,
+  space,
+  zerofill,
 } from "../state/signals";
-import TvShowLanguage from "./TvShowLanguage";
+import theMovieDb from "../tmdb";
 import EpisodeList from "./EpisodeList";
+import TvShowLanguage from "./TvShowLanguage";
 
 const posterWidth = 300;
 const backdropWidth = 500;
@@ -44,7 +44,7 @@ const TvShow = ({ showId }) => {
     const value = parseInt(e.target.value);
 
     if (index === 0) zf = [value, zf[1]];
-    else if (index == 1) zf = [zf[0], value];
+    else if (index === 1) zf = [zf[0], value];
 
     actions.setZerofill(zf);
   };
@@ -53,17 +53,15 @@ const TvShow = ({ showId }) => {
   let poster = false;
 
   if (showInfo.value.backdrop_path !== null)
-    backdrop =
-      theMovieDb.common.images_uri + `w${backdropWidth}` + showInfo.value.backdrop_path;
+    backdrop = theMovieDb.common.images_uri + `w${backdropWidth}` + showInfo.value.backdrop_path;
 
   if (showInfo.value.poster_path !== null)
-    poster =
-      theMovieDb.common.images_uri + `w${posterWidth}` + showInfo.value.poster_path;
+    poster = theMovieDb.common.images_uri + `w${posterWidth}` + showInfo.value.poster_path;
 
   // Set backdrop image
-  if (backdrop)
-    document.querySelector(".backdrop").style.backgroundImage =
-      "url(" + backdrop + ")";
+  // if (backdrop)
+  //   document.querySelector(".backdrop").style.backgroundImage =
+  //     "url(" + backdrop + ")";
 
   let posterStr = (
     <div className="img-thumbnail text-center">
@@ -71,17 +69,12 @@ const TvShow = ({ showId }) => {
     </div>
   );
 
-  if (poster)
-    posterStr = (
-      <img alt="Show poster" className="img-thumbnail" src={poster} />
-    );
+  if (poster) posterStr = <img alt="Show poster" className="img-thumbnail" src={poster} />;
 
   const yearStart = showInfo.value.first_air_date
     ? showInfo.value.first_air_date.split("-")[0]
     : "";
-  const yearEnd = showInfo.value.last_air_date 
-    ? showInfo.value.last_air_date.split("-")[0] 
-    : "";
+  const yearEnd = showInfo.value.last_air_date ? showInfo.value.last_air_date.split("-")[0] : "";
 
   return (
     <div>
@@ -128,7 +121,7 @@ const TvShow = ({ showId }) => {
             onChange={(event) => actions.selectSeason(event.target.value)}
             value={season.value}
           >
-            {showInfo.value.seasons.map(seasonItem => {
+            {showInfo.value.seasons.map((seasonItem) => {
               if (seasonItem.season_number > 0) {
                 return (
                   <option

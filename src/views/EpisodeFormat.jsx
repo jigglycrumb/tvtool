@@ -70,18 +70,15 @@ const EpisodeFormat = () => {
           </span>
         </th>
       </tr>
-      <tr
-        style={{ display: formatHelpVisible ? "flex" : "none" }}
-        className="row"
-      >
+      <tr style={{ display: formatHelpVisible ? "flex" : "none" }} className="row">
         <th className="col-3">&nbsp;</th>
         <th className="col-8">
           <div className="alert alert-info">
             <ul className="flat help-text">
               <li>
                 <p>
-                  The field above controls how the episode names are formatted.
-                  You can use these variables to insert episode data:
+                  The field above controls how the episode names are formatted. You can use these
+                  variables to insert episode data:
                 </p>
               </li>
               <li>

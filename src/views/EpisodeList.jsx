@@ -3,18 +3,18 @@ import theMovieDb from "../tmdb";
 import { Episode } from "./Episode";
 import { CopyAllButton } from "./CopyAllButton";
 import EpisodeFormat from "./EpisodeFormat";
-import { 
-  show, 
-  showLoaded, 
-  season, 
-  language, 
-  space, 
-  zerofill, 
-  format, 
-  showInfo, 
-  episodes, 
-  filterChars, 
-  actions 
+import {
+  show,
+  showLoaded,
+  season,
+  language,
+  space,
+  zerofill,
+  format,
+  showInfo,
+  episodes,
+  filterChars,
+  actions,
 } from "../state/signals";
 
 const EpisodeList = () => {
@@ -28,7 +28,7 @@ const EpisodeList = () => {
     space.value,
     zerofill.value,
     format.value,
-    filterChars.value
+    filterChars.value,
   ]);
 
   const loadEpisodes = (showId, seasonNumber, languageCode) => {
@@ -58,8 +58,7 @@ const EpisodeList = () => {
       if (zerofill.value[index] > 0) {
         let pad = "";
         const len = ("" + number).length;
-        for (let i = 0; i < zerofill.value[index] - len + 1; i++)
-          pad += "0";
+        for (let i = 0; i < zerofill.value[index] - len + 1; i++) pad += "0";
         number = pad + number;
       }
       return number;
@@ -68,12 +67,9 @@ const EpisodeList = () => {
     dict.season = zerofillNumber(0, dict.season);
 
     function replace(text = "") {
-      text = text.replace(
-        new RegExp("[(]([a-z ]*)[)]", "gim"),
-        (a, b) => {
-          return dict[b.toLowerCase()] || a;
-        }
-      );
+      text = text.replace(new RegExp("[(]([a-z ]*)[)]", "gim"), (a, b) => {
+        return dict[b.toLowerCase()] || a;
+      });
       return text;
     }
 

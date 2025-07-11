@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import actions from "../state/actions";
 const { selectLanguage, loadShowTranslationsSuccess } = actions;
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     show: state.show,
     language: state.language,
@@ -22,7 +22,7 @@ class TvShowLanguageContainer extends React.Component {
     return (
       <select
         className="form-control"
-        onChange={event => this.props.selectLanguage(event.target.value)}
+        onChange={(event) => this.props.selectLanguage(event.target.value)}
         defaultValue={this.props.language}
       >
         {this.props.translations.map(function (translation, i) {
@@ -48,15 +48,11 @@ class TvShowLanguageContainer extends React.Component {
 
   loadTranslations(id) {
     if (id !== null) {
-      theMovieDb.tv.getTranslations(
-        { id: id },
-        this.showTranslations,
-        this.showError
-      );
+      theMovieDb.tv.getTranslations({ id: id }, this.showTranslations, this.showError);
     }
   }
 
-  showTranslations = json => {
+  showTranslations = (json) => {
     this.props.loadShowTranslationsSuccess(JSON.parse(json).translations);
   };
 
@@ -69,7 +65,4 @@ class TvShowLanguageContainer extends React.Component {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TvShowLanguageContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(TvShowLanguageContainer);

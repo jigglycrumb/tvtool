@@ -6,10 +6,15 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "biome lint ./src",
+    "lint:fix": "biome check --apply-unsafe ./src",
+    "format": "biome format ./src",
+    "format:fix": "biome format --write ./src"
   },
   "license": "ISC",
   "devDependencies": {
+    "@biomejs/biome": "^2.1.1",
     "@vitejs/plugin-react": "^4.6.0",
     "vite": "^7.0.4"
   },
