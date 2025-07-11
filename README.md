@@ -13,8 +13,11 @@ There is no need to install anything, you can use it directly at [http://jigglyc
 
 ### Development
 
-- Run dev server: `npm start`
-- Build: `npm run build`
+- `npm run dev` - Starts the development server with hot reloading
+- `npm run build` - Creates a production build
+- `npm run preview` - Serves the production build locally
+
+The development server is accessible at http://localhost:3000/
 
 ### Deployment
 

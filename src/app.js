@@ -1,7 +1,7 @@
-import bootstrap from "bootstrap/dist/css/bootstrap";
+import "bootstrap/dist/css/bootstrap.css";
 import theMovieDb from "./tmdb";
 import React from "react";
-import styles from "./styles/app";
+import "./styles/app.css";
 import App from "./views/App";
 import store from "./state/store";
 import { Provider, connect } from "react-redux";
