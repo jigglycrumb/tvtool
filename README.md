@@ -17,7 +17,7 @@ There is no need to install anything, you can use it directly at [http://jigglyc
 - `npm run build` - Creates a production build
 - `npm run preview` - Serves the production build locally
 
-The development server is accessible at http://localhost:3000/
+The development server is accessible at http://localhost:3333/
 
 ### Deployment
 

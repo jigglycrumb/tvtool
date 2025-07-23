@@ -31,7 +31,7 @@ export const CopyAllButton = ({ episodes }) => {
   return (
     <button
       type="button"
-      className="btn btn-secondary copy-all-button"
+      className="button copy-all-button"
       onClick={handleClick}
       disabled={clicked}
     >

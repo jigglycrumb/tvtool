@@ -56,12 +56,12 @@ const TvShow = ({ showId }) => {
     poster = `${theMovieDb.common.images_uri}w${posterWidth}${showInfo.value.poster_path}`;
 
   let posterStr = (
-    <div className="img-thumbnail text-center">
+    <div className="has-text-centered box">
       <p className="no-poster">No poster available</p>
     </div>
   );
 
-  if (poster) posterStr = <img alt="Show poster" className="img-thumbnail" src={poster} />;
+  if (poster) posterStr = <img alt="Show poster" className="image" src={poster} />;
 
   const yearStart = showInfo.value.first_air_date
     ? showInfo.value.first_air_date.split("-")[0]
@@ -71,13 +71,13 @@ const TvShow = ({ showId }) => {
   return (
     <div>
       {/* Show info */}
-      <div className="row">
-        <div className="col-3">{posterStr}</div>
-        <div className="col-9">
-          <h2>{showInfo.value.name}</h2>
-          <h6>
+      <div className="columns">
+        <div className="column is-3">{posterStr}</div>
+        <div className="column is-9">
+          <p className="title">{showInfo.value.name}</p>
+          <p className="subtitle">
             {yearStart}-{yearEnd}
-          </h6>
+          </p>
           <ul className="flat">
             <li>
               <strong>
@@ -93,155 +93,175 @@ const TvShow = ({ showId }) => {
       <br />
 
       {/* Language selection */}
-      <div className="row">
-        <div className="col-3 text-right">
+      <div className="columns">
+        <div className="column is-3 has-text-right">
           <h6>Language</h6>
         </div>
-        <div className="col-8">
+        <div className="column is-8">
           <TvShowLanguage />
         </div>
       </div>
 
       {/* Season selection */}
-      <div className="row">
-        <div className="col-3 text-right">
+      <div className="columns">
+        <div className="column is-3 has-text-right">
           <h6>Season</h6>
         </div>
-        <div className="col-8">
-          <select
-            className="form-control"
-            onChange={(event) => actions.selectSeason(event.target.value)}
-            value={season.value}
-          >
-            {showInfo.value.seasons.map((seasonItem) => {
-              if (seasonItem.season_number > 0) {
-                return (
-                  <option
-                    key={`show-season-${seasonItem.season_number}`}
-                    value={seasonItem.season_number}
-                  >
-                    {seasonItem.season_number}
-                  </option>
-                );
-              }
-              return null;
-            })}
-          </select>
-        </div>
-      </div>
-
-      {/* Zerofill */}
-      <div className="row">
-        <div className="col-3 text-right">
-          <h6>Zerofill</h6>
-        </div>
-        <div className="col-2 text-right">
-          <h6>Season</h6>
-        </div>
-        <div className="col-2">
-          <input
-            type="number"
-            min="0"
-            max="3"
-            className="form-control"
-            value={zerofill.value[0]}
-            onChange={(e) => handleSetZerofill(0, e)}
-          />
-        </div>
-        <div className="col-2 text-right">
-          <h6>Episode</h6>
-        </div>
-        <div className="col-2">
-          <input
-            type="number"
-            min="0"
-            max="3"
-            className="form-control"
-            value={zerofill.value[1]}
-            onChange={(e) => handleSetZerofill(1, e)}
-          />
-        </div>
-        <div className="col-1 no-padding">
-          <button
-            className="btn btn-link p-0"
-            type="button"
-            onClick={() => setZerofillhelpVisible(!zerofillhelpVisible)}
-            style={{
-              color: "blue",
-              position: "relative",
-            }}
-          >
-            <InfoIcon size="medium" />
-          </button>
-        </div>
-        <div
-          className="col-8 offset-3"
-          style={{ display: zerofillhelpVisible ? "table-row" : "none" }}
-        >
-          <div className="alert alert-info help-text">
-            Zerofill adds leading zeroes to episode and season numbers.
+        <div className="column is-8">
+          <div className="select">
+            <select
+              onChange={(event) => actions.selectSeason(event.target.value)}
+              value={season.value}
+            >
+              {showInfo.value.seasons.map((seasonItem) => {
+                if (seasonItem.season_number > 0) {
+                  return (
+                    <option
+                      key={`show-season-${seasonItem.season_number}`}
+                      value={seasonItem.season_number}
+                    >
+                      {seasonItem.season_number}
+                    </option>
+                  );
+                }
+                return null;
+              })}
+            </select>
           </div>
         </div>
       </div>
 
+      {/* Zerofill */}
+      <div className="columns">
+        <div className="column is-3 has-text-right">
+          <h6>Zerofill</h6>
+        </div>
+        <div className="column is-1">
+          <h6>Season</h6>
+        </div>
+        <div className="column is-1">
+          <input
+            className="input"
+            type="number"
+            min="0"
+            max="3"
+            value={zerofill.value[0]}
+            onChange={(e) => handleSetZerofill(0, e)}
+          />
+        </div>
+        <div className="column is-1">
+          <button
+            className="button is-link is-small"
+            type="button"
+            onClick={() => setZerofillhelpVisible(!zerofillhelpVisible)}
+          >
+            <InfoIcon size="small" />
+          </button>
+        </div>
+      </div>
+      <div className="columns">
+        <div className="column is-1 is-offset-3">
+          <h6>Episode</h6>
+        </div>
+        <div className="column is-1">
+          <input
+            className="input"
+            type="number"
+            min="0"
+            max="3"
+            value={zerofill.value[1]}
+            onChange={(e) => handleSetZerofill(1, e)}
+          />
+        </div>
+      </div>
+
+      {zerofillhelpVisible && (
+        <div className="columns">
+          <div className="column is-8 is-offset-3">
+            <article class="message is-info">
+              <div class="message-header">
+                <p>Info</p>
+                <button
+                  type="button"
+                  class="delete"
+                  aria-label="delete"
+                  onClick={() => setZerofillhelpVisible(false)}
+                ></button>
+              </div>
+              <div class="message-body">
+                Zerofill adds leading zeroes to episode and season numbers.
+              </div>
+            </article>
+          </div>
+        </div>
+      )}
+
       {/* Space replacement */}
-      <div className="row">
-        <div className="col-3 text-right">
+      <div className="columns">
+        <div className="column is-3 has-text-right">
           <h6>Replace spaces with</h6>
         </div>
-        <div className="col-2">
+        <div className="column is-2">
           <input
+            className="input"
             type="text"
-            className="form-control"
             maxLength="1"
             value={space.value}
             onChange={(e) => actions.setSpaceReplacement(e.target.value)}
           />
         </div>
-        <div className="col-9" />
+        <div className="column is-9" />
       </div>
 
       {/* Problematic characters replacement */}
-      <div className="row">
-        <div className="col-3 text-right">
-          <h6>Filter problematic characters</h6>
-        </div>
-        <div className="col-2">
-          <input
-            type="checkbox"
-            checked={filterChars.value}
-            onChange={(e) => actions.toggleFilterChars(e.target.checked)}
-          />
-        </div>
+      <div className="columns">
+        <div className="column is-8 is-offset-3">
+          <label className="checkbox">
+            <input
+              type="checkbox"
+              checked={filterChars.value}
+              onChange={(e) => actions.toggleFilterChars(e.target.checked)}
+            />{" "}
+            Filter problematic characters
+          </label>
 
-        <div className="col-1 no-padding">
           <button
-            className="btn btn-link p-0"
+            className="button is-link is-small"
             type="button"
             onClick={() => setFiltercharshelpVisible(!filtercharshelpVisible)}
-            style={{
-              color: "blue",
-              position: "relative",
-            }}
+            style={{ marginLeft: "2em" }}
           >
-            <InfoIcon size="medium" />
+            <InfoIcon size="small" />
           </button>
         </div>
-        <div
-          className="col-8 offset-3"
-          style={{ display: filtercharshelpVisible ? "table-row" : "none" }}
-        >
-          <div className="alert alert-info help-text">
-            Replaces ' / ' with ' & '
-            <br />
-            Replaces '/' and '\' with ','
-            <br />
-            Replaces ':' with ' -'
-            <br />
-            Removes ? and !
+      </div>
+
+      {filtercharshelpVisible && (
+        <div className="columns">
+          <div className="column is-8 is-offset-3">
+            <article class="message is-info">
+              <div class="message-header">
+                <p>Info</p>
+                <button
+                  type="button"
+                  class="delete"
+                  aria-label="delete"
+                  onClick={() => setFiltercharshelpVisible(false)}
+                ></button>
+              </div>
+              <div class="message-body">
+                Replaces ' / ' with ' & '
+                <br />
+                Replaces '/' and '\' with ','
+                <br />
+                Replaces ':' with ' -'
+                <br />
+                Removes ? and !
+              </div>
+            </article>
           </div>
         </div>
-      </div>
+      )}
 
       <EpisodeList />
     </div>

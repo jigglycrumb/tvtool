@@ -25,11 +25,11 @@ const TvShowLanguage = () => {
   }, [loadTranslations]);
 
   return (
-    <select
-      className="form-control"
-      onChange={(event) => actions.selectLanguage(event.target.value)}
-      value={language.value}
-    >
+    <div className="select">
+      <select
+        onChange={(event) => actions.selectLanguage(event.target.value)}
+        value={language.value}
+      >
       {showTranslations.value.map((translation, _i) => {
         return (
           <option
@@ -40,7 +40,8 @@ const TvShowLanguage = () => {
           </option>
         );
       })}
-    </select>
+      </select>
+    </div>
   );
 };
 

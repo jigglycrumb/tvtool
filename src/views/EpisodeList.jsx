@@ -92,7 +92,15 @@ const EpisodeList = () => {
       actions.loadEpisodesSuccess(episodesList);
     },
 
-    [showInfo.value, language.value, season.value, zerofill.value, space.value, filterChars.value]
+    [
+      showInfo.value,
+      language.value,
+      season.value,
+      zerofill.value,
+      space.value,
+      filterChars.value,
+      format.value,
+    ]
   );
 
   const loadEpisodes = useCallback(
@@ -122,19 +130,18 @@ const EpisodeList = () => {
   }
 
   return (
-    <div className="row">
-      <table className="table">
-        <EpisodeFormat />
-        <tbody>
-          {episodes.value.map((episode, _index) => {
-            // Using episode title as key is safer than index
-            return <Episode key={`episode-${episode.title}`} episode={episode} />;
-          })}
-        </tbody>
-      </table>
+    <>
+      <EpisodeFormat />
 
-      <CopyAllButton episodes={episodes.value} />
-    </div>
+      {episodes.value.map((episode, _index) => {
+        // Using episode title as key is safer than index
+        return <Episode key={`episode-${episode.title}`} episode={episode} />;
+      })}
+
+      <div className="has-text-centered">
+        <CopyAllButton episodes={episodes.value} />
+      </div>
+    </>
   );
 };
 

@@ -54,48 +54,41 @@ export const Episode = ({ episode }) => {
     if (isMac) notice = "Press Cmd+C to copy";
   }
 
-  let rowClasses = "row";
-  if (copied) {
-    rowClasses += " alert alert-success";
-  }
-
   return (
-    <tr
+    <div
+      className="columns"
       onClick={handleClick}
       onMouseOver={handleMouseover}
       onFocus={handleMouseover}
       onKeyDown={handleKeydown}
       tabIndex={0}
-      className={rowClasses}
       title={episode.overview}
     >
-      <td className="col-3 text-right">
+      <div className="column is-3 has-text-right">
         <small ref={noticeRef} className="copy-notice">
-          <em className="text-muted">{notice}</em>
+          <em className="has-text-grey">{notice}</em>
         </small>
-      </td>
-      <td className="col-8">
+      </div>
+      <div className="column is-8">
         <input
           ref={nameRef}
-          className="episode form-control"
+          className={`input${copied ? " is-success" : ""}`}
           type="text"
           value={episode.title}
           readOnly
         />
-      </td>
-      <td className="col-1">
+      </div>
+      <div className="column is-1">
         {copied && (
           <span
             style={{
-              color: "seagreen",
-              left: "-0.5em",
-              position: "relative",
+              color: "var(--bulma-success)",
             }}
           >
-            <CheckIcon size="medium" />
+            <CheckIcon size="small" />
           </span>
         )}
-      </td>
-    </tr>
+      </div>
+    </div>
   );
 };

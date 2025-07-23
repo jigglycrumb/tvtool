@@ -43,84 +43,102 @@ const EpisodeFormat = () => {
   };
 
   return (
-    <thead>
-      <tr className="row">
-        <th className="col-3 text-right">
+    <>
+      <div className="columns">
+        <div className="column is-3 has-text-right">
           <h6>Episode format</h6>
-        </th>
-        <th className="col-8">
+        </div>
+        <div className="column is-8">
           <input
             id="episode-format"
             type="text"
-            className="form-control"
+            className="input"
             value={inputFormat}
             onKeyDown={checkReturn}
             onChange={updateFormat}
             onBlur={dispatchNewFormat}
           />
-        </th>
-        <th className="col-1">
-          <button
-            type="button"
-            className="btn btn-link p-0"
-            onClick={toggleFormatHelp}
-            style={{
-              color: "blue",
-              left: "-0.5em",
-              position: "relative",
-            }}
-          >
-            <InfoIcon size="medium" />
+        </div>
+        <div className="column is-1">
+          <button type="button" className="button is-link is-small" onClick={toggleFormatHelp}>
+            <InfoIcon size="small" />
           </button>
-        </th>
-      </tr>
-      <tr style={{ display: formatHelpVisible ? "flex" : "none" }} className="row">
-        <th className="col-3">&nbsp;</th>
-        <th className="col-8">
-          <div className="alert alert-info">
-            <ul className="flat help-text">
-              <li>
-                <p>
-                  The field above controls how the episode names are formatted. You can use these
-                  variables to insert episode data:
-                </p>
-              </li>
-              <li>
-                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
-                  (show)
-                </button>{" "}
-                The name of the show
-              </li>
-              <li>
-                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
-                  (season)
-                </button>{" "}
-                The season number
-              </li>
-              <li>
-                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
-                  (episode)
-                </button>{" "}
-                The episode number
-              </li>
-              <li>
-                <button type="button" className="btn btn-link p-0" onClick={insertVariable}>
-                  (title)
-                </button>{" "}
-                The episode name
-              </li>
-              <li>
-                <p>
-                  <br />
-                  Hit return to refresh the episode list when finished!
-                </p>
-              </li>
-            </ul>
+        </div>
+      </div>
+      {formatHelpVisible && (
+        <div className="columns">
+          <div className="column is-8 is-offset-3">
+            <article class="message is-info">
+              <div class="message-header">
+                <p>Info</p>
+                <button
+                  type="button"
+                  class="delete"
+                  aria-label="delete"
+                  onClick={() => setFormatHelpVisible(false)}
+                ></button>
+              </div>
+              <div class="message-body">
+                <ul className="flat">
+                  <li>
+                    <p>
+                      The field above controls how the episode names are formatted. You can use
+                      these variables to insert episode data:
+                    </p>
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      className="button is-small is-link"
+                      onClick={insertVariable}
+                    >
+                      (show)
+                    </button>{" "}
+                    The name of the show
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      className="button is-small is-link"
+                      onClick={insertVariable}
+                    >
+                      (season)
+                    </button>{" "}
+                    The season number
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      className="button is-small is-link"
+                      onClick={insertVariable}
+                    >
+                      (episode)
+                    </button>{" "}
+                    The episode number
+                  </li>
+                  <li>
+                    <button
+                      type="button"
+                      className="button is-small is-link"
+                      onClick={insertVariable}
+                    >
+                      (title)
+                    </button>{" "}
+                    The episode name
+                  </li>
+                  <li>
+                    <p>
+                      <br />
+                      Hit return to refresh the episode list when finished!
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </article>
           </div>
-        </th>
-        <th className="col-1">&nbsp;</th>
-      </tr>
-    </thead>
+        </div>
+      )}
+    </>
   );
 };
 

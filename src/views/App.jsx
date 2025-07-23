@@ -3,9 +3,11 @@ import { Header } from "./Header";
 import Search from "./Search";
 
 const App = () => (
-  <div className="app container">
-    <Header />
-    <Search />
+  <div className="app">
+    <div className="container">
+      <Header />
+      <Search />
+    </div>
     <Footer />
   </div>
 );
