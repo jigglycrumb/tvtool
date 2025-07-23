@@ -1,8 +1,8 @@
-import "bootstrap/dist/css/bootstrap.css";
+import "bulma/css/bulma.min.css";
 import theMovieDb from "./tmdb";
 import "./styles/app.css";
-import App from "./views/App";
 import { createRoot } from "react-dom/client";
+import App from "./views/App";
 import "./state/signals"; // Import signals to initialize them
 
 theMovieDb.common.api_key = "0c00851b985d8ed85c29492b352c717e";

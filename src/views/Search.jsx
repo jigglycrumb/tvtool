@@ -49,12 +49,12 @@ const Search = () => {
 
   if (showSignal.value === null && searchResults.value.length > 0) {
     resultList = (
-      <ul className="list-inline">
+      <div className="is-flex is-flex-wrap-wrap is-justify-content-center">
         {searchResults.value.map((result) => {
           const img =
             result.poster_path === null ? (
               <div
-                className="img-thumbnail text-center no-poster-search-result"
+                className="has-text-centered no-poster-search-result"
                 title={result.original_name}
               >
                 <NoImage />
@@ -63,14 +63,14 @@ const Search = () => {
             ) : (
               <img
                 alt={result.original_name}
-                className="img-thumbnail"
+                className="image"
                 src={`${theMovieDb.common.images_uri}w${thumbnailWidth}${result.poster_path}`}
                 title={result.original_name}
               />
             );
 
           return (
-            <li
+            <div
               key={result.id}
               className="search-result"
               onClick={() => clearInputAndSelectShow(result)}
@@ -79,10 +79,10 @@ const Search = () => {
               }}
             >
               {img}
-            </li>
+            </div>
           );
         })}
-      </ul>
+      </div>
     );
   } else if (
     showSignal.value === null &&
@@ -90,31 +90,32 @@ const Search = () => {
     searchQuery.value.length > 0
   ) {
     resultList = (
-      <p className="alert alert-info">
+      <p className="notification is-info">
         No shows found. Please enter the full name of the show you are looking for.
       </p>
     );
   }
 
   return (
-    <div style={{ position: "relative" }}>
-      <div className="row">
-        <div className="col-10 offset-1">
+    <>
+      <div className="columns">
+        <div className="column is-10 is-offset-1">
           <div className="search-bar">
             <input
               ref={searchInputRef}
               type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter tv show name"
+              className="input is-large"
+              placeholder="Enter show name"
               onChange={(e) => searchTmdb(e.target.value)}
               onKeyDown={checkReturn}
+              autoFocus
             />
           </div>
           {resultList}
         </div>
       </div>
       {showSignal.value && <TvShow showId={showSignal.value} />}
-    </div>
+    </>
   );
 };
 

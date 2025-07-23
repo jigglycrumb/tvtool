@@ -4,7 +4,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
 	plugins: [react()],
 	root: ".",
-	base: "./",
+	base: "/",
 	build: {
 		outDir: "docs",
 		emptyOutDir: true,
@@ -14,7 +14,7 @@ export default defineConfig({
 	},
 	server: {
 		host: true,
-		port: 3000,
+		port: 3333,
 		hot: true,
 	},
 	// Support JSX in .js files

@@ -2,8 +2,8 @@ export const Footer = () => {
   var year = new Date().getFullYear();
 
   return (
-    <footer className="row text-center text-muted">
-      <p className="col-12">
+    <footer className="footer">
+      <div className="content has-text-centered has-text-grey">
         This product uses the{" "}
         <a href="http://www.themoviedb.org/" target="_blank" rel="noopener">
           TMDb
@@ -13,11 +13,10 @@ export const Footer = () => {
           TMDb
         </a>
         .
-      </p>
-      <p className="col-12">
+        <br />
         &copy; <a href="https://github.com/jigglycrumb">jigglycrumb</a> 2014-
         {year}
-      </p>
+      </div>
     </footer>
   );
 };

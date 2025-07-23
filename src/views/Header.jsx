@@ -13,11 +13,10 @@ export const Header = () => {
     <header className="page-header">
       <div className="backdrop" style={{ backgroundImage: backdropUrl }} />
       <div className="backdrop-overlay" />
-      <h1 className="row">
-        <span className="col-10 offset-1">
-          TvTool
-          <br />
-          <small>Rename tv show episodes with ease.</small>
+      <h1 className="columns">
+        <span className="column is-10 is-offset-1">
+          <p className="title">TvTool</p>
+          <p className="subtitle">Rename tv show episodes with ease.</p>
         </span>
       </h1>
     </header>
