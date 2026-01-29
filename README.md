@@ -6,6 +6,16 @@ If you are capturing your DVD/BluRay collection or using a PVR to record series,
 
 There is no need to install anything, you can use it directly at [http://jigglycrumb.github.io/tvtool](http://jigglycrumb.github.io/tvtool)
 
+
+# NOTE
+
+This repository moved to Codeberg.
+
+New repo: https://codeberg.org/jiggly/tvtool
+
+New website: https://jiggly.codeberg.page/tvtool/
+
+
 ### Setup
 
 - Clone repository
